@@ -57,6 +57,7 @@ function spiralLoop(b) {
             break;
         case 3:
             d[0] = -f, d[1] = f - b % c
+            break;
     }
     return d
 }
@@ -2531,14 +2532,22 @@ Gluu.prototype.degToRad = function(b) {
     function q(a, b, c) {
         var d, e, f = 0,
             k, m, n, p = a.length;
+        var cont = false;
         m = 0;
         n = c.length;
-        a: for (; m < n; m++) {
+        for (; m < n; m++) {
             d = c[n - m - 1];
             k = 3;
             if (3 < f) {
                 for (k = f; 3 < k; k--)
-                    if (a[d + k - 1] !== a[b + k - 1]) continue a;
+                    if (a[d + k - 1] !== a[b + k - 1]) {
+                        cont = true;
+                        break;
+                    }
+                if (cont) {
+                    cont = false;
+                    continue;
+                }
                 k = f
             }
             for (; 258 > k && b + k < p && a[d + k] === a[b + k];) ++k;
@@ -3418,6 +3427,7 @@ NBT = {
             case 11:
                 for (f.name = NBT.getTagName(b, 0), f.length = 16777216 * b.data[b.offset++] + 65536 * b.data[b.offset++] + 256 * b.data[b.offset++] + b.data[b.offset++], f.data = new Uint32Array(f.length), c = 0; c < f.length; c++) f.data[c] = 16777216 * b.data[b.offset++] +
                     65536 * b.data[b.offset++] + 256 * b.data[b.offset++] + b.data[b.offset++]
+                break;
         }
         return f
     },
@@ -3669,6 +3679,7 @@ Camera.prototype.keyUp = function(b) {
         case 40:
         case 83:
             this.moveB = !1
+            break;
     }
 };
 Camera.prototype.keyDown = function(b, f) {
@@ -3691,6 +3702,7 @@ Camera.prototype.keyDown = function(b, f) {
             break;
         case 69:
             this.przesx = this.przesz = 20
+            break;
     }
 };
 
@@ -3815,6 +3827,7 @@ CameraGod.prototype.keyUp = function(b) {
         case 40:
         case 83:
             this.moveB = !1
+            break;
     }
 };
 CameraGod.prototype.keyDown = function(b, f) {
@@ -3840,6 +3853,7 @@ CameraGod.prototype.keyDown = function(b, f) {
             break;
         case 69:
             this.przesx = this.przesz = 5
+            break;
     }
 };
 
@@ -3996,6 +4010,7 @@ CameraPlayer.prototype.keyUp = function(b) {
         case 40:
         case 83:
             this.moveB = !1
+            break;
     }
 };
 CameraPlayer.prototype.keyDown = function(b, f) {
@@ -4018,6 +4033,7 @@ CameraPlayer.prototype.keyDown = function(b, f) {
             break;
         case 69:
             this.entity.przesx = this.entity.przesz = 20
+            break;
     }
 };
 
@@ -4358,6 +4374,7 @@ RegionLib.loadChunk = function(b, f, c) {
             case "Sections":
                 RegionLib.readSections(b, e, d);
                 continue
+                break;
         }
         9 ===
             b.type && NBT.read9(b, e, d)
@@ -4384,6 +4401,7 @@ RegionLib.readSections = function(b, f, c) {
             break;
         case "Data":
             d.data = e.data
+            break;
     }
 };
 
@@ -6832,6 +6850,7 @@ function tick() {
                     break;
                 case 6:
                     d = 1
+                    break;
             }
             b.x += e;
             15 < b.x && (b.x = 0, b.chx++);
@@ -6853,6 +6872,7 @@ function tick() {
             break;
         case 3:
             mcWorld.changeChunkBlockAdd(b.chx, b.chz, b.x, b.y, b.z)
+            break;
     }
     mcWorld.render();
     settings.edit && (selectBox.render(blockSelection), pointer.render());
@@ -6988,6 +7008,7 @@ function keyDown(b) {
         case 86:
             console.log(camera.name), "CameraGod" === camera.name ? (player.setPosRot(camera.getEye(),
                 camera.getRot()), camera = new CameraPlayer(player)) : "CameraPlayer" === camera.name && (camera = new CameraGod(camera.getEye(), camera.getRot(), [0, 1, 0])), camera.sensitivity = 2 * settings.sensitivity
+            break;
     }
 }
 
