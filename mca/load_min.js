@@ -26,12 +26,14 @@ function ab2str(b) {
 }
 
 function str2ab(b) {
-    for (var f = new ArrayBuffer(b.length), c = new Uint8Array(f), d = 0, e = b.length; d < e; d++) c[d] = b.charCodeAt(d);
+    var f, c, d, e;
+    for (f = new ArrayBuffer(b.length), c = new Uint8Array(f), d = 0, e = b.length; d < e; d++) c[d] = b.charCodeAt(d);
     return f
 }
 
 function jenkins_hash(b) {
-    for (var f = 0, c = 0; c < b.length; ++c) f += b[c], f += f << 10, f ^= f >> 6;
+    var f, c;
+    for (f = 0, c = 0; c < b.length; ++c) f += b[c], f += f << 10, f ^= f >> 6;
     f += f << 3;
     f ^= f >> 11;
     return f + (f << 15) >>> 0
@@ -178,7 +180,8 @@ Settings.prototype.setHashURL = function(b, f, c) {
 };
 WebGLUtils = function() {
     var b = function(b, c) {
-        for (var d = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"], e = null, m = 0; m < d.length; ++m) {
+        var d, e, m;
+        for (d = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"], e = null, m = 0; m < d.length; ++m) {
             try {
                 e = b.getContext(d[m], c)
             } catch (l) {}
@@ -2315,7 +2318,8 @@ Gluu.prototype.degToRad = function(b) {
         var c = a.split("."),
             d = L;
         c[0] in d || !d.execScript || d.execScript("var " + c[0]);
-        for (var e; c.length && (e = c.shift());) c.length || b === s ? d = d[e] ? d[e] : d[e] = {} : d[e] = b
+        var e;
+        for (e; c.length && (e = c.shift());) c.length || b === s ? d = d[e] ? d[e] : d[e] = {} : d[e] = b
     }
 
     function c(a, c) {
@@ -2657,7 +2661,8 @@ Gluu.prototype.degToRad = function(b) {
     }
 
     function B(a, c) {
-        for (var d = a.g, e = a.e, f = a.input, k = a.c, l; e < c;) l = f[k++], l === s && b(Error("input buffer is broken")), d |= l << e, e += 8;
+        var d, e, f, k, l;
+        for (d = a.g, e = a.e, f = a.input, k = a.c; e < c;) l = f[k++], l === s && b(Error("input buffer is broken")), d |= l << e, e += 8;
         a.g = d >>> c;
         a.e = e - c;
         a.c = k;
@@ -2665,8 +2670,9 @@ Gluu.prototype.degToRad = function(b) {
     }
 
     function v(a, b) {
-        for (var c = a.g, d = a.e, e = a.input, f = a.c,
-                k = b[0], l = b[1], m; d < l;) {
+        var c, d, e, f, k, l, m;
+        for (c = a.g, d = a.e, e = a.input, f = a.c,
+                k = b[0], l = b[1]; d < l;) {
             m = e[f++];
             if (m === s) break;
             c |= m << d;
@@ -2722,10 +2728,11 @@ Gluu.prototype.degToRad = function(b) {
         }
         b = 1;
         c = 0;
-        for (var d = a.length, e, f = 0; 0 < d;) {
+        var d, e, f;
+        for (d = a.length, f = 0; 0 < d;) {
             e = 1024 < d ? 1024 : d;
             d -= e;
-            do b += a[f++], c += b; while (--e);
+            do { b += a[f++], c += b; } while (--e);
             b %= 65521;
             c %= 65521
         }
@@ -2814,8 +2821,9 @@ Gluu.prototype.degToRad = function(b) {
     };
     var Y = new(K ? Uint8Array : Array)(256),
         T;
+    var y, R, U;
     for (T = 0; 256 > T; ++T) {
-        for (var y = T, R = y, U = 7, y = y >>> 1; y; y >>>=
+        for (y = T, R = y, U = 7, y = y >>> 1; y; y >>>=
             1) R <<= 1, R |= y & 1, --U;
         Y[T] = (R << U & 255) >>> 0
     }
@@ -3189,7 +3197,8 @@ Gluu.prototype.degToRad = function(b) {
         var c = this.a,
             d = this.b;
         this.u = a;
-        for (var e = c.length - 258, f, k, l; 256 !== (f = v(this, a));)
+        var e, f, k, l;
+        for (e = c.length - 258; 256 !== (f = v(this, a));)
             if (256 > f) d >= e && (this.b = d, c = this.f(), d = this.b), c[d++] = f;
             else
                 for (f -= 257, l = Z[f], 0 < I[f] && (l += B(this, I[f])), f = v(this, b), k = H[f], 0 < X[f] && (k += B(this, X[f])), d >= e && (this.b = d, c = this.f(), d = this.b); l--;) c[d] = c[d++ - k];
@@ -3201,7 +3210,8 @@ Gluu.prototype.degToRad = function(b) {
             var c = this.a,
                 d = this.b;
             this.u = a;
-            for (var e = c.length, f, k, l; 256 !== (f = v(this, a));)
+            var e, f, k, l;
+            for (e = c.length; 256 !== (f = v(this, a));)
                 if (256 > f) d >= e && (c = this.f(), e = c.length), c[d++] = f;
                 else
                     for (f -= 257, l = Z[f], 0 < I[f] && (l += B(this, I[f])), f = v(this, b), k = H[f], 0 < X[f] && (k += B(this, X[f])), d + l > e && (c = this.f(), e = c.length); l--;) c[d] = c[d++ - k];
@@ -3373,6 +3383,7 @@ Readfile = {
 NBT = {
     nextTag: function(b) {
         var f = {};
+        var c;
         f.type = b.data[b.offset++];
         if (void 0 === f.type) return -1;
         switch (f.type) {
@@ -3410,7 +3421,7 @@ NBT = {
                 f.name = NBT.getTagName(b, 0);
                 f.length = 16777216 * b.data[b.offset++] + 65536 * b.data[b.offset++] + 256 * b.data[b.offset++] + b.data[b.offset++];
                 f.data = new Uint8Array(f.length);
-                for (var c = 0; c < f.length; c++) f.data[c] = b.data[b.offset++];
+                for (c = 0; c < f.length; c++) f.data[c] = b.data[b.offset++];
                 break;
             case 8:
                 f.name = NBT.getTagName(b, 0);
@@ -3432,14 +3443,16 @@ NBT = {
         return f
     },
     getTagName: function(b) {
-        for (var f = "", c = 256 * b.data[b.offset++] + b.data[b.offset++], d = 0; d < c; d++) f += String.fromCharCode(b.data[b.offset++]);
+        var f, c, d;
+        for (f = "", c = 256 * b.data[b.offset++] + b.data[b.offset++], d = 0; d < c; d++) f += String.fromCharCode(b.data[b.offset++]);
         return f
     },
     read9: function(b, f, c) {
         var d;
+        var e;
         if (10 !== b.tagId) {
             f = [0, 1, 2, 4, 8, 4, 8, 0, 0, 0, 0, 0];
-            for (var e = 0; e < b.length * f[b.tagId]; e++) c.offset++
+            for (e = 0; e < b.length * f[b.tagId]; e++) c.offset++
         } else
             for (e = 0; e < b.length && -1 !== (d = NBT.nextTag(c));) 0 === d.type && e++, 9 === d.type && NBT.read9(d, f, c)
     },
@@ -3487,7 +3500,8 @@ NBT = {
         var c = f.length;
         b.data[b.offset++] = Math.floor(c / 256);
         b.data[b.offset++] = c - Math.floor(c / 256);
-        for (var d = 0; d < c; d++) b.data[b.offset++] = f.charCodeAt(d);
+        var d;
+        for (d = 0; d < c; d++) b.data[b.offset++] = f.charCodeAt(d);
         return f
     }
 };
@@ -3518,8 +3532,9 @@ Intersection3D.cross = function(b, f, c) {
     b[2] = f[0] * c[1] - f[1] * c[0]
 };
 Intersection3D.shapeIntersectsShape = function(b, f, c, d, e) {
-    for (var m = Intersection3D.v0, l = Intersection3D.v1, p = Intersection3D.v2, q = Intersection3D.p0, x = Intersection3D.p1, A = Intersection3D.p2, t = 0, a = 0; a < b.length; a += 3 * c)
-        for (var B = 0; B < f.length; B += 3 * d) m[0] = b[a], m[1] = b[a + 1], m[2] = b[a + 2], l[0] = b[a + c], l[1] = b[a + 1 + c], l[2] = b[a + 2 + c], p[0] = b[a + 2 * c], p[1] = b[a + 1 + 2 * c], p[2] = b[a + 2 + 2 * c], q[0] = f[B] + e[0], q[1] = f[B + 1] + e[1], q[2] = f[B + 2] + e[2], x[0] = f[B + d] + e[0], x[1] = f[B + 1 + d] + e[1], x[2] = f[B + 2 + d] + e[2], A[0] = f[B + 2 * d] + e[0], A[1] = f[B + 1 + 2 * d] + e[1],
+    var m, l, p, q, x, A, t, a, B;
+    for (m = Intersection3D.v0, l = Intersection3D.v1, p = Intersection3D.v2, q = Intersection3D.p0, x = Intersection3D.p1, A = Intersection3D.p2, t = 0, a = 0; a < b.length; a += 3 * c)
+        for (B = 0; B < f.length; B += 3 * d) m[0] = b[a], m[1] = b[a + 1], m[2] = b[a + 2], l[0] = b[a + c], l[1] = b[a + 1 + c], l[2] = b[a + 2 + c], p[0] = b[a + 2 * c], p[1] = b[a + 1 + 2 * c], p[2] = b[a + 2 + 2 * c], q[0] = f[B] + e[0], q[1] = f[B + 1] + e[1], q[2] = f[B + 2] + e[2], x[0] = f[B + d] + e[0], x[1] = f[B + 1 + d] + e[1], x[2] = f[B + 2 + d] + e[2], A[0] = f[B + 2 * d] + e[0], A[1] = f[B + 1 + 2 * d] + e[1],
             A[2] = f[B + 2 + 2 * d] + e[2], t += Intersection3D.segmentIntersectsTriangle(q, x, m, l, p), t += Intersection3D.segmentIntersectsTriangle(q, A, m, l, p), t += Intersection3D.segmentIntersectsTriangle(x, A, m, l, p), t += Intersection3D.segmentIntersectsTriangle(m, l, q, x, A), t += Intersection3D.segmentIntersectsTriangle(m, p, q, x, A), t += Intersection3D.segmentIntersectsTriangle(l, p, q, x, A);
     return t
 };
@@ -4116,13 +4131,13 @@ RegionLib.prototype.render = function() {
         gl.uniform1f(b.sun, settings.sun);
         gl.uniform1f(b.brightness, settings.brightness);
         gl.uniform4fv(b.skyColor, settings.skyColor);
-        for (var c = 0, d = 0, f = 0, e = [settings.distanceLevel[0], settings.distanceLevel[1], settings.distanceLevel[2], settings.distanceLevel[2]], m = [], l = 0, p = 0, q = 0, x = camera.getPos(), A = 0; 4 > A; A++) {
+        var c, d, f, e, m, l, p, q, x, A, B;
+        for (c = 0, d = 0, f = 0, e = [settings.distanceLevel[0], settings.distanceLevel[1], settings.distanceLevel[2], settings.distanceLevel[2]], m = [], l = 0, p = 0, q = 0, x = camera.getPos(), A = 0; 4 > A; A++) {
             var t = Math.floor(x[0] / 16),
                 a = Math.floor(x[2] / 16);
             m[0] = 0;
             m[1] = 0;
-            for (var B = -1; B < e[A] * e[A] *
-                4; B++)
+            for (B = -1; B < e[A] * e[A] * 4; B++)
                 if (-1 !== B && (m = spiralLoop(B)), l = t + m[0], p = a + m[1], q = 1E4 * l + p, -1 === this.rchunk[q] || -2 === this.rchunk[q]) this.rchunk[q].timestamp = lastTime;
                 else if (c = x[0] - (16 * l + 8), d = x[2] - (16 * p + 8), f = Math.sqrt(c * c + d * d), !(f > 16 * e[A])) {
                 if (64 < f) {
@@ -4157,12 +4172,13 @@ RegionLib.prototype.renderSelection = function() {
         mat4.identity(gluu.mvMatrix);
         gl.uniformMatrix4fv(b.pMatrixUniform, !1, gluu.pMatrix);
         gl.uniformMatrix4fv(b.mvMatrixUniform, !1, gluu.mvMatrix);
-        for (var c = [], d = 0, e = 0, m = 0, f = camera.getPos(), l = 0; 4 > l; l++) {
+        var c, d, e, m, f, l, x;
+        for (c = [], d = 0, e = 0, m = 0, f = camera.getPos(), l = 0; 4 > l; l++) {
             var p = Math.floor(f[0] / 16),
                 q = Math.floor(f[2] / 16);
             c[0] = 0;
             c[1] = 0;
-            for (var x = -1; 24 > x; x++) - 1 !== x && (c = spiralLoop(x)), d = p + c[0], e = q + c[1], m = 1E4 * d + e, -1 === this.rchunk[m] || -2 === this.rchunk[m] ? this.rchunk[m].timestamp = lastTime : void 0 === this.rchunk[m] ? 1 < iLag && (iLag -= 1, this.requestChunk(d, e)) : (this.rchunk[m].timestamp = lastTime, this.rchunk[m].render(l, b, 0), this.rchunk[m].render(l, b, 1))
+            for (x = -1; 24 > x; x++) - 1 !== x && (c = spiralLoop(x)), d = p + c[0], e = q + c[1], m = 1E4 * d + e, -1 === this.rchunk[m] || -2 === this.rchunk[m] ? this.rchunk[m].timestamp = lastTime : void 0 === this.rchunk[m] ? 1 < iLag && (iLag -= 1, this.requestChunk(d, e)) : (this.rchunk[m].timestamp = lastTime, this.rchunk[m].render(l, b, 0), this.rchunk[m].render(l, b, 1))
         }
         q = new Uint8Array(4);
         gl.readPixels(Math.floor(gl.viewportWidth /
@@ -4198,8 +4214,9 @@ RegionLib.prototype.testCollisions = function() {
         c = Math.floor(b[2] / 16),
         d = 0;
     (new Date).getTime();
-    for (var e = f - 1; e < f + 2; e++)
-        for (var m = c - 1; m < c + 2; m++)
+    var e, m;
+    for (e = f - 1; e < f + 2; e++)
+        for (m = c - 1; m < c + 2; m++)
             if (16 * e - 2 < b[0] && 16 * e + 18 > b[0] && 16 * m - 2 < b[2] && 16 * m + 18 > b[2]) {
                 var l = 1E4 * e + m;
                 if (-1 !== this.rchunk[l] && -2 !== this.rchunk[l]) {
@@ -4214,7 +4231,8 @@ RegionLib.prototype.testCollisions = function() {
     return 0 < d ? !0 : !1
 };
 RegionLib.prototype.save = function() {
-    for (var b in this.rchunk) void 0 !== this.rchunk[b] && -1 !== this.rchunk[b] && -2 !== this.rchunk[b] && this.rchunk[b].changed && (mcWorld.saveChunkToStorage(this.rchunk[b].xPos, this.rchunk[b].zPos), this.rchunk[b].changed = !1)
+    var b;
+    for (b in this.rchunk) void 0 !== this.rchunk[b] && -1 !== this.rchunk[b] && -2 !== this.rchunk[b] && this.rchunk[b].changed && (mcWorld.saveChunkToStorage(this.rchunk[b].xPos, this.rchunk[b].zPos), this.rchunk[b].changed = !1)
 };
 RegionLib.prototype.saveChunkToStorage = function(b, f) {
     var c = 1E4 * b + f;
@@ -4300,7 +4318,8 @@ RegionLib.prototype.regionLoaded = function(b) {
         f.loaded = 0;
         f.chunkPos = [];
         f.chunkLen = [];
-        for (var d = c = 0; 4096 > c; c += 4, d++) f.chunkPos[d] = 65536 * b[c] + 256 * b[c + 1] + b[c + 2], f.chunkLen[d] = b[c + 3]
+        var d;
+        for (d = c = 0; 4096 > c; c += 4, d++) f.chunkPos[d] = 65536 * b[c] + 256 * b[c + 1] + b[c + 2], f.chunkLen[d] = b[c + 3]
     }
 };
 RegionLib.prototype.loadRegionFile = function(b, f) {
@@ -4314,7 +4333,8 @@ RegionLib.prototype.loadRegionFile = function(b, f) {
     b.loaded = 0;
     b.chunkPos = [];
     b.chunkLen = [];
-    for (var e = 0, m = 0; 4096 > e; e += 4, m++) b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2], b.chunkLen[m] = c[e + 3]
+    var e, m;
+    for (e = 0, m = 0; 4096 > e; e += 4, m++) b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2], b.chunkLen[m] = c[e + 3]
 };
 RegionLib.prototype.requestChunk = function(b, f) {
     var c = 1E4 * b + f;
@@ -4383,7 +4403,8 @@ RegionLib.loadChunk = function(b, f, c) {
     return e
 };
 RegionLib.readSections = function(b, f, c) {
-    for (var d = {}, e, m = 0; m < b.length && -1 !== (e = NBT.nextTag(c));) switch (0 === e.type && (void 0 === d.add && (d.add = new Uint8Array(2048)), f.section[d.y] = d, d = {}, m++), e.name) {
+    var d, e, m;
+    for (d = {}, m = 0; m < b.length && -1 !== (e = NBT.nextTag(c));) switch (0 === e.type && (void 0 === d.add && (d.add = new Uint8Array(2048)), f.section[d.y] = d, d = {}, m++), e.name) {
         case "Y":
             d.y = e.value;
             break;
@@ -4461,9 +4482,10 @@ Chunk.cacheId9 = new Int32Array(594432);
 Chunk.prototype.initHeightMap = function() {
     var b = 0;
     this.heightMap = new Uint32Array(256);
-    for (var f = 0; 16 > f; f++)
-        for (var c = 0; 16 > c; c++)
-            for (var d = 255, e = 15; 0 < d; d--, e--) {
+    var f, c, d, e;
+    for (f = 0; 16 > f; f++)
+        for (c = 0; 16 > c; c++)
+            for (d = 255, e = 15; 0 < d; d--, e--) {
                 if (0 === (d - 15) % 16) {
                     var m = this.section[(d - 15) / 16],
                         e = 15;
@@ -4492,12 +4514,13 @@ Chunk.prototype.refreshLight = function(b, f) {
     f = f || !1;
     this.initHeightMap();
     if (!this.getCacheL9()) return !1;
-    for (var d = block.lightSource, A = block.lightTransmission, t = Chunk.cacheSlight9, a = Chunk.cacheBlight9, B = Chunk.cacheId9, v = 256, C = c = 0, u = 0, w = 0; 48 > w; w++)
-        for (var F = 0; 48 > F; F++) {
+    var d, A, t, a, B, v, C, u, w, F, C, r;
+    for (d = block.lightSource, A = block.lightTransmission, t = Chunk.cacheSlight9, a = Chunk.cacheBlight9, B = Chunk.cacheId9, v = 256, C = c = 0, u = 0, w = 0; 48 > w; w++)
+        for (F = 0; 48 > F; F++) {
             u = Chunk.cacheHeightMap9[48 * w + F];
             u > c && (c = u);
             u < v && (v = u);
-            for (var C = 0, r = -1; 1 >= r; r++)
+            for (C = 0, r = -1; 1 >= r; r++)
                 for (q = -1; 1 >= q; q++) 0 > w + r || 0 > F + q || 47 < w + r || 47 < F + q || (u = Chunk.cacheHeightMap9[48 * (w + r) + (F + q)], u > C && (C =
                     u));
             Chunk.cacheHeightMap9hMax[48 * w + F] = C + 1
@@ -4550,8 +4573,9 @@ Chunk.prototype.refreshLight = function(b, f) {
     w = (new Date).getTime();
     console.log("czas L0 " + (w - x));
     x = (new Date).getTime();
+    var s;
     if (u)
-        for (var s = 0; 14 > s; s++)
+        for (s = 0; 14 > s; s++)
             for (w = 1; 47 > w; w++)
                 for (F = 1; 47 > F; F++)
                     for (u =
@@ -4766,7 +4790,8 @@ Chunk.prototype.getNBT = function(b) {
     NBT.write3Tag(b, "zPos", this.zPos);
     NBT.write7Tag(b, "Biomes", this.biomes);
     NBT.write9Tag(b, "Sections", 10, this.section.length);
-    for (var f = 0; f < this.section.length; f++) NBT.write1Tag(b, "Y", this.section[f].y), NBT.write7Tag(b, "Data", this.section[f].data), NBT.write7Tag(b, "SkyLight", this.section[f].skyLight), NBT.write7Tag(b, "BlockLight", this.section[f].blockLight),
+    var f;
+    for (f = 0; f < this.section.length; f++) NBT.write1Tag(b, "Y", this.section[f].y), NBT.write7Tag(b, "Data", this.section[f].data), NBT.write7Tag(b, "SkyLight", this.section[f].skyLight), NBT.write7Tag(b, "BlockLight", this.section[f].blockLight),
         NBT.write7Tag(b, "Blocks", this.section[f].blocks), NBT.write0Tag(b);
     NBT.write0Tag(b);
     NBT.write0Tag(b);
@@ -4777,7 +4802,8 @@ Chunk.prototype.newSection = function(b) {
     this.section[b].y = b;
     this.section[b].blocks = new Uint32Array(4096);
     this.section[b].skyLight = new Uint32Array(2048);
-    for (var f = 0; 2048 > f; f++) this.section[b].skyLight[f] = 255;
+    var f;
+    for (f = 0; 2048 > f; f++) this.section[b].skyLight[f] = 255;
     this.section[b].blockLight = new Uint32Array(2048);
     this.section[b].data = new Uint32Array(2048);
     this.section[b].add = new Uint32Array(2048)
@@ -4834,8 +4860,9 @@ Chunk.prototype.update = function() {
     if (-1 !== this.isInit) {
         var b = this.refreshLight(-1);
         b[4] = 1;
-        for (var f = (new Date).getTime(), c, d = -1; 1 >= d; d++)
-            for (var e = -1; 1 >= e; e++) 0 !== b[3 * (d + 1) + e + 1] && (c = mcWorld.requestChunk(this.xPos + d, this.zPos + e), void 0 !== c && -1 !== c && -2 !== c && (c.changed = !0, c.init2(0), c.init2(1)));
+        var f, c, d, e;
+        for (f = (new Date).getTime(), d = -1; 1 >= d; d++)
+            for (e = -1; 1 >= e; e++) 0 !== b[3 * (d + 1) + e + 1] && (c = mcWorld.requestChunk(this.xPos + d, this.zPos + e), void 0 !== c && -1 !== c && -2 !== c && (c.changed = !0, c.init2(0), c.init2(1)));
         this.needsUpdate = !1;
         b = (new Date).getTime();
         console.log("czas chunk " + (b - f))
@@ -4855,8 +4882,9 @@ Chunk.prototype.setBlock = function(b, f, c, d, e) {
             e = this.getSunLightValue(b,
                 f + 1, c);
             d = 0;
-            for (var q = -1; 1 >= q; q++)
-                for (var x = -1; 1 >= x; x++) 0 !== q && 0 !== x || 0 > b + q || 15 < b + q || 0 > c + x || 15 < c + x || (d = this.getSunLightValue(b + q, f, c + x), d - 1 > e && (e = d - 1))
+            var q, x;
+            for (q = -1; 1 >= q; q++)
+                for (x = -1; 1 >= x; x++) 0 !== q && 0 !== x || 0 > b + q || 15 < b + q || 0 > c + x || 15 < c + x || (d = this.getSunLightValue(b + q, f, c + x), d - 1 > e && (e = d - 1))
         }
         0 === p ? this.section[m].skyLight[l / 2] = (this.section[m].skyLight[l / 2] & 240) + e : this.section[m].skyLight[l / 2 - 0.5] = (this.section[m].skyLight[l / 2 - 0.5] & 15) + (e << 4);
         this.needsUpdate = !0
@@ -4922,13 +4950,15 @@ Chunk.prototype.getCache = function(b, f) {
     var C = mcWorld.requestChunk(this.xPos, this.zPos - 1);
     void 0 === C && (x = !0); - 1 === C && (x = !0);
     if (-2 === C) return !1;
-    for (var u = 0; 16 > u; u++)
-        for (var w = 0; 16 > w; w++) e = 0 + 18 * (u + 1) + (w + 1), q[e] = 1, m[e] = 0, l[e] = 0, e = 83268 + 18 * (u + 1) + (w + 1), q[e] = 0, m[e] = 15, l[e] = 0;
+    var u, w;
+    for (u = 0; 16 > u; u++)
+        for (w = 0; 16 > w; w++) e = 0 + 18 * (u + 1) + (w + 1), q[e] = 1, m[e] = 0, l[e] = 0, e = 83268 + 18 * (u + 1) + (w + 1), q[e] = 0, m[e] = 15, l[e] = 0;
     var F = b - 1;
     0 > F && (F = 0);
     var r = f + 1;
     256 < r && (r = 256);
-    for (var s = F, n = 0; s < r; s++, n++) {
+    var s, n;
+    for (s = F, n = 0; s < r; s++, n++) {
         for (w = 0; 18 > w; w++) e = 324 * (s + 1) + 0 + w, q[e] = 1, e = 324 * (s + 1) + 306 + w, q[e] = 1;
         for (u = 0; 18 > u; u++) e = 324 * (s + 1) + 18 * u + 0, q[e] = 1, e = 324 * (s + 1) + 18 * u + 17, q[e] = 1
     }
@@ -5020,18 +5050,21 @@ Chunk.prototype.getCache = function(b, f) {
     return !0
 };
 Chunk.prototype.getCacheL9 = function() {
-    for (var b = 0, f = 0, c = Chunk.cacheSlight9, d = Chunk.cacheBlight9, e = Chunk.cacheId9, m = [], l = -1; 1 >= l; l++)
+    var b, f, c, d, e, m, l;
+    for (b = 0, f = 0, c = Chunk.cacheSlight9, d = Chunk.cacheBlight9, e = Chunk.cacheId9, m = [], l = -1; 1 >= l; l++)
         for (b = -1; 1 >= b; b++)
             if (m[3 * (l + 1) + b + 1] = mcWorld.requestChunk(this.xPos + l, this.zPos + b), -2 === m[3 * (l + 1) + b + 1]) return !1;
-    for (var p = 0; 48 > p; p++)
-        for (var q = 0; 48 > q; q++) f = 48 * p + q, e[f] = 1, c[f] = 0, d[f] = 0, f = 592128 + 48 * p + q, e[f] = 0, c[f] = 15, d[f] = 0, f = 589824 + 48 * p + q, e[f] = 0, c[f] = 15, d[f] = 0;
-    for (var x, A = 0; 2 >= A; A++)
-        for (var t = 0; 2 >= t; t++)
+    var p, q;
+    for (p = 0; 48 > p; p++)
+        for (q = 0; 48 > q; q++) f = 48 * p + q, e[f] = 1, c[f] = 0, d[f] = 0, f = 592128 + 48 * p + q, e[f] = 0, c[f] = 15, d[f] = 0, f = 589824 + 48 * p + q, e[f] = 0, c[f] = 15, d[f] = 0;
+    var x, A, t, a, v, p;
+    for (A = 0; 2 >= A; A++)
+        for (t = 0; 2 >= t; t++)
             if (x = m[3 * A + t], void 0 !== x && -1 !== x) {
                 for (p = 0; 16 > p; p++)
                     for (q = 0; 16 > q; q++) Chunk.cacheHeightMap9[48 *
                         (16 * t + p) + 16 * A + q] = x.heightMap[16 * p + q];
-                for (var a = l = 0; 256 > l; l++, a++) {
+                for (a = l = 0; 256 > l; l++, a++) {
                     if (0 === l % 16) {
                         var B = x.section[l / 16],
                             a = 0;
@@ -5043,7 +5076,7 @@ Chunk.prototype.getCacheL9 = function() {
                             continue
                         }
                     }
-                    for (var v = 0, p = 0; 16 > p; p++)
+                    for (v = 0, p = 0; 16 > p; p++)
                         for (q = 0; 16 > q; q += 2) b = 256 * a + 16 * p + q, f = 2304 * l + 48 * (16 * t + p) + (16 * A + q), e[f] = B.blocks[b], e[f + 1] = B.blocks[b + 1], v = B.skyLight[b / 2], c[f] = v & 15, c[f + 1] = v >> 4 & 15, v = B.blockLight[b / 2], d[f] = v & 15, d[f + 1] = v >> 4 & 15
                 }
             }
@@ -5072,14 +5105,18 @@ Chunk.prototype.init2 = function(b) {
     B[0].o = 0;
     B[1].o = 0;
     B[2].o = 0;
-    for (var v = B[3].o = 0, C = 0, u = 0, w = C = 0, F = 0, r = 0, s = 0, n, L = 0, K = 0, Y = 0, T = 0, y = 0, R = 0, U = 0, M = 0, N = 0, P = 0, S = 0, Q = 0, V = !1, J = !1, Z = !1, I = !1,
-            H = !1, X = !1, z = 0, $ = 0, aa = 0, W = 0, k = 0, lb, mb, ub = 0, D = 0; 256 > D; D++) this.heightMap[D] > ub && (ub = this.heightMap[D]);
+    var v, C, u, w, F, r, s, n, L, K, Y, T, y, R, U, M, N, P, S, Q, V, J, Z, I, H, X, z, $, aa, W, k, lb, mb, ub, D;
+    for (v = B[3].o = 0, C = 0, u = 0, w = C = 0, F = 0, r = 0, s = 0, L = 0, K = 0, Y = 0, T = 0, y = 0, R = 0, U = 0, M = 0, N = 0, P = 0, S = 0, Q = 0, V = !1, J = !1, Z = !1, I = !1,
+            H = !1, X = !1, z = 0, $ = 0, aa = 0, W = 0, k = 0, ub = 0, D = 0; 256 > D; D++) this.heightMap[D] > ub && (ub = this.heightMap[D]);
     ub + 1 < c && (c = ub + 1);
-    for (var G = f; G < c; G++)
+    var G, E;
+    var kb;
+    var jb, pb;
+    for (G = f; G < c; G++)
         if (0 === G % 16 && -1 === l[324 * (G + 2) + 19]) G += 15;
         else
             for (D = 0; 16 > D; D++)
-                for (var E = 0; 16 > E; E++)
+                for (E = 0; 16 > E; E++)
                     if (X = H = I = Z = J = V = !1, v = 324 * (G + 1) + 18 * (D + 1) + (E + 1), q = block[l[v]].type, 0 !== q) {
                         var C = v + 18,
                             u = v - 18,
@@ -5581,7 +5618,7 @@ Chunk.prototype.init2 = function(b) {
                                     1], a.d[a.o++] = 16 * this.zPos + D + h.left[g + 2], a.d[a.o++] = h.left[g + 3], a.d[a.o++] = h.left[g + 4], a.d[a.o++] = 100 * L + U, a.d[a.o++] = n + 4, a.d[a.o++] = 0.8, a.d[a.o++] = 0
                         } else if (3 === t.shapeType) {
                             if (p = t.drawLevel, a = B[p], h = t.shape, y = Math.floor((y + R + K + L + Y) / 5), S = Math.floor((S + Q + M + U + N) / 5), z = 0, 0 < t.useBiomeColor && (z = this.getBiomeColor(E, D, t.useBiomeColor - 1)), Z || I || X || H)
-                                for (var kb in h)
+                                for (kb in h)
                                     for (g = 0; g < h[kb].length; g += 5) a.d[a.o++] = 16 * this.xPos + E + h[kb][g], a.d[a.o++] = 0 + G + h[kb][g + 1], a.d[a.o++] = 16 * this.zPos + D + h[kb][g + 2], a.d[a.o++] = h[kb][g +
                                         3
                                     ], a.d[a.o++] = h[kb][g + 4], a.d[a.o++] = 100 * y + S, a.d[a.o++] = n + 0, a.d[a.o++] = 1, a.d[a.o++] = z
@@ -5943,7 +5980,7 @@ Chunk.prototype.init2 = function(b) {
                                     hb = 0,
                                     ib = 0;
                                 3 < m[v] && (ib = -0.5);
-                                for (var jb = 0, pb = 0; 4 > pb; pb++)
+                                for (jb = 0, pb = 0; 4 > pb; pb++)
                                     if (0 !== Ab.charCodeAt(pb) - 48) {
                                         hb = pb % 2 / 2;
                                         jb = 1 < pb ? 0.5 : 0;
@@ -6236,8 +6273,8 @@ Chunk.prototype.init2 = function(b) {
     if (0 === b) {
         this.ivbo[0] = [];
         this.vbo[0] = [];
-        for (var ba = 0; 4 >
-            ba; ba++)
+        var ba;
+        for (ba = 0; 4 > ba; ba++)
             if (0 < B[ba].o) {
                 var Ja = new Float32Array(B[ba].d.buffer, 0, B[ba].o);
                 this.ivbo[0][ba] = Ja.length;
@@ -6330,9 +6367,10 @@ Chunk.prototype.getBuffer = function(b) {
             0 > J && (J = 0);
             var Z = b[1] - 16 * w + 3;
             16 < Z && (Z = 16);
-            for (var I = J; I < Z; I++)
+            var I, H;
+            for (I = J; I < Z; I++)
                 for (f = Q; f < V; f++) {
-                    for (var H = P; H < S; H++) d = 256 * I + 16 * f + H, e = 324 * (I + 1) + 18 * (f + 1) + (H + 1), Chunk.cacheBlock[e] = block[r.blocks[d]].type, c = d % 2, Chunk.cacheData[e] = 0 === c ? r.data[d / 2] & 15 & block[r.blocks[d]].mask : r.data[d / 2 - 0.5] >> 4 & 15 & block[r.blocks[d]].mask;
+                    for (H = P; H < S; H++) d = 256 * I + 16 * f + H, e = 324 * (I + 1) + 18 * (f + 1) + (H + 1), Chunk.cacheBlock[e] = block[r.blocks[d]].type, c = d % 2, Chunk.cacheData[e] = 0 === c ? r.data[d / 2] & 15 & block[r.blocks[d]].mask : r.data[d / 2 - 0.5] >> 4 & 15 & block[r.blocks[d]].mask;
                     this.cacheBiomes[18 * (I + 1) + f + 1] = this.biomes[16 * I + f]
                 }
             if (n)
@@ -6380,7 +6418,8 @@ Chunk.prototype.getBuffer = function(b) {
                 aa = 0,
                 W = 0;
             a = 0;
-            for (var e = 16 * w, T = Y = K = L = n = s = !1, k = d = 0, I = J; I < Z; I++)
+            var e, T, k, I;
+            for (e = 16 * w, T = Y = K = L = n = s = !1, k = d = 0, I = J; I < Z; I++)
                 for (f = Q; f < V; f++)
                     for (H = P; H < S; H++)
                         if (T = Y = K = L = n = s = !1, y = 324 * (I + 1) + 18 * (f + 1) + (H + 1), c = Chunk.cacheBlock[y], 0 !== c) {
@@ -6914,16 +6953,17 @@ function initBlocks() {
         d = 0;
     block.lightSource = new Uint8Array(block.length);
     block.lightTransmission = new Float32Array(block.length);
-    for (var e = 0; e < block.length; e++) {
+    var e, m, l;
+    for (e = 0; e < block.length; e++) {
         void 0 === block[e] && (block[e] = {}, block[e].type = 0);
         void 0 === block[e][0] && (block[e][0] = {}, block[e][0].type = 0);
         block.lightSource[e] = block[e].lightSource || 0;
         block.lightTransmission[e] = 1 === block[e].type ? block[e].lightTransmission || 0 : block[e].lightTransmission || 1;
-        for (var m in block[e])
+        for (m in block[e])
             if ("mask" === m) block[e][m] = parseInt(block[e][m], 16);
             else if (void 0 !== block[e][m].shapeName) {
             block[e][m].shape = {};
-            for (var l in shapeLib[block[e][m].shapeName])
+            for (l in shapeLib[block[e][m].shapeName])
                 for (block[e][m].shape[l] = [], void 0 !== block[e][m][l] ? (d = texLib.texture[block[e][m][l]], b = d % texLib.row,
                         f = (d - b) / texLib.row) : void 0 !== block[e][m].defaultTexture && (d = texLib.texture[block[e][m].defaultTexture], b = d % texLib.row, f = (d - b) / texLib.row), block[e][m].shape[l] = new Float32Array(shapeLib[block[e][m].shapeName][l].length), d = 0; d < shapeLib[block[e][m].shapeName][l].length; d += 5) block[e][m].shape[l][d] = shapeLib[block[e][m].shapeName][l][d], block[e][m].shape[l][d + 1] = shapeLib[block[e][m].shapeName][l][d + 1], block[e][m].shape[l][d + 2] = shapeLib[block[e][m].shapeName][l][d + 2], block[e][m].shape[l][d + 3] = c * (shapeLib[block[e][m].shapeName][l][d +
                     3
@@ -6950,7 +6990,8 @@ function usePrevBlock(b) {
 }
 
 function useNextBlockData(b) {
-    for (var f = 0; 16 > f; f++) {
+    var f;
+    for (f = 0; 16 > f; f++) {
         if (void 0 !== block[b.id][++b.data] && void 0 !== block[b.id][b.data].shapeType && !block[b.id][b.data].hidden) return;
         16 === b.data && (b.data = -1)
     }
@@ -7099,7 +7140,8 @@ function webGLStart() {
     player = new Player;
     "CameraGod" === settings.cameraType ? camera = new CameraGod(settings.pos, settings.rot, [0, 1, 0]) : "Camera" === settings.cameraType ? camera = new Camera(settings.pos, settings.rot, [0, 1, 0]) : (player.setPosRot([settings.pos[0], settings.pos[1], settings.pos[2]], [settings.rot[0], settings.rot[1]]), camera = new CameraPlayer(player));
     camera.sensitivity = 2 * settings.sensitivity;
-    for (var b = 0; 4 > b; b++) punkty1[b] = {}, punkty1[b].d = new Float32Array(2E6), punkty1[b].o = 0;
+    var b;
+    for (b = 0; 4 > b; b++) punkty1[b] = {}, punkty1[b].d = new Float32Array(2E6), punkty1[b].o = 0;
     mcWorld = new RegionLib(settings.gameRoot,
         settings.worldName);
     document.getElementById("tools").style.display = "none";
