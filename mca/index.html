@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="mca.css">
+    <script type="text/javascript" src="ace/ace.js"></script>
+    <script type="text/javascript" src="jscolor/jscolor.js"></script>
+    <script type="text/javascript" src="load_min.js?214658"></script>
+</head>
+    
+<body oncontextmenu="return false;" onload='webGLStart();' style="margin: 0px; border: none;">
+    <center>
+        <canvas id="webgl" style="position:fixed; left:0px; top:0px; margin: 0px; background: white; border: none;" width="1200" height="700"></canvas>
+        <div id="settings">
+            Display Settings
+            <table id="settingsTable">
+                <tr>
+                    <td>
+                        Sky color
+                    </td>
+                    <td>
+                        <input id="setSkyColor" class="settingsInput color {valueElement:'skyColor'}" />
+                    </td>
+                    <td>
+                        <input type="hidden" id="skyColor" onchange="settings.setSkyColor(document.getElementById('setSkyColor').color.rgb);" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Fog
+                    </td>
+                    <td>
+                        <select id="shaderName" class="settingsInput" onchange="gluu.initStandardShader(document.getElementById('shaderName').value); settings.getSettingsURL();">
+                           <option value="bloom">bloom</option>
+                           <option value="standard">standard</option>
+                        </select> 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Distance Level
+                    </td>
+                    <td>
+                        <input id="setDstLvl" class="settingsInputRange" type="range" min="10" max="40" value="20" step="1" onchange="settings.setDistanceLevel(this.value);"/>
+                    </td>
+                    <td id="setDstLvl_val">
+                    </td>
+                </tr>                
+                <tr>
+                    <td>
+                        Sun light
+                    </td>
+                    <td>
+                        <input id="setSun" class="settingsInputRange" type="range" min="0" max="1" value="1" step="0.01" onchange="settings.setSun(this.value);"/>
+                    </td>
+                    <td id="setSun_val">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Brightness
+                    </td>
+                    <td>
+                        <input id="setBrightness" class="settingsInputRange" type="range" min="0" max="1" value="1" step="0.01" onchange="settings.setBrightness(this.value);"/>
+                    </td>
+                    <td id="setBrightness_val">
+                    </td>
+                </tr>
+            </table>
+            Get URL<br/>
+            <input type="text" id="settingsURL" class="settingsInput" />
+        </div>
+        <div id="info2">
+                 Read more about <a href="http://koniec.org/mca/about" target="_blank"> MCA</a><br/>
+                 Textures based on <a href="http://www.minecraftforum.net/topic/72747-faithful-32x32-pack-updateocelot-two-cats-new-saplings-ctm-17/" target="_blank"> Faithful 32x32 Pack.</a>
+        </div>
+        <div id="tools">
+             <div id="info">
+                 Read more about <a href="http://koniec.org/mca/about" target="_blank"> MCA</a>. 
+                 Textures based on <a href="http://www.minecraftforum.net/topic/72747-faithful-32x32-pack-updateocelot-two-cats-new-saplings-ctm-17/" target="_blank"> Faithful 32x32 Pack.</a>
+             </div>
+             <div id="editor">
+             </div>
+             <a id="button1" href="javascript:executeJS();">Execute</a>
+        </div>
+        <div id="text">....</div>
+    </center>
+</body>
+</html>
