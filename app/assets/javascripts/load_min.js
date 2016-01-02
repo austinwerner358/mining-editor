@@ -7156,7 +7156,8 @@ function webGLStart() {
     document.getElementById("setBrightness").value = settings.brightness;
     document.getElementById("setBrightness_val").innerHTML =
         settings.brightness;
-    document.getElementById("setSkyColor").color.fromRGB(settings.skyColor[0], settings.skyColor[1], settings.skyColor[2]);
+//    document.getElementById("setSkyColor").color.fromRGB(settings.skyColor[0], settings.skyColor[1], settings.skyColor[2]);
+    settings.setSkyColor(document.getElementById('setSkyColor').color.rgb);
     firstTime = (new Date).getTime();
     lastTime = (new Date).getTime();
     tick()

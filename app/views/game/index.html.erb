@@ -24,7 +24,7 @@
                         <input id="setSkyColor" class="settingsInput color {valueElement:'skyColor'}" />
                     </td>
                     <td>
-                        <input type="hidden" id="skyColor" onchange="settings.setSkyColor(document.getElementById('setSkyColor').color.rgb);" />
+                        <input type="hidden" id="skyColor" value="<%= User.any? ? User.first.sky_color_hex : User.default_sky_color %>" onchange="settings.setSkyColor(document.getElementById('setSkyColor').color.rgb);" />
                     </td>
                 </tr>
                 <tr>
