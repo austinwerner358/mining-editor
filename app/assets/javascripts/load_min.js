@@ -2673,7 +2673,7 @@ Gluu.prototype.degToRad = function(b) {
     function v(a, b) {
         var c, d, e, f, k, l, m;
         for (c = a.g, d = a.e, e = a.input, f = a.c,
-                k = b[0], l = b[1]; d < l;) {
+            k = b[0], l = b[1]; d < l;) {
             m = e[f++];
             if (m === s) break;
             c |= m << d;
@@ -2733,7 +2733,9 @@ Gluu.prototype.degToRad = function(b) {
         for (d = a.length, f = 0; 0 < d;) {
             e = 1024 < d ? 1024 : d;
             d -= e;
-            do { b += a[f++], c += b; } while (--e);
+            do {
+                b += a[f++], c += b;
+            } while (--e);
             b %= 65521;
             c %= 65521
         }
@@ -5108,7 +5110,7 @@ Chunk.prototype.init2 = function(b) {
     B[2].o = 0;
     var v, C, u, w, F, r, s, n, L, K, Y, T, y, R, U, M, N, P, S, Q, V, J, Z, I, H, X, z, $, aa, W, k, lb, mb, ub, D;
     for (v = B[3].o = 0, C = 0, u = 0, w = C = 0, F = 0, r = 0, s = 0, L = 0, K = 0, Y = 0, T = 0, y = 0, R = 0, U = 0, M = 0, N = 0, P = 0, S = 0, Q = 0, V = !1, J = !1, Z = !1, I = !1,
-            H = !1, X = !1, z = 0, $ = 0, aa = 0, W = 0, k = 0, ub = 0, D = 0; 256 > D; D++) this.heightMap[D] > ub && (ub = this.heightMap[D]);
+        H = !1, X = !1, z = 0, $ = 0, aa = 0, W = 0, k = 0, ub = 0, D = 0; 256 > D; D++) this.heightMap[D] > ub && (ub = this.heightMap[D]);
     ub + 1 < c && (c = ub + 1);
     var G, E;
     var kb;
