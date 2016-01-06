@@ -354,12 +354,10 @@ tick = ->
   iLag > settings.loadLag and (iLag = settings.loadLag)
   if settings.edit and d and (blockSelection = mcWorld.renderSelection())
     selectE
-
-    switch b = blockSelection
-    selectE = !1
+    b = blockSelection
+    selectE = !1 # TOOD: figure out if moving these three lines above the switch
     console.log('y: ' + b.y + ' z: ' + b.z + ' x: ' + b.x + ' chx: ' + b.chx + ' chz: ' + b.chz + ' side: ' + b.side)
-    selectT
-
+    switch selectT
       when 0
         mcWorld.updateChunkBlock b.chx, b.chz, b.x, b.y, b.z, 0, 0
       when 1
@@ -467,15 +465,16 @@ initBlocks = ->
         for l of shapeLib[block[e][m].shapeName]
           `l = l`
           block[e][m].shape[l] = []
-          if undefined != block[e][m][l] then d = texLib.texture[block[e][m][l]]
-          b = d % texLib.row
-          f = (d - b) / texLib.row
- else undefined != block[e][m].defaultTexture and d = texLib.texture[block[e][m].defaultTexture]
-          b = d % texLib.row
-          f = (d - b) / texLib.row
-
-          block[e][m].shape[l] = new Float32Array(shapeLib[block[e][m].shapeName][l].length)
-          d = 0
+          if undefined != block[e][m][l]
+            d = texLib.texture[block[e][m][l]]
+            b = d % texLib.row
+            f = (d - b) / texLib.row
+          else
+            undefined != block[e][m].defaultTexture and d = texLib.texture[block[e][m].defaultTexture]
+            b = d % texLib.row
+            f = (d - b) / texLib.row
+            block[e][m].shape[l] = new Float32Array(shapeLib[block[e][m].shapeName][l].length)
+            d = 0
           while d < shapeLib[block[e][m].shapeName][l].length
             block[e][m].shape[l][d] = shapeLib[block[e][m].shapeName][l][d]
             block[e][m].shape[l][d + 1] = shapeLib[block[e][m].shapeName][l][d + 1]
@@ -518,9 +517,8 @@ useNextBlockData = (b) ->
 
 keyDown = (b) ->
   if lastTarget == glCanvas
-    switch camera.keyDown(b, fps)
-    b.keyCode
-
+    camera.keyDown(b, fps)
+    switch b.keyCode
       when 81
         0 == camera.upY and (camera.upY = 200)
       when 90
@@ -565,12 +563,13 @@ keyDown = (b) ->
         console.log(camera.name)
         if 'CameraGod' == camera.name then player.setPosRot(camera.getEye(), camera.getRot())
         camera = new CameraPlayer(player)
- else 'CameraPlayer' == camera.name and (camera = new CameraGod(camera.getEye(), camera.getRot(), [
-          0
-          1
-          0
-        ]))
-        camera.sensitivity = 2 * settings.sensitivity
+  else
+    'CameraPlayer' == camera.name and (camera = new CameraGod(camera.getEye(), camera.getRot(), [
+      0
+      1
+      0
+    ]))
+    camera.sensitivity = 2 * settings.sensitivity
   return
 
 keyUp = (b) ->
@@ -766,17 +765,23 @@ Settings::getSettingsURL = ->
   e = this
   f.forEach (b) ->
     c += '&'
-    if 'sun' == b.split(RegExp('='))[0].toLowerCase() then d.sun = !0
-    c += 'sun=' + e.sun
- else if 'skycolor' == b.split(RegExp('='))[0].toLowerCase() then d.skyColor = !0
-    c += 'skyColor=' + Math.floor(255 * e.skyColor[0]) + '-' + Math.floor(255 * e.skyColor[1]) + '-' + Math.floor(255 * e.skyColor[2])
- else if 'brightness' == b.split(RegExp('='))[0].toLowerCase() then d.brightness = !0
-    c += 'brightness=' + e.brightness
- else if 'worldshader' == b.split(RegExp('='))[0].toLowerCase() then d.worldshader = !0
-    c += 'worldShader=' + e.worldShader
- else if 'distancelevel' == b.split(RegExp('='))[0].toLowerCase() then d.distancelevel = !0
-    c += 'distanceLevel=' + e.distanceLevel[0]
- else (c += b)
+    if 'sun' == b.split(RegExp('='))[0].toLowerCase()
+      d.sun = !0
+      c += 'sun=' + e.sun
+    else if 'skycolor' == b.split(RegExp('='))[0].toLowerCase()
+      d.skyColor = !0
+      c += 'skyColor=' + Math.floor(255 * e.skyColor[0]) + '-' + Math.floor(255 * e.skyColor[1]) + '-' + Math.floor(255 * e.skyColor[2])
+    else if 'brightness' == b.split(RegExp('='))[0].toLowerCase()
+      d.brightness = !0
+      c += 'brightness=' + e.brightness
+    else if 'worldshader' == b.split(RegExp('='))[0].toLowerCase()
+      d.worldshader = !0
+      c += 'worldShader=' + e.worldShader
+    else if 'distancelevel' == b.split(RegExp('='))[0].toLowerCase()
+      d.distancelevel = !0
+      c += 'distanceLevel=' + e.distanceLevel[0]
+    else
+      (c += b)
     return
   !0 != d.sun and (c += '&sun=' + @sun)
   !0 != d.worldshader and (c += '&worldShader=' + @worldShader)
@@ -843,10 +848,11 @@ window.requestAnimFrame = do ->
     return
 ((b) ->
   f = undefined
-  if 'undefined' == typeof exports then (if 'function' == typeof define and 'object' == typeof define.amd and define.amd then f = {}
-  define((->
-    f
-  ))
+  if 'undefined' == typeof exports then (if 'function' == typeof define and 'object' == typeof define.amd and define.amd
+    f = {}
+    define((->
+      f
+    ))
   else (f = if 'undefined' != typeof window then window else b)) else (f = exports)
   ((b) ->
     `var f`
@@ -3459,12 +3465,12 @@ Gluu::degToRad = (b) ->
         if a[q] == k
           n = 0
           p = l
-                    h = 0
+          h = 0
           while h < k
             n = n << 1 | p & 1
             p >>= 1
             ++h
-                    h = n
+          h = n
           while h < e
             f[h] = k << 16 | q
             h += m
@@ -3534,25 +3540,25 @@ Gluu::degToRad = (b) ->
       f[g++] = k >> 24
       l = undefined
       switch n
-        when 1 === e
+        when 1 == e
           l = [
             0
             e - 1
             0
           ]
-        when 2 === e
+        when 2 == e
           l = [
             1
             e - 2
             0
           ]
-        when 3 === e
+        when 3 == e
           l = [
             2
             e - 3
             0
           ]
-        when 4 === e
+        when 4 == e
           l = [
             3
             e - 4
@@ -4079,9 +4085,8 @@ Gluu::degToRad = (b) ->
       h = undefined
       k = undefined
       while k < a
-        switch e = v(this, c)
-        e
-
+        e = v(this, c)
+        switch e
           when 16
             h = 3 + B(this, 2)
             while h--
@@ -4659,49 +4664,49 @@ Gluu::degToRad = (b) ->
 
     a = (c) ->
       switch n
-        when 3 === c
+        when 3 == c
           return [
             257
             c - 3
             0
           ]
-        when 4 === c
+        when 4 == c
           return [
             258
             c - 4
             0
           ]
-        when 5 === c
+        when 5 == c
           return [
             259
             c - 5
             0
           ]
-        when 6 === c
+        when 6 == c
           return [
             260
             c - 6
             0
           ]
-        when 7 === c
+        when 7 == c
           return [
             261
             c - 7
             0
           ]
-        when 8 === c
+        when 8 == c
           return [
             262
             c - 8
             0
           ]
-        when 9 === c
+        when 9 == c
           return [
             263
             c - 9
             0
           ]
-        when 10 === c
+        when 10 == c
           return [
             264
             c - 10
@@ -4827,7 +4832,7 @@ Gluu::degToRad = (b) ->
             c - 227
             5
           ]
-        when 258 === c
+        when 258 == c
           return [
             285
             c - 258
@@ -10164,11 +10169,11 @@ Chunk::getBuffer = (b) ->
       16 < Z and (Z = 16)
       I = undefined
       H = undefined
-            I = J
+      I = J
       while I < Z
-                f = Q
+        f = Q
         while f < V
-                    H = P
+          H = P
           while H < S
             d = 256 * I + 16 * f + H
             e = 324 * (I + 1) + 18 * (f + 1) + H + 1
@@ -10182,7 +10187,7 @@ Chunk::getBuffer = (b) ->
       if n
         f = 0
         while 16 > f
-                    H = 0
+          H = 0
           while 16 > H
             e = 0 + 18 * (f + 1) + H + 1
             Chunk.cacheBlock[e] = if 0 == w then 1 else 0
@@ -10191,7 +10196,7 @@ Chunk::getBuffer = (b) ->
       else
         f = 0
         while 16 > f
-                    H = 0
+          H = 0
           while 16 > H
             d = 3840 + 16 * f + H
             e = 0 + 18 * (f + 1) + H + 1
@@ -10201,7 +10206,7 @@ Chunk::getBuffer = (b) ->
       if K
         f = 0
         while 16 > f
-                    H = 0
+          H = 0
           while 16 > H
             e = 5508 + 18 * (f + 1) + H + 1
             Chunk.cacheBlock[e] = if 15 == w then 1 else 0
@@ -10303,14 +10308,14 @@ Chunk::getBuffer = (b) ->
       T = undefined
       k = undefined
       I = undefined
-            e = 16 * w
+      e = 16 * w
       T = Y = K = L = n = s = !1
       k = d = 0
       I = J
       while I < Z
-                f = Q
+        f = Q
         while f < V
-                    H = P
+          H = P
           while H < S
             if T = Y = K = L = n = s = !1
               y = 324 * (I + 1) + 18 * (f + 1) + H + 1
@@ -10447,7 +10452,7 @@ Chunk::getBuffer = (b) ->
                       c = t.shape
                       d = @getBiomeColor(H, f, 0)
                       if L
-                                                k = 0
+                        k = 0
                         while k < c.front2.length
                           a.d[a.o++] = 16 * @xPos + H + c.front2[k]
                           a.d[a.o++] = e + I + c.front2[k + 1]
@@ -10459,7 +10464,7 @@ Chunk::getBuffer = (b) ->
                           a.d[a.o++] = 0.8
                           a.d[a.o++] = d
                           k += 5
-                                                k = 0
+                        k = 0
                         while k < c.front.length
                           a.d[a.o++] = 16 * @xPos + H + c.front[k]
                           a.d[a.o++] = e + I + c.front[k + 1]
@@ -10472,7 +10477,7 @@ Chunk::getBuffer = (b) ->
                           a.d[a.o++] = 0
                           k += 5
                       if K
-                                                k = 0
+                        k = 0
                         while k < c.back2.length
                           a.d[a.o++] = 16 * @xPos + H + c.back2[k]
                           a.d[a.o++] = e + I + c.back2[k + 1]
@@ -10484,7 +10489,7 @@ Chunk::getBuffer = (b) ->
                           a.d[a.o++] = 0.8
                           a.d[a.o++] = d
                           k += 5
-                                                k = 0
+                        k = 0
                         while k < c.back.length
                           a.d[a.o++] = 16 * @xPos + H + c.back[k]
                           a.d[a.o++] = e + I + c.back[k + 1]
@@ -10497,7 +10502,7 @@ Chunk::getBuffer = (b) ->
                           a.d[a.o++] = 0
                           k += 5
                       if T
-                                                k = 0
+                        k = 0
                         while k < c.right2.length
                           a.d[a.o++] = 16 * @xPos + H + c.right2[k]
                           a.d[a.o++] = e + I + c.right2[k + 1]
@@ -10509,7 +10514,7 @@ Chunk::getBuffer = (b) ->
                           a.d[a.o++] = 0.55
                           a.d[a.o++] = d
                           k += 5
-                                                k = 0
+                        k = 0
                         while k < c.right.length
                           a.d[a.o++] = 16 * @xPos + H + c.right[k]
                           a.d[a.o++] = e + I + c.right[k + 1]
@@ -10522,7 +10527,7 @@ Chunk::getBuffer = (b) ->
                           a.d[a.o++] = 0
                           k += 5
                       if Y
-                                                k = 0
+                        k = 0
                         while k < c.left2.length
                           a.d[a.o++] = 16 * @xPos + H + c.left2[k]
                           a.d[a.o++] = e + I + c.left2[k + 1]
@@ -10534,7 +10539,7 @@ Chunk::getBuffer = (b) ->
                           a.d[a.o++] = 0.55
                           a.d[a.o++] = d
                           k += 5
-                                                k = 0
+                        k = 0
                         while k < c.left.length
                           a.d[a.o++] = 16 * @xPos + H + c.left[k]
                           a.d[a.o++] = e + I + c.left[k + 1]
@@ -10757,16 +10762,16 @@ Chunk::getBuffer = (b) ->
                         c = t.shape
                         d = 0
                         1 == t.useBiomeColor and (d = @getBiomeColor(H, f, 0))
-                                                k = 0
+                        k = 0
                         while k < c.front.length
                           if 0 == k % 30
                             if (60 == k or 120 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[X] and 1 != Chunk.cacheBlock[X]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                             if (30 == k or 90 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[z] and 1 != Chunk.cacheBlock[z]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                           a.d[a.o++] = 16 * @xPos + H + c.front[k]
                           a.d[a.o++] = e + I + c.front[k + 1]
@@ -10778,16 +10783,16 @@ Chunk::getBuffer = (b) ->
                           a.d[a.o++] = 0.8
                           a.d[a.o++] = d
                           k += 5
-                                                k = 0
+                        k = 0
                         while k < c.back.length
                           if 0 == k % 30
                             if (60 == k or 120 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[X] and 1 != Chunk.cacheBlock[X]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                             if (30 == k or 90 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[z] and 1 != Chunk.cacheBlock[z]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                           a.d[a.o++] = 16 * @xPos + H + c.back[k]
                           a.d[a.o++] = e + I + c.back[k + 1]
@@ -10799,16 +10804,16 @@ Chunk::getBuffer = (b) ->
                           a.d[a.o++] = 0.8
                           a.d[a.o++] = d
                           k += 5
-                                                k = 0
+                        k = 0
                         while k < c.right.length
                           if 0 == k % 30
                             if (30 == k or 90 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[$] and 1 != Chunk.cacheBlock[$]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                             if (60 == k or 120 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[aa] and 1 != Chunk.cacheBlock[aa]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                           a.d[a.o++] = 16 * @xPos + H + c.right[k]
                           a.d[a.o++] = e + I + c.right[k + 1]
@@ -10820,16 +10825,16 @@ Chunk::getBuffer = (b) ->
                           a.d[a.o++] = 0.55
                           a.d[a.o++] = d
                           k += 5
-                                                k = 0
+                        k = 0
                         while k < c.left.length
                           if 0 == k % 30
                             if (30 == k or 90 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[$] and 1 != Chunk.cacheBlock[$]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                             if (60 == k or 120 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[aa] and 1 != Chunk.cacheBlock[aa]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                           a.d[a.o++] = 16 * @xPos + H + c.left[k]
                           a.d[a.o++] = e + I + c.left[k + 1]
@@ -10841,24 +10846,24 @@ Chunk::getBuffer = (b) ->
                           a.d[a.o++] = 0.55
                           a.d[a.o++] = d
                           k += 5
-                                                k = 0
+                        k = 0
                         while k < c.bottom.length
                           if 0 == k % 30
                             if (30 == k or 150 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[z] and 1 != Chunk.cacheBlock[z]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                             if (60 == k or 180 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[X] and 1 != Chunk.cacheBlock[X]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                             if (90 == k or 210 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[$] and 1 != Chunk.cacheBlock[$]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                             if (120 == k or 240 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[aa] and 1 != Chunk.cacheBlock[aa]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                           a.d[a.o++] = 16 * @xPos + H + c.bottom[k]
                           a.d[a.o++] = e + I + c.bottom[k + 1]
@@ -10870,24 +10875,24 @@ Chunk::getBuffer = (b) ->
                           a.d[a.o++] = 0.3
                           a.d[a.o++] = d
                           k += 5
-                                                k = 0
+                        k = 0
                         while k < c.top.length
                           if 0 == k % 30
                             if (30 == k or 150 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[z] and 1 != Chunk.cacheBlock[z]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                             if (60 == k or 180 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[X] and 1 != Chunk.cacheBlock[X]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                             if (90 == k or 210 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[$] and 1 != Chunk.cacheBlock[$]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                             if (120 == k or 240 == k) and Chunk.cacheBlock[y] != Chunk.cacheBlock[aa] and 1 != Chunk.cacheBlock[aa]
                               k += 25
-                                                            k += 5
+                              k += 5
                               continue
                           a.d[a.o++] = 16 * @xPos + H + c.top[k]
                           a.d[a.o++] = e + I + c.top[k + 1]
