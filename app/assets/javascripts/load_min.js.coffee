@@ -1,4 +1,4 @@
-shadersCode = 
+shadersCode =
   fs: []
   vs: []
 
@@ -336,7 +336,7 @@ tick = ->
   `var d`
   requestAnimFrame tick
   b = (new Date).getTime()
-  fps = 1E3 / (b - lastTime)
+  fps = 1e3 / (b - lastTime)
   f = camera.getPos()
   c = camera.getRot()
   0 < Math.floor(b / 100) - Math.floor(lastTime / 100) and textDiv.innerHTML = 'x: ' + f[0].toFixed(2) + '  y: ' + f[1].toFixed(2) + '  z: ' + f[2].toFixed(2)
@@ -344,7 +344,7 @@ tick = ->
   textDiv.innerHTML += '<br/>Block: ' + useBlock.id + '-' + useBlock.data + '  : ' + (block[useBlock.id][useBlock.data].name or block[useBlock.id].name or block[useBlock.id][useBlock.data].defaultTexture or '')
   textDiv.innerHTML += '<br/>Est. Gpu Mem: ' + Math.floor(8 * gpuMem / 1048576) + ' M'
   newSec = !1
-  lastTime % 1E3 > b % 1E3 and newSec = !0
+  lastTime % 1e3 > b % 1e3 and newSec = !0
   sec++
   d = !1
   lastTime % 100 > b % 100 and (d = !0)
@@ -689,7 +689,7 @@ webGLStart = ->
   b = 0
   while 4 > b
     punkty1[b] = {}
-    punkty1[b].d = new Float32Array(2E6)
+    punkty1[b].d = new Float32Array(2e6)
     punkty1[b].o = 0
     b++
   mcWorld = new RegionLib(settings.gameRoot, settings.worldName)
@@ -839,7 +839,7 @@ WebGLUtils = do ->
   }
 window.requestAnimFrame = do ->
   window.requestAnimationFrame or window.webkitRequestAnimationFrame or window.mozRequestAnimationFrame or window.oRequestAnimationFrame or window.msRequestAnimationFrame or (b, f) ->
-    window.setTimeout b, 1E3 / 60
+    window.setTimeout b, 1e3 / 60
     return
 ((b) ->
   f = undefined
@@ -847,11 +847,11 @@ window.requestAnimFrame = do ->
   define((->
     f
   ))
- else (f = if 'undefined' != typeof window then window else b)) else (f = exports)
+  else (f = if 'undefined' != typeof window then window else b)) else (f = exports)
   ((b) ->
     `var f`
     if !d
-      d = 1E-6
+      d = 1e-6
     if !e
       e = if 'undefined' != typeof Float32Array then Float32Array else Array
     if !f
@@ -860,7 +860,7 @@ window.requestAnimFrame = do ->
       e = a
       return
     'undefined' != typeof b and (b.glMatrix = l)
-    p = 
+    p =
       create: ->
         a = new e(2)
         a[0] = 0
@@ -1047,7 +1047,7 @@ window.requestAnimFrame = do ->
       'vec2(' + a[0] + ', ' + a[1] + ')'
 
     'undefined' != typeof b and (b.vec2 = p)
-    q = 
+    q =
       create: ->
         a = new e(3)
         a[0] = 0
@@ -1294,7 +1294,7 @@ window.requestAnimFrame = do ->
       'vec3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ')'
 
     'undefined' != typeof b and (b.vec3 = q)
-    x = 
+    x =
       create: ->
         a = new e(4)
         a[0] = 0
@@ -1796,7 +1796,7 @@ window.requestAnimFrame = do ->
       'mat2d(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ', ' + a[4] + ', ' + a[5] + ')'
 
     'undefined' != typeof b and (b.mat2d = l)
-    A = 
+    A =
       create: ->
         a = new e(9)
         a[0] = 1
@@ -2169,7 +2169,7 @@ window.requestAnimFrame = do ->
       'mat3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ', ' + a[4] + ', ' + a[5] + ', ' + a[6] + ', ' + a[7] + ', ' + a[8] + ')'
 
     'undefined' != typeof b and (b.mat3 = A)
-    t = 
+    t =
       create: ->
         a = new e(16)
         a[0] = 1
@@ -2503,39 +2503,41 @@ window.requestAnimFrame = do ->
       A = undefined
       U = undefined
       M = undefined
-      if b == a then a[12] = b[0] * d + b[4] * e + b[8] * c + b[12]
-      a[13] = b[1] * d + b[5] * e + b[9] * c + b[13]
-      a[14] = b[2] * d + b[6] * e + b[10] * c + b[14]
-      a[15] = b[3] * d + b[7] * e + b[11] * c + b[15]
- else f = b[0]
-      l = b[1]
-      m = b[2]
-      n = b[3]
-      p = b[4]
-      q = b[5]
-      t = b[6]
-      x = b[7]
-      y = b[8]
-      A = b[9]
-      U = b[10]
-      M = b[11]
-      a[0] = f
-      a[1] = l
-      a[2] = m
-      a[3] = n
-      a[4] = p
-      a[5] = q
-      a[6] = t
-      a[7] = x
-      a[8] = y
-      a[9] = A
-      a[10] = U
-      a[11] = M
-      a[12] = f * d + p * e + y * c + b[12]
-      a[13] = l * d + q * e + A * c + b[13]
-      a[14] = m * d + t * e + U * c + b[14]
-      a[15] = n * d + x * e + M * c + b[15]
-      a
+      if b == a
+        a[12] = b[0] * d + b[4] * e + b[8] * c + b[12]
+        a[13] = b[1] * d + b[5] * e + b[9] * c + b[13]
+        a[14] = b[2] * d + b[6] * e + b[10] * c + b[14]
+        a[15] = b[3] * d + b[7] * e + b[11] * c + b[15]
+      else
+        f = b[0]
+        l = b[1]
+        m = b[2]
+        n = b[3]
+        p = b[4]
+        q = b[5]
+        t = b[6]
+        x = b[7]
+        y = b[8]
+        A = b[9]
+        U = b[10]
+        M = b[11]
+        a[0] = f
+        a[1] = l
+        a[2] = m
+        a[3] = n
+        a[4] = p
+        a[5] = q
+        a[6] = t
+        a[7] = x
+        a[8] = y
+        a[9] = A
+        a[10] = U
+        a[11] = M
+        a[12] = f * d + p * e + y * c + b[12]
+        a[13] = l * d + q * e + A * c + b[13]
+        a[14] = m * d + t * e + U * c + b[14]
+        a[15] = n * d + x * e + M * c + b[15]
+      a # return
 
     t.scale = (a, b, c) ->
       `var e`
@@ -2949,19 +2951,23 @@ window.requestAnimFrame = do ->
       f = p * x - (l * e)
       l = l * c - (m * x)
       m = m * e - (p * c)
-      if (A = Math.sqrt(f * f + l * l + m * m)) then A = 1 / A
-      f *= A
-      l *= A
-      m *= A
- else (m = l = f = 0)
+      if (A = Math.sqrt(f * f + l * l + m * m))
+        A = 1 / A
+        f *= A
+        l *= A
+        m *= A
+      else
+        (m = l = f = 0)
       p = e * m - (x * l)
       n = x * f - (c * m)
       q = c * l - (e * f)
-      if (A = Math.sqrt(p * p + n * n + q * q)) then A = 1 / A
-      p *= A
-      n *= A
-      q *= A
- else (q = n = p = 0)
+      if (A = Math.sqrt(p * p + n * n + q * q))
+        A = 1 / A
+        p *= A
+        n *= A
+        q *= A
+      else
+        (q = n = p = 0)
       a[0] = f
       a[1] = p
       a[2] = c
@@ -3002,7 +3008,7 @@ window.requestAnimFrame = do ->
         m = q.dot(f, l)
         if -0.999999 > m
           return q.cross(b, c, f)
-          1E-6 > q.length(b) and q.cross(b, d, f)
+          1e-6 > q.length(b) and q.cross(b, d, f)
           q.normalize(b, b)
           a.setAxisAngle(e, b, Math.PI)
           e
@@ -3174,11 +3180,13 @@ window.requestAnimFrame = do ->
       n = -n
       p = -p
       c = -c
-      if 1E-6 < 1 - t then q = Math.acos(t)
-      x = Math.sin(q)
-      t = Math.sin((1 - d) * q) / x
-      d = Math.sin(d * q) / x
- else (t = 1 - d)
+      if 1e-6 < 1 - t
+        q = Math.acos(t)
+        x = Math.sin(q)
+        t = Math.sin((1 - d) * q) / x
+        d = Math.sin(d * q) / x
+      else
+        (t = 1 - d)
       a[0] = t * e + d * m
       a[1] = t * f + d * n
       a[2] = t * l + d * p
@@ -3752,15 +3760,28 @@ Gluu::degToRad = (b) ->
             ++x[A]
             ++k
           break
-        if 0 < k.length then r = q(c, e, k)
-        if t then (if t.length < r.length then A = c[e - 1]
-        u[h++] = A
-        ++x[A]
-        d(r, 0)
- else d(t, -1)) else if r.length < y then (t = r) else d(r, 0)
- else if t then d(t, -1) else A = c[e]
-        u[h++] = A
-        ++x[A]
+        if 0 < k.length
+          r = q(c, e, k)
+          if t
+            if t.length < r.length
+              A = c[e - 1]
+              u[h++] = A
+              ++x[A]
+              d r, 0
+            else
+              d t, -1
+          else
+            if r.length < y
+              t = r
+            else
+              d r, 0
+        else
+          if t
+            d t, -1
+          else
+            A = c[e]
+            u[h++] = A
+            ++x[A]
       k.push e
       ++e
     u[h++] = 256
@@ -3871,12 +3892,13 @@ Gluu::degToRad = (b) ->
     e = (a) ->
       `var c`
       c = m[a][n[a]]
-      if c == b then e(a + 1)
-      e(a + 1)
- else --k[c]
+      if c == b
+        e(a + 1)
+        e(a + 1)
+      else
+        --k[c]
       ++n[a]
       return
-
     d[c - 1] = b
     while h < c
       if p < q then (f[h] = 0) else f[h] = 1
@@ -3911,13 +3933,14 @@ Gluu::degToRad = (b) ->
       q = 0
       while q < d[h]
         c = l[h + 1][r] + l[h + 1][r + 1]
-        if c > a[p] then l[h][q] = c
-        m[h][q] = b
-        r += 2
- else l[h][q] = a[p]
-        m[h][q] = p
-        ++p
-
+        if c > a[p]
+          l[h][q] = c
+          m[h][q] = b
+          r += 2
+        else
+          l[h][q] = a[p]
+          m[h][q] = p
+          ++p
         q++
       n[h] = 0
       1 == f[h] and e(h)
@@ -4332,7 +4355,7 @@ Gluu::degToRad = (b) ->
     }
 
   N = 2
-  Y = 
+  Y =
     NONE: 0
     r: 1
     k: N
@@ -4530,14 +4553,16 @@ Gluu::degToRad = (b) ->
               while 0 < C
                 J = if 138 > C then C else 138
                 J > C - 3 and J < C and (J = C - 3)
-                if 10 >= J then H[I++] = 17
-                H[I++] = J - 3
-                B[17]++
- else H[I++] = 18
-                H[I++] = J - 11
-                B[18]++
+                if 10 >= J
+                  H[I++] = 17
+                  H[I++] = J - 3
+                  B[17]++
+                else
+                  H[I++] = 18
+                  H[I++] = J - 11
+                  B[18]++
 
-                C -= J
+                  C -= J
           else if H[I++] = a[z]
             B[a[z]]++
             C--
@@ -5205,13 +5230,17 @@ Gluu::degToRad = (b) ->
     l = @a
     a and 'number' == typeof a.v and (c = a.v)
     'number' == typeof a.F and (c += a.F)
-    if 2 > c then d = (k.length - (@c)) / @u[2]
-    f = d / 2 * 258 | 0
-    e = if f < l.length then l.length + f else l.length << 1
- else (e = l.length * c)
-    if K then b = new Uint8Array(e)
-    b.set(l)
- else (b = l)
+    if 2 > c
+      d = (k.length - (@c)) / @u[2]
+      f = d / 2 * 258 | 0
+      e = if f < l.length then l.length + f else l.length << 1
+    else
+      e = l.length * c
+    if K
+      b = new Uint8Array(e)
+      b.set(l)
+    else
+      (b = l)
     @a = b
 
   a::t = ->
@@ -5255,10 +5284,15 @@ Gluu::degToRad = (b) ->
     `var a`
     a = undefined
     b = @b
-    if K then (if @B then a = new Uint8Array(b)
-    a.set(@a.subarray(0, b))
- else (a = @a.subarray(0, b))) else @a.length > b and (@a.length = b)
-    a = @a
+    if K
+      if @B
+        a = new Uint8Array(b)
+        a.set @a.subarray(0, b)
+      else
+        a = @a.subarray(0, b)
+    else
+      @a.length > b and (@a.length = b)
+      a = @a
     @buffer = a
 
   w::p = ->
@@ -5613,7 +5647,7 @@ Intersection3D.segmentIntersectsTriangle = (b, f, c, d, e) ->
   Intersection3D.vector Intersection3D.e2, e, c
   Intersection3D.cross Intersection3D.h, Intersection3D.d, Intersection3D.e2
   f = Intersection3D.e1[0] * Intersection3D.h[0] + Intersection3D.e1[1] * Intersection3D.h[1] + Intersection3D.e1[2] * Intersection3D.h[2]
-  if -1E-5 < f and 1E-5 > f
+  if -1e-5 < f and 1e-5 > f
     return 0
   f = 1 / f
   Intersection3D.vector Intersection3D.s, b, c
@@ -5625,7 +5659,7 @@ Intersection3D.segmentIntersectsTriangle = (b, f, c, d, e) ->
   if 0 > c or 1 < b + c
     return 0
   b = f * (Intersection3D.e2[0] * Intersection3D.q[0] + Intersection3D.e2[1] * Intersection3D.q[1] + Intersection3D.e2[2] * Intersection3D.q[2])
-  if 1E-5 < b and 1 >= b then 1 else 0
+  if 1e-5 < b and 1 >= b then 1 else 0
 
 Camera::getMatrix = ->
   b = mat4.create()
@@ -5719,7 +5753,7 @@ Camera::updatePosition = (b) ->
   @moveR and @moveRight(b)
   @moveL and @moveLeft(b)
   if 0 == @upY then (@tPos[1] -= 10 / b) else @tPos[1] += 8 / b
-  @upY -= 1E3 / b
+  @upY -= 1e3 / b
   0 > @upY and (@upY = 0)
   @pos[1] = @tPos[1]
   if mcWorld.testCollisions() then (@pos[1] = @oldPos[1]) else (@oldPos[1] = @pos[1])
@@ -6015,7 +6049,7 @@ CameraPlayer::updatePosition = (b) ->
   @moveR and @moveRight(b)
   @moveL and @moveLeft(b)
   if 0 == @upY then (@tPos[1] -= 10 / b) else @tPos[1] += 8 / b
-  @upY -= 1E3 / b
+  @upY -= 1e3 / b
   0 > @upY and (@upY = 0)
   @entity.pos[1] = @tPos[1]
   if mcWorld.testCollisions() then @failing = 0
@@ -6090,7 +6124,7 @@ CameraPlayer::keyDown = (b, f) ->
   return
 
 RegionLib::getChunkBlock = (b, f, c, d, e) ->
-  b = 1E4 * b + f
+  b = 1e4 * b + f
   if undefined != @rchunk[b] then @rchunk[b].getBlock(c, d, e) else
     id: 0
     data: 0
@@ -6099,8 +6133,8 @@ RegionLib::getBlock = (b, f, c) ->
   `var m`
   d = Math.floor(b / 16)
   e = Math.floor(c / 16)
-  m = 1E4 * d + e
-  m = 1E4 * d + e
+  m = 1e4 * d + e
+  m = 1e4 * d + e
   if undefined != @rchunk[m] then b -= 16 * d
   0 > b and (b += 16)
   c -= 16 * e
@@ -6111,14 +6145,14 @@ RegionLib::getBlock = (b, f, c) ->
     data: 0
 
 RegionLib::updateChunkBlock = (b, f, c, d, e, m, l) ->
-  b = 1E4 * b + f
+  b = 1e4 * b + f
   undefined != @rchunk[b] and @rchunk[b].updateBlock(c, d, e, m, l)
   return
 
 RegionLib::updateBlock = (b, f, c, d, e) ->
   m = Math.floor(b / 16)
   l = Math.floor(c / 16)
-  p = 1E4 * m + l
+  p = 1e4 * m + l
   undefined != @rchunk[p] and b -= 16 * m
   0 > b and (b += 16)
   c -= 16 * l
@@ -6129,7 +6163,7 @@ RegionLib::updateBlock = (b, f, c, d, e) ->
 RegionLib::setBlock = (b, f, c, d, e) ->
   m = Math.floor(b / 16)
   l = Math.floor(c / 16)
-  p = 1E4 * m + l
+  p = 1e4 * m + l
   undefined != @rchunk[p] and b -= 16 * m
   0 > b and (b += 16)
   c -= 16 * l
@@ -6138,7 +6172,7 @@ RegionLib::setBlock = (b, f, c, d, e) ->
   return
 
 RegionLib::changeChunkBlockAdd = (b, f, c, d, e) ->
-  b = 1E4 * b + f
+  b = 1e4 * b + f
   undefined != @rchunk[b] and @rchunk[b].changeAdd(c, d, e)
   return
 
@@ -6158,7 +6192,7 @@ RegionLib::deleteBuffers = ->
   f = 0
   c = undefined
   for c of @rchunk
-    undefined != @rchunk[c] and -1 != @rchunk[c] and -2 != @rchunk[c] and !0 != @rchunk[c].changed and (1 == @rchunk[c].isInit or 1 == @rchunk[c].isInit1) and @rchunk[c].timestamp + 1E4 < b and @rchunk[c].deleteBuffers()
+    undefined != @rchunk[c] and -1 != @rchunk[c] and -2 != @rchunk[c] and !0 != @rchunk[c].changed and (1 == @rchunk[c].isInit or 1 == @rchunk[c].isInit1) and @rchunk[c].timestamp + 1e4 < b and @rchunk[c].deleteBuffers()
     @rchunk[c] = undefined
     f++
   c = (new Date).getTime()
@@ -6178,7 +6212,7 @@ RegionLib::render = ->
     gl.viewport 0, 0, gl.viewportWidth, gl.viewportHeight
     gl.clearColor settings.skyColor[0], settings.skyColor[1], settings.skyColor[2], 1
     gl.clear gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT
-    mat4.perspective gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6E3
+    mat4.perspective gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6e3
     f = camera.getMatrix()
     mat4.multiply gluu.pMatrix, gluu.pMatrix, f
     mat4.identity gluu.mvMatrix
@@ -6224,7 +6258,7 @@ RegionLib::render = ->
         if -1 != B and (m = spiralLoop(B))
           l = t + m[0]
           p = a + m[1]
-          q = 1E4 * l + p
+          q = 1e4 * l + p
           -1 == @rchunk[q] or -2 == @rchunk[q]
 
           @rchunk[q].timestamp = lastTime
@@ -6272,7 +6306,7 @@ RegionLib::renderSelection = ->
     gl.viewport 0, 0, gl.viewportWidth, gl.viewportHeight
     gl.clearColor 0, 0, 0, 0
     gl.clear gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT
-    mat4.perspective gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6E3
+    mat4.perspective gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6e3
     f = camera.getMatrix()
     mat4.multiply gluu.pMatrix, gluu.pMatrix, f
     mat4.identity gluu.mvMatrix
@@ -6301,7 +6335,7 @@ RegionLib::renderSelection = ->
         -1 != x and (c = spiralLoop(x))
         d = p + c[0]
         e = q + c[1]
-        m = 1E4 * d + e
+        m = 1e4 * d + e
         if -1 == @rchunk[m] or -2 == @rchunk[m] then (@rchunk[m].timestamp = lastTime) else if undefined == @rchunk[m] then 1 < iLag and iLag -= 1
         @requestChunk(d, e)
  else @rchunk[m].timestamp = lastTime
@@ -6354,7 +6388,7 @@ RegionLib::testCollisions = ->
         m = c - 1
     while m < c + 2
       if 16 * e - 2 < b[0] and 16 * e + 18 > b[0] and 16 * m - 2 < b[2] and 16 * m + 18 > b[2]
-        l = 1E4 * e + m
+        l = 1e4 * e + m
         if -1 != @rchunk[l] and -2 != @rchunk[l]
           if undefined == @rchunk[l]
             return !0
@@ -6382,7 +6416,7 @@ RegionLib::save = ->
 RegionLib::saveChunkToStorage = (b, f) ->
   `var c`
   `var d`
-  c = 1E4 * b + f
+  c = 1e4 * b + f
   if undefined != @rchunk[c] and -1 != @rchunk[c] and -2 != @rchunk[c]
     d = @rchunk[c].getNBT()
     d = new (Zlib.Deflate)(d).compress()
@@ -6414,7 +6448,7 @@ RegionLib::loadChunkFromStorage = (b, f, c) ->
     return -1
   if c
     return d
-  @rchunk[1E4 * b + f] = d
+  @rchunk[1e4 * b + f] = d
   e = d = c = !1
   m = !1
   l = mcWorld.requestChunk(b + 1, f)
@@ -6441,15 +6475,15 @@ RegionLib::loadChunkFromStorage = (b, f, c) ->
 
 RegionLib::loadRegion = (b, f) ->
   `var c`
-  @region[1E3 * b + f] = {}
-  @region[1E3 * b + f].loaded = -2
+  @region[1e3 * b + f] = {}
+  @region[1e3 * b + f].loaded = -2
   if undefined != window.threadsCode
     c = new Blob([ threadsCode.loadRegionThread ], type: 'application/javascript')
     c = new Worker(window.URL.createObjectURL(c))
   else
     c = new Worker('threads/loadRegionThread.js')
   c.regionLib = this
-  c.region = @region[1E3 * b + f]
+  c.region = @region[1e3 * b + f]
 
   c.onmessage = (b) ->
     @regionLib.regionLoaded b
@@ -6477,15 +6511,15 @@ RegionLib::regionLoaded = (b) ->
   f = b.data.x
   c = b.data.y
   if 1 != b.data.loaded
-    f = @region[1E3 * f + c]
+    f = @region[1e3 * f + c]
     f.loaded = -1
   else if b = new Uint8Array(b.data.data)
-    1E3 > b.length
+    1e3 > b.length
 
-    f = @region[1E3 * f + c]
+    f = @region[1e3 * f + c]
     f.loaded = -1
   else
-    f = @region[1E3 * f + c]
+    f = @region[1e3 * f + c]
     f.regionData = b
     f.loaded = 0
     f.chunkPos = []
@@ -6522,7 +6556,7 @@ RegionLib::loadRegionFile = (b, f) ->
 
 RegionLib::requestChunk = (b, f) ->
   `var d`
-  c = 1E4 * b + f
+  c = 1e4 * b + f
   if undefined != @rchunk[c]
     return @rchunk[c]
   if 1 != @localIChunk[c]
@@ -6532,21 +6566,21 @@ RegionLib::requestChunk = (b, f) ->
       return @rchunk[c] = d
   d = Math.floor(b / 32)
   e = Math.floor(f / 32)
-  undefined == @region[1E3 * d + e] and @loadRegion(d, e)
-  if -1 == @region[1E3 * d + e].loaded
+  undefined == @region[1e3 * d + e] and @loadRegion(d, e)
+  if -1 == @region[1e3 * d + e].loaded
     return @rchunk[c] = -1
-  if -2 == @region[1E3 * d + e].loaded
+  if -2 == @region[1e3 * d + e].loaded
     return -2
-  if 0 == @region[1E3 * d + e].loaded
+  if 0 == @region[1e3 * d + e].loaded
     m = b % 32
     0 > m and (m += 32)
     l = f % 32
     0 > l and (l += 32)
     m += 32 * l
-    if 0 < @region[1E3 * d + e].chunkPos[m]
-      return console.log('chunk ' + c + ' : ' + @region[1E3 * d + e].chunkPos[m] + ' ' + @region[1E3 * d + e].chunkLen[m])
+    if 0 < @region[1e3 * d + e].chunkPos[m]
+      return console.log('chunk ' + c + ' : ' + @region[1e3 * d + e].chunkPos[m] + ' ' + @region[1e3 * d + e].chunkLen[m])
       @iChunk++
-      @rchunk[c] = RegionLib.loadChunk(4096 * @region[1E3 * d + e].chunkPos[m], @region[1E3 * d + e].regionData, !0)
+      @rchunk[c] = RegionLib.loadChunk(4096 * @region[1e3 * d + e].chunkPos[m], @region[1e3 * d + e].regionData, !0)
       @rchunk[c]
 
     @rchunk[c] = -1
@@ -6567,7 +6601,7 @@ RegionLib.loadChunk = (b, f, c) ->
     -1
 
   f = 0
-  while 2E3 > f and -1 != (b = NBT.nextTag(d))
+  while 2e3 > f and -1 != (b = NBT.nextTag(d))
     switch b.name
       when 'xPos'
         e.xPos = b.value
@@ -7171,7 +7205,7 @@ Chunk::getBlock = (b, f, c) ->
 
 Chunk::getNBT = (b) ->
   b = offset: 0
-  b.data = new Uint8Array(5E5)
+  b.data = new Uint8Array(5e5)
   NBT.write10Tag b, ''
   NBT.write10Tag b, 'Level'
   NBT.write3Tag b, 'xPos', @xPos
@@ -10316,11 +10350,12 @@ Chunk::getBuffer = (b) ->
                 if a = punkty1[0]
                   A = r.blocks[d]
                   c = d % 2
-                  (if 0 == c then x = r.data[d / 2] & 15 & block[r.blocks[d]].mask
-                  k = r.add[d / 2] & 15
- else x = r.data[d / 2 - 0.5] >> 4 & 15 & block[r.blocks[d]].mask
-                  k = r.add[d / 2 - 0.5] >> 4 & 15
-                  )
+                  if 0 == c
+                    x = r.data[d / 2] & 15 & block[r.blocks[d]].mask
+                    k = r.add[d / 2] & 15
+                  else
+                    x = r.data[d / 2 - 0.5] >> 4 & 15 & block[r.blocks[d]].mask
+                    k = r.add[d / 2 - 0.5] >> 4 & 15
                   t = (if undefined == block[A][x] then block[A][0] else block[A][x])
                   undefined != t.shapeType
 
@@ -11117,14 +11152,16 @@ Mob::render = ->
   ]
   gl.uniformMatrix4fv b.pMatrixUniform, !1, gluu.pMatrix
   gl.uniformMatrix4fv b.mvMatrixUniform, !1, gluu.mvMatrix
-  undefined != @shape and (if undefined == @shapeVbo then @shapeVbo = gl.createBuffer()
-  gl.bindBuffer(gl.ARRAY_BUFFER, @shapeVbo)
-  gl.bufferData(gl.ARRAY_BUFFER, @shape, gl.STATIC_DRAW)
- else gl.bindBuffer(gl.ARRAY_BUFFER, @shapeVbo)
-  gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0)
-  gl.vertexAttribPointer(b.lightAttribute, 4, gl.FLOAT, !1, 20, 0)
-  gl.vertexAttribPointer(b.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12)
-  gl.drawArrays(gl.TRIANGLES, 0, 36)
+  undefined != @shape and (if undefined == @shapeVbo
+    @shapeVbo = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, @shapeVbo)
+    gl.bufferData(gl.ARRAY_BUFFER, @shape, gl.STATIC_DRAW)
+  else
+    gl.bindBuffer(gl.ARRAY_BUFFER, @shapeVbo)
+    gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0)
+    gl.vertexAttribPointer(b.lightAttribute, 4, gl.FLOAT, !1, 20, 0)
+    gl.vertexAttribPointer(b.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12)
+    gl.drawArrays(gl.TRIANGLES, 0, 36)
   )
   return
 
@@ -11355,7 +11392,7 @@ Pointer::render = ->
 SelectionBox::render = (b) ->
   f = gluu.lineShader
   gl.useProgram f
-  mat4.perspective gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6E3
+  mat4.perspective gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6e3
   c = camera.getMatrix()
   mat4.multiply gluu.pMatrix, gluu.pMatrix, c
   mat4.identity gluu.mvMatrix
