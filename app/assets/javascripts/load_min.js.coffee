@@ -4195,14 +4195,9 @@ Gluu::degToRad = (b) ->
     d = undefined
     e = undefined
     k = undefined
-    if Object.keys
-      c = Object.keys(b)
+    `if (Object.keys) c = Object.keys(b);
     else
-      for d of c = []
-      e = 0
-      b
-
-        c[e++] = d
+        for (d in c = [], e = 0, b) c[e++] = d;`
     e = 0
     while e < k
       d = c[e]
@@ -4450,7 +4445,7 @@ Gluu::degToRad = (b) ->
             r = r.subarray(0, u)
           else
             m = 0
-                        q = d.length
+            q = d.length
             while m < q
               r[u++] = d[m]
               ++m
@@ -4458,7 +4453,7 @@ Gluu::degToRad = (b) ->
           @b = u
           @a = r
       when 1
-        e = new c(if K then new Uint8Array(@a.buffer) else @a, @b)
+        e = new c((if K then new Uint8Array(@a.buffer) else @a), @b)
         e.d 1, 1, n
         e.d 1, 2, n
         k = p(this, k)
@@ -4478,7 +4473,7 @@ Gluu::degToRad = (b) ->
         @a = e.finish()
         @b = @a.length
       when N
-        f = new c(if K then new Uint8Array(@a.buffer) else @a, @b)
+        f = new c((if K then new Uint8Array(@a.buffer) else @a), @b)
         v = undefined
         w = undefined
         h = undefined
@@ -6057,9 +6052,11 @@ CameraPlayer::updatePosition = (b) ->
   @upY -= 1e3 / b
   0 > @upY and (@upY = 0)
   @entity.pos[1] = @tPos[1]
-  if mcWorld.testCollisions() then @failing = 0
-  @entity.pos[1] = @oldPos[1]
- else (@failing = 1)
+  if mcWorld.testCollisions()
+    @failing = 0
+    @entity.pos[1] = @oldPos[1]
+  else
+    @failing = 1
   @entity.pos[2] = @tPos[2]
   mcWorld.testCollisions() and (@entity.pos[2] = @oldPos[2])
   @entity.pos[0] = @tPos[0]
@@ -6140,12 +6137,13 @@ RegionLib::getBlock = (b, f, c) ->
   e = Math.floor(c / 16)
   m = 1e4 * d + e
   m = 1e4 * d + e
-  if undefined != @rchunk[m] then b -= 16 * d
-  0 > b and (b += 16)
-  c -= 16 * e
-  0 > c and (c += 16)
-  @rchunk[m].getBlock(b, f, c)
- else
+  if undefined != @rchunk[m]
+    b -= 16 * d
+    0 > b and (b += 16)
+    c -= 16 * e
+    0 > c and (c += 16)
+    @rchunk[m].getBlock(b, f, c)
+  else
     id: 0
     data: 0
 
@@ -6258,7 +6256,7 @@ RegionLib::render = ->
       a = Math.floor(x[2] / 16)
       m[0] = 0
       m[1] = 0
-            B = -1
+      B = -1
       while B < e[A] * e[A] * 4
         if -1 != B and (m = spiralLoop(B))
           l = t + m[0]
@@ -6294,11 +6292,13 @@ RegionLib::render = ->
             if 0 < c and 16 < v
               B++
               continue
-          if undefined == @rchunk[q] then 1 < iLag and iLag -= 1
-          @requestChunk(l, p)
- else @rchunk[q].timestamp = lastTime
-          (62 <= x[1] or 160 > f) and @rchunk[q].render(A, b, 0)
-          if 62 > x[1] and 96 > f then @rchunk[q].render(A, b, 1) else 64 > f and @rchunk[q].render(A, b, 1)
+          if undefined == @rchunk[q]
+            1 < iLag and iLag -= 1
+            @requestChunk(l, p)
+          else
+            @rchunk[q].timestamp = lastTime
+            (62 <= x[1] or 160 > f) and @rchunk[q].render(A, b, 0)
+            if 62 > x[1] and 96 > f then @rchunk[q].render(A, b, 1) else 64 > f and @rchunk[q].render(A, b, 1)
         B++
       A++
   return
@@ -6335,18 +6335,19 @@ RegionLib::renderSelection = ->
       q = Math.floor(f[2] / 16)
       c[0] = 0
       c[1] = 0
-            x = -1
+      x = -1
       while 24 > x
         -1 != x and (c = spiralLoop(x))
         d = p + c[0]
         e = q + c[1]
         m = 1e4 * d + e
-        if -1 == @rchunk[m] or -2 == @rchunk[m] then (@rchunk[m].timestamp = lastTime) else if undefined == @rchunk[m] then 1 < iLag and iLag -= 1
-        @requestChunk(d, e)
- else @rchunk[m].timestamp = lastTime
-        @rchunk[m].render(l, b, 0)
-        @rchunk[m].render(l, b, 1)
-
+        if -1 == @rchunk[m] or -2 == @rchunk[m] then (@rchunk[m].timestamp = lastTime) else if undefined == @rchunk[m]
+          1 < iLag and iLag -= 1
+          @requestChunk(d, e)
+        else
+          @rchunk[m].timestamp = lastTime
+          @rchunk[m].render(l, b, 0)
+          @rchunk[m].render(l, b, 1)
         x++
       l++
     q = new Uint8Array(4)
@@ -6390,7 +6391,7 @@ RegionLib::testCollisions = ->
   m = undefined
   e = f - 1
   while e < f + 2
-        m = c - 1
+    m = c - 1
     while m < c + 2
       if 16 * e - 2 < b[0] and 16 * e + 18 > b[0] and 16 * m - 2 < b[2] and 16 * m + 18 > b[2]
         l = 1e4 * e + m
@@ -6620,7 +6621,7 @@ RegionLib.loadChunk = (b, f, c) ->
         e.lightPopulated = b.value
       when 'Sections'
         RegionLib.readSections b, e, d
-                f++
+        f++
         continue
     9 == b.type and NBT.read9(b, e, d)
     f++
@@ -6634,12 +6635,11 @@ RegionLib.readSections = (b, f, c) ->
   d = {}
   m = 0
   while m < b.length and -1 != (e = NBT.nextTag(c))
-    switch 0 == e.type and undefined == d.add and (d.add = new Uint8Array(2048))
+    0 == e.type and undefined == d.add and (d.add = new Uint8Array(2048))
     f.section[d.y] = d
     d = {}
     m++
-
-    e.name
+    switch e.name
 
       when 'Y'
         d.y = e.value
@@ -6720,7 +6720,7 @@ Chunk::initHeightMap = ->
           if undefined == m
             d -= 15
             e = 16
-                        d--
+            d--
             e--
             continue
         b = 256 * e + 16 * f + c
@@ -6767,10 +6767,10 @@ Chunk::refreshLight = (b, f) ->
       u = Chunk.cacheHeightMap9[48 * w + F]
       u > c and (c = u)
       u < v and (v = u)
-            C = 0
+      C = 0
       r = -1
       while 1 >= r
-                q = -1
+        q = -1
         while 1 >= q
           0 > w + r or 0 > F + q or 47 < w + r or 47 < F + q or u = Chunk.cacheHeightMap9[48 * (w + r) + F + q]
           u > C and (C = u)
@@ -6782,12 +6782,12 @@ Chunk::refreshLight = (b, f) ->
   while 46 > w
     F = 2
     while 46 > F
-            u = Chunk.cacheHeightMap9hMax[48 * w + F]
+      u = Chunk.cacheHeightMap9hMax[48 * w + F]
       while u >= Chunk.cacheHeightMap9[48 * w + F]
         q = 2304 * u + 48 * w + F
         t[q] = 15
         u--
-            C = 15
+      C = 15
       while 0 <= u
         q = 2304 * u + 48 * w + F
         C *= A[B[q]]
@@ -6838,18 +6838,20 @@ Chunk::refreshLight = (b, f) ->
     F++
   v--
   1 > v and (v = 1)
-  if -1 == b then r = 0
-  q = 256
- else r = b - 16
-  0 > r and (r = 0)
-  q = b + 16
-  256 < q and (q = 256)
+  if -1 == b
+    r = 0
+    q = 256
+  else
+    r = b - 16
+    0 > r and (r = 0)
+    q = b + 16
+    256 < q and (q = 256)
   C = 255
   e = 0
   while 46 > w
     F = 2
     while 46 > F
-            u = r + 1
+      u = r + 1
       while u < q - 1
         c = 2304 * u + 48 * w + F
         a[c] = d[B[c]]
@@ -6881,9 +6883,9 @@ Chunk::refreshLight = (b, f) ->
     while 14 > s
       w = 1
       while 47 > w
-                F = 1
+        F = 1
         while 47 > F
-                    u = r
+          u = r
           while u < q
             c = 2304 * u + 48 * w + F
             C = a[c] - 1
@@ -6910,9 +6912,9 @@ Chunk::refreshLight = (b, f) ->
   while 14 > s
     w = 1
     while 47 > w
-            F = 1
+      F = 1
       while 47 > F
-                u = v
+        u = v
         while u < Chunk.cacheHeightMap9hMax[48 * w + F]
           c = 2304 * u + 48 * w + F
           C = t[c] - 1
@@ -7011,7 +7013,7 @@ Chunk::refreshLight = (b, f) ->
         if v = A[3 * d + e]
           undefined != v and -1 != v
 
-                    u = r = 0
+          u = r = 0
           while 256 > r
             if 0 == r % 16
               n = v.section[r / 16]
@@ -7019,14 +7021,14 @@ Chunk::refreshLight = (b, f) ->
               if undefined == n
                 r += 15
                 u = -1
-                                r++
+                r++
                 u++
                 continue
               f or c[r / 16] = jenkins_hash(n.skyLight)
               C[r / 16] = jenkins_hash(n.blockLight)
-                        w = 0
+            w = 0
             while 16 > w
-                            F = 0
+              F = 0
               while 16 > F
                 m = (256 * u + 16 * w + F) / 2
                 q = 2304 * r + 48 * (16 * e + w) + 16 * d + F
@@ -7272,17 +7274,19 @@ Chunk::updateBlock = (b, f, c, d, e) ->
     undefined == @section[m] and @newSection(m)
     @section[m].blocks[l] = d
     p = l % 2
-    if 0 == p then @section[m].data[l / 2] = (@section[m].data[l / 2] & 240) + e
-    @section[m].add[l / 2] &= 240
- else @section[m].data[l / 2 - 0.5] = (@section[m].data[l / 2 - 0.5] & 15) + (e << 4)
-    @section[m].add[l / 2 - 0.5] &= 15
+    if 0 == p
+      @section[m].data[l / 2] = (@section[m].data[l / 2] & 240) + e
+      @section[m].add[l / 2] &= 240
+    else
+      @section[m].data[l / 2 - 0.5] = (@section[m].data[l / 2 - 0.5] & 15) + (e << 4)
+      @section[m].add[l / 2 - 0.5] &= 15
     q = 0
     if 0 == block[d].type or 2 == block[d].type or 3 == block[d].type or 4 == block[d].type
       q = @getSunLightValue(b, f + 1, c)
       x = 0
       d = -1
       while 1 >= d
-                e = -1
+        e = -1
         while 1 >= e
           0 != d and 0 != e or 0 > b + d or 15 < b + d or 0 > c + e or 15 < c + e or x = @getSunLightValue(b + d, f, c + e)
           x - 1 > q and (q = x - 1)
@@ -7298,7 +7302,7 @@ Chunk::updateBlock = (b, f, c, d, e) ->
     m = (new Date).getTime()
     d = -1
     while 1 >= d
-            e = -1
+      e = -1
       while 1 >= e
         0 != f[3 * (d + 1) + e + 1] and b = mcWorld.requestChunk(@xPos + d, @zPos + e)
         undefined != b and -1 != b and -2 != b and b.changed = !0
@@ -7322,7 +7326,7 @@ Chunk::update = ->
     f = (new Date).getTime()
     d = -1
     while 1 >= d
-            e = -1
+      e = -1
       while 1 >= e
         0 != b[3 * (d + 1) + e + 1] and c = mcWorld.requestChunk(@xPos + d, @zPos + e)
         undefined != c and -1 != c and -2 != c and c.changed = !0
@@ -7344,10 +7348,12 @@ Chunk::setBlock = (b, f, c, d, e) ->
     undefined == @section[m] and @newSection(m)
     @section[m].blocks[l] = d
     p = l % 2
-    if 0 == p then @section[m].data[l / 2] = (@section[m].data[l / 2] & 240) + e
-    @section[m].add[l / 2] &= 240
- else @section[m].data[l / 2 - 0.5] = (@section[m].data[l / 2 - 0.5] & 15) + (e << 4)
-    @section[m].add[l / 2 - 0.5] &= 15
+    if 0 == p
+      @section[m].data[l / 2] = (@section[m].data[l / 2] & 240) + e
+      @section[m].add[l / 2] &= 240
+    else
+      @section[m].data[l / 2 - 0.5] = (@section[m].data[l / 2 - 0.5] & 15) + (e << 4)
+      @section[m].add[l / 2 - 0.5] &= 15
     e = 0
     if 0 == block[d].type or 2 == block[d].type or 3 == block[d].type or 4 == block[d].type
       e = @getSunLightValue(b, f + 1, c)
@@ -7356,7 +7362,7 @@ Chunk::setBlock = (b, f, c, d, e) ->
       x = undefined
       q = -1
       while 1 >= q
-                x = -1
+        x = -1
         while 1 >= x
           0 != q and 0 != x or 0 > b + q or 15 < b + q or 0 > c + x or 15 < c + x or d = @getSunLightValue(b + q, f, c + x)
           d - 1 > e and (e = d - 1)
@@ -7459,7 +7465,7 @@ Chunk::getCache = (b, f) ->
   w = undefined
   u = 0
   while 16 > u
-        w = 0
+    w = 0
     while 16 > w
       e = 0 + 18 * (u + 1) + w + 1
       q[e] = 1
@@ -7480,14 +7486,14 @@ Chunk::getCache = (b, f) ->
   s = F
   n = 0
   while s < r
-        w = 0
+    w = 0
     while 18 > w
       e = 324 * (s + 1) + 0 + w
       q[e] = 1
       e = 324 * (s + 1) + 306 + w
       q[e] = 1
       w++
-        u = 0
+    u = 0
     while 18 > u
       e = 324 * (s + 1) + 18 * u + 0
       q[e] = 1
@@ -7498,7 +7504,7 @@ Chunk::getCache = (b, f) ->
     n++
   n = 0
   while 16 > n
-        u = 0
+    u = 0
     while 16 > u
       @cacheBiomes[18 * (n + 1) + u + 1] = @biomes[16 * n + u]
       @cacheHeightMap[18 * (n + 1) + u + 1] = @heightMap[16 * n + u]
@@ -7523,9 +7529,9 @@ Chunk::getCache = (b, f) ->
         L = v.section[s / 16]
         n = 0
         if undefined == L
-                    n = s
+          n = s
           while n < s + 15
-                        w = 0
+            w = 0
             while 16 > w
               e = 324 * (n + 1) + 306 + w + 1
               q[e] = 0
@@ -7535,9 +7541,9 @@ Chunk::getCache = (b, f) ->
             n++
           s += 15
           n = -1
-                    w++
+          w++
           continue
-            w = 0
+      w = 0
       while 16 > w
         d = 256 * n + 0 + w
         e = 324 * (s + 1) + 306 + w + 1
@@ -7562,9 +7568,9 @@ Chunk::getCache = (b, f) ->
         n = 0
         undefined == L
 
-                n = s
+        n = s
         while n < s + 15
-                    w = 0
+          w = 0
           while 16 > w
             e = 324 * (n + 1) + 0 + w + 1
             q[e] = 0
@@ -7574,9 +7580,9 @@ Chunk::getCache = (b, f) ->
           n++
         s += 15
         n = -1
-                w++
+        w++
         continue
-            w = 0
+      w = 0
       while 16 > w
         d = 256 * n + 240 + w
         e = 324 * (s + 1) + 0 + w + 1
@@ -7601,9 +7607,9 @@ Chunk::getCache = (b, f) ->
         n = 0
         undefined == L
 
-                n = s
+        n = s
         while n < s + 15
-                    u = 0
+          u = 0
           while 16 > u
             e = 324 * (n + 1) + 18 * (u + 1) + 0
             q[e] = 0
@@ -7613,9 +7619,9 @@ Chunk::getCache = (b, f) ->
           n++
         s += 15
         n = -1
-                u++
+        u++
         continue
-            u = 0
+      u = 0
       while 16 > u
         d = 256 * n + 16 * u + 15
         e = 324 * (s + 1) + 18 * (u + 1) + 0
@@ -7640,9 +7646,9 @@ Chunk::getCache = (b, f) ->
         n = 0
         undefined == L
 
-                n = s
+        n = s
         while n < s + 15
-                    u = 0
+          u = 0
           while 16 > u
             e = 324 * (n + 1) + 18 * (u + 1) + 17
             q[e] = 0
@@ -7652,9 +7658,9 @@ Chunk::getCache = (b, f) ->
           n++
         s += 15
         n = -1
-                u++
+        u++
         continue
-            u = 0
+      u = 0
       while 16 > u
         d = 256 * n + 16 * u + 0
         e = 324 * (s + 1) + 18 * (u + 1) + 17
@@ -7679,7 +7685,7 @@ Chunk::getCache = (b, f) ->
 
       u = 0
       while 16 > u
-                w = 0
+        w = 0
         while 16 > w
           e = 324 * (s + 1) + 18 * (u + 1) + w + 1
           q[e] = 0
@@ -7698,7 +7704,7 @@ Chunk::getCache = (b, f) ->
       continue
     u = 0
     while 16 > u
-            w = 0
+      w = 0
       while 16 > w
         d = 256 * n + 16 * u + w
         e = 324 * (s + 1) + 18 * (u + 1) + w + 1
@@ -7747,7 +7753,7 @@ Chunk::getCacheL9 = ->
   m = []
   l = -1
   while 1 >= l
-        b = -1
+    b = -1
     while 1 >= b
       if m[3 * (l + 1) + b + 1] = mcWorld.requestChunk(@xPos + l, @zPos + b)
         -2 == m[3 * (l + 1) + b + 1]
@@ -7759,7 +7765,7 @@ Chunk::getCacheL9 = ->
   q = undefined
   p = 0
   while 48 > p
-        q = 0
+    q = 0
     while 48 > q
       f = 48 * p + q
       e[f] = 1
@@ -7787,22 +7793,22 @@ Chunk::getCacheL9 = ->
       if x = m[3 * A + t]
         undefined != x and -1 != x
 
-                p = 0
+        p = 0
         while 16 > p
-                    q = 0
+          q = 0
           while 16 > q
             Chunk.cacheHeightMap9[48 * (16 * t + p) + 16 * A + q] = x.heightMap[16 * p + q]
             q++
           p++
-                a = l = 0
+        a = l = 0
         while 256 > l
           if 0 == l % 16
             B = x.section[l / 16]
             a = 0
             if undefined == B
-                            p = 0
+              p = 0
               while 16 > p
-                                q = 0
+                q = 0
                 while 16 > q
                   f = 2304 * l + 48 * (16 * t + p) + 16 * A + q
                   e[f] = 0
@@ -7816,12 +7822,12 @@ Chunk::getCacheL9 = ->
                 p++
               l += 15
               a = -1
-                            q++
+              q++
               continue
-                    v = 0
+          v = 0
           p = 0
           while 16 > p
-                        q = 0
+            q = 0
             while 16 > q
               b = 256 * a + 16 * p + q
               f = 2304 * l + 48 * (16 * t + p) + 16 * A + q
@@ -7965,7 +7971,7 @@ Chunk::init2 = (b) ->
     else
       D = 0
       while 16 > D
-                E = 0
+        E = 0
         while 16 > E
           if X = H = I = Z = J = V = !1
             v = 324 * (G + 1) + 18 * (D + 1) + E + 1
@@ -8603,12 +8609,14 @@ Chunk::init2 = (b) ->
                   a = B[p]
                   78 == l[r] and (t = block[A][1])
                   h = t.shape
-                  if 0 < t.useBiomeColor then z = @getBiomeColor(E, D, t.useBiomeColor - 1)
-                  $ = @getBiomeColor1(E, D, t.useBiomeColor - 1)
-                  aa = @getBiomeColor2(E, D, t.useBiomeColor - 1)
-                  W = @getBiomeColor3(E, D, t.useBiomeColor - 1)
-                  k = @getBiomeColor4(E, D, t.useBiomeColor - 1)
- else (k = W = aa = $ = z = 0)
+                  if 0 < t.useBiomeColor
+                    z = @getBiomeColor(E, D, t.useBiomeColor - 1)
+                    $ = @getBiomeColor1(E, D, t.useBiomeColor - 1)
+                    aa = @getBiomeColor2(E, D, t.useBiomeColor - 1)
+                    W = @getBiomeColor3(E, D, t.useBiomeColor - 1)
+                    k = @getBiomeColor4(E, D, t.useBiomeColor - 1)
+                  else
+                    (k = W = aa = $ = z = 0)
                   if Z
                     a = if 8 < y and 0 == p then B[p + 1] else B[p]
                     if 4 == t.shapeType
@@ -9184,7 +9192,7 @@ Chunk::init2 = (b) ->
                     hb = 0
                     ib = 0
                     3 < m[v] and (ib = -0.5)
-                                        jb = 0
+                    jb = 0
                     pb = 0
                     while 4 > pb
                       if 0 != Ab.charCodeAt(pb) - 48
@@ -9283,16 +9291,16 @@ Chunk::init2 = (b) ->
                     z = 0
                     0 < t.useBiomeColor and (z = @getBiomeColor(E, D, t.useBiomeColor - 1))
                     a = if 8 < y and 0 == p then B[p + 1] else B[p]
-                                        g = 0
+                    g = 0
                     while g < h.front.length
                       if 0 == g % 30
                         if (60 == g or 120 == g) and q != ka and 1 != ka
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                         if (30 == g or 90 == g) and q != ja and 1 != ja
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                       a.d[a.o++] = 16 * @xPos + E + h.front[g]
                       a.d[a.o++] = 0 + G + h.front[g + 1]
@@ -9305,16 +9313,16 @@ Chunk::init2 = (b) ->
                       a.d[a.o++] = z
                       g += 5
                     a = if 8 < R and 0 == p then B[p + 1] else B[p]
-                                        g = 0
+                    g = 0
                     while g < h.back.length
                       if 0 == g % 30
                         if (60 == g or 120 == g) and q != ka and 1 != ka
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                         if (30 == g or 90 == g) and q != ja and 1 != ja
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                       a.d[a.o++] = 16 * @xPos + E + h.back[g]
                       a.d[a.o++] = 0 + G + h.back[g + 1]
@@ -9327,16 +9335,16 @@ Chunk::init2 = (b) ->
                       a.d[a.o++] = z
                       g += 5
                     a = if 8 < K and 0 == p then B[p + 1] else B[p]
-                                        g = 0
+                    g = 0
                     while g < h.right.length
                       if 0 == g % 30
                         if (30 == g or 90 == g) and q != ha and 1 != ha
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                         if (60 == g or 120 == g) and q != ia and 1 != ia
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                       a.d[a.o++] = 16 * @xPos + E + h.right[g]
                       a.d[a.o++] = 0 + G + h.right[g + 1]
@@ -9349,16 +9357,16 @@ Chunk::init2 = (b) ->
                       a.d[a.o++] = z
                       g += 5
                     a = if 8 < L and 0 == p then B[p + 1] else B[p]
-                                        g = 0
+                    g = 0
                     while g < h.left.length
                       if 0 == g % 30
                         if (30 == g or 90 == g) and q != ha and 1 != ha
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                         if (60 == g or 120 == g) and q != ia and 1 != ia
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                       a.d[a.o++] = 16 * @xPos + E + h.left[g]
                       a.d[a.o++] = 0 + G + h.left[g + 1]
@@ -9371,24 +9379,24 @@ Chunk::init2 = (b) ->
                       a.d[a.o++] = z
                       g += 5
                     a = B[p]
-                                        g = 0
+                    g = 0
                     while g < h.bottom.length
                       if 0 == g % 30
                         if (30 == g or 150 == g) and q != ja and 1 != ja
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                         if (60 == g or 180 == g) and q != ka and 1 != ka
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                         if (90 == g or 210 == g) and q != ha and 1 != ha
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                         if (120 == g or 240 == g) and q != ia and 1 != ia
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                       a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
                       a.d[a.o++] = 0 + G + h.bottom[g + 1]
@@ -9401,24 +9409,24 @@ Chunk::init2 = (b) ->
                       a.d[a.o++] = z
                       g += 5
                     a = if 8 < Y and 0 == p then B[p + 1] else B[p]
-                                        g = 0
+                    g = 0
                     while g < h.top.length
                       if 0 == g % 30
                         if (30 == g or 150 == g) and q != ja and 1 != ja
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                         if (60 == g or 180 == g) and q != ka and 1 != ka
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                         if (90 == g or 210 == g) and q != ha and 1 != ha
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                         if (120 == g or 240 == g) and q != ia and 1 != ia
                           g += 25
-                                                    g += 5
+                          g += 5
                           continue
                       a.d[a.o++] = 16 * @xPos + E + h.top[g]
                       a.d[a.o++] = 0 + G + h.top[g + 1]
@@ -9499,12 +9507,14 @@ Chunk::init2 = (b) ->
                   a = B[p]
                   h = t.shape
                   z = 0
-                  if 0 < t.useBiomeColor then z = @getBiomeColor(E, D, t.useBiomeColor - 1)
-                  $ = @getBiomeColor1(E, D, t.useBiomeColor - 1)
-                  aa = @getBiomeColor2(E, D, t.useBiomeColor - 1)
-                  W = @getBiomeColor3(E, D, t.useBiomeColor - 1)
-                  k = @getBiomeColor4(E, D, t.useBiomeColor - 1)
- else (k = W = aa = $ = z = 0)
+                  if 0 < t.useBiomeColor
+                    z = @getBiomeColor(E, D, t.useBiomeColor - 1)
+                    $ = @getBiomeColor1(E, D, t.useBiomeColor - 1)
+                    aa = @getBiomeColor2(E, D, t.useBiomeColor - 1)
+                    W = @getBiomeColor3(E, D, t.useBiomeColor - 1)
+                    k = @getBiomeColor4(E, D, t.useBiomeColor - 1)
+                  else
+                    (k = W = aa = $ = z = 0)
                   ca = 1
                   fa = 1
                   da = 1
@@ -9543,420 +9553,432 @@ Chunk::init2 = (b) ->
                       da = 1
                     if block[l[r + 18]].type == q or block[l[r + 18 - 1]].type == q or block[l[r - 1]].type == q
                       ga = 1
-                  Z and if 0 == block.lightSource[A] then oa = Math.floor((y + d[w - 18] + d[w - 324 - 18] + d[w - 324]) / 4)
-                  Na = Math.floor((y + d[w - 324] + d[w - 324 + 18] + d[w + 18]) / 4)
-                  pa = Math.floor((y + d[w + 18] + d[w + 324 + 18] + d[w + 324]) / 4)
-                  Oa = Math.floor((y + d[w + 324] + d[w + 324 - 18] + d[w - 18]) / 4)
-                  la = Math.floor((S + e[w - 18] + e[w - 324 - 18] + e[w - 324]) / 4)
-                  Ka = Math.floor((S + e[w - 324] + e[w - 324 + 18] + e[w + 18]) / 4)
-                  ma = Math.floor((S + e[w + 18] + e[w + 324 + 18] + e[w + 324]) / 4)
-                  La = Math.floor((S + e[w + 324] + e[w + 324 - 18] + e[w - 18]) / 4)
- else (oa = Na = pa = Oa = la = Ka = ma = La = 15)
-                  g = 0
-                  a.d[a.o++] = 16 * @xPos + E + h.front[g]
-                  a.d[a.o++] = 0 + G + h.front[g + 1] * ca
-                  a.d[a.o++] = 16 * @zPos + D + h.front[g + 2]
-                  a.d[a.o++] = h.front[g + 3]
-                  a.d[a.o++] = h.front[g + 4]
-                  a.d[a.o++] = 100 * oa + la
-                  a.d[a.o++] = n + 1
-                  a.d[a.o++] = 0.8
-                  a.d[a.o++] = z
-                  g = 5
-                  a.d[a.o++] = 16 * @xPos + E + h.front[g]
-                  a.d[a.o++] = 0 + G + h.front[g + 1] * ga
-                  a.d[a.o++] = 16 * @zPos + D + h.front[g + 2]
-                  a.d[a.o++] = h.front[g + 3]
-                  a.d[a.o++] = h.front[g + 4]
-                  a.d[a.o++] = 100 * Na + Ka
-                  a.d[a.o++] = n + 1
-                  a.d[a.o++] = 0.8
-                  a.d[a.o++] = z
-                  g = 10
-                  a.d[a.o++] = 16 * @xPos + E + h.front[g]
-                  a.d[a.o++] = 0 + G + h.front[g + 1] * ga
-                  a.d[a.o++] = 16 * @zPos + D + h.front[g + 2]
-                  a.d[a.o++] = h.front[g + 3]
-                  a.d[a.o++] = h.front[g + 4]
-                  a.d[a.o++] = 100 * pa + ma
-                  a.d[a.o++] = n + 1
-                  a.d[a.o++] = 0.8
-                  a.d[a.o++] = z
-                  g = 15
-                  a.d[a.o++] = 16 * @xPos + E + h.front[g]
-                  a.d[a.o++] = 0 + G + h.front[g + 1] * ca
-                  a.d[a.o++] = 16 * @zPos + D + h.front[g + 2]
-                  a.d[a.o++] = h.front[g + 3]
-                  a.d[a.o++] = h.front[g + 4]
-                  a.d[a.o++] = 100 * oa + la
-                  a.d[a.o++] = n + 1
-                  a.d[a.o++] = 0.8
-                  a.d[a.o++] = z
-                  g = 20
-                  a.d[a.o++] = 16 * @xPos + E + h.front[g]
-                  a.d[a.o++] = 0 + G + h.front[g + 1] * ga
-                  a.d[a.o++] = 16 * @zPos + D + h.front[g + 2]
-                  a.d[a.o++] = h.front[g + 3]
-                  a.d[a.o++] = h.front[g + 4]
-                  a.d[a.o++] = 100 * pa + ma
-                  a.d[a.o++] = n + 1
-                  a.d[a.o++] = 0.8
-                  a.d[a.o++] = z
-                  g = 25
-                  a.d[a.o++] = 16 * @xPos + E + h.front[g]
-                  a.d[a.o++] = 0 + G + h.front[g + 1] * ca
-                  a.d[a.o++] = 16 * @zPos + D + h.front[g + 2]
-                  a.d[a.o++] = h.front[g + 3]
-                  a.d[a.o++] = h.front[g + 4]
-                  a.d[a.o++] = 100 * Oa + La
-                  a.d[a.o++] = n + 1
-                  a.d[a.o++] = 0.8
-                  a.d[a.o++] = z
-                  I and if 0 == block.lightSource[A] then na = Math.floor((R + d[F - 18] + d[F - 324 - 18] + d[F - 324]) / 4)
-                  Ma = Math.floor((R + d[F - 324] + d[F - 324 + 18] + d[F + 18]) / 4)
-                  qa = Math.floor((R + d[F + 18] + d[F + 324 + 18] + d[F + 324]) / 4)
-                  Pa = Math.floor((R + d[F + 324] + d[F + 324 - 18] + d[F - 18]) / 4)
-                  ra = Math.floor((Q + e[F - 18] + e[F - 324 - 18] + e[F - 324]) / 4)
-                  Qa = Math.floor((Q + e[F - 324] + e[F - 324 + 18] + e[F + 18]) / 4)
-                  sa = Math.floor((Q + e[F + 18] + e[F + 324 + 18] + e[F + 324]) / 4)
-                  Ra = Math.floor((Q + e[F + 324] + e[F + 324 - 18] + e[F - 18]) / 4)
- else (na = Ma = qa = Pa = ra = Qa = sa = Ra = 15)
-                  g = 0
-                  a.d[a.o++] = 16 * @xPos + E + h.back[g]
-                  a.d[a.o++] = 0 + G + h.back[g + 1] * da
-                  a.d[a.o++] = 16 * @zPos + D + h.back[g + 2]
-                  a.d[a.o++] = h.back[g + 3]
-                  a.d[a.o++] = h.back[g + 4]
-                  a.d[a.o++] = 100 * qa + sa
-                  a.d[a.o++] = n + 2
-                  a.d[a.o++] = 0.8
-                  a.d[a.o++] = z
-                  g = 5
-                  a.d[a.o++] = 16 * @xPos + E + h.back[g]
-                  a.d[a.o++] = 0 + G + h.back[g + 1] * fa
-                  a.d[a.o++] = 16 * @zPos + D + h.back[g + 2]
-                  a.d[a.o++] = h.back[g + 3]
-                  a.d[a.o++] = h.back[g + 4]
-                  a.d[a.o++] = 100 * na + ra
-                  a.d[a.o++] = n + 2
-                  a.d[a.o++] = 0.8
-                  a.d[a.o++] = z
-                  g = 10
-                  a.d[a.o++] = 16 * @xPos + E + h.back[g]
-                  a.d[a.o++] = 0 + G + h.back[g + 1] * fa
-                  a.d[a.o++] = 16 * @zPos + D + h.back[g + 2]
-                  a.d[a.o++] = h.back[g + 3]
-                  a.d[a.o++] = h.back[g + 4]
-                  a.d[a.o++] = 100 * Pa + Ra
-                  a.d[a.o++] = n + 2
-                  a.d[a.o++] = 0.8
-                  a.d[a.o++] = z
-                  g = 15
-                  a.d[a.o++] = 16 * @xPos + E + h.back[g]
-                  a.d[a.o++] = 0 + G + h.back[g + 1] * fa
-                  a.d[a.o++] = 16 * @zPos + D + h.back[g + 2]
-                  a.d[a.o++] = h.back[g + 3]
-                  a.d[a.o++] = h.back[g + 4]
-                  a.d[a.o++] = 100 * na + ra
-                  a.d[a.o++] = n + 2
-                  a.d[a.o++] = 0.8
-                  a.d[a.o++] = z
-                  g = 20
-                  a.d[a.o++] = 16 * @xPos + E + h.back[g]
-                  a.d[a.o++] = 0 + G + h.back[g + 1] * da
-                  a.d[a.o++] = 16 * @zPos + D + h.back[g + 2]
-                  a.d[a.o++] = h.back[g + 3]
-                  a.d[a.o++] = h.back[g + 4]
-                  a.d[a.o++] = 100 * qa + sa
-                  a.d[a.o++] = n + 2
-                  a.d[a.o++] = 0.8
-                  a.d[a.o++] = z
-                  g = 25
-                  a.d[a.o++] = 16 * @xPos + E + h.back[g]
-                  a.d[a.o++] = 0 + G + h.back[g + 1] * da
-                  a.d[a.o++] = 16 * @zPos + D + h.back[g + 2]
-                  a.d[a.o++] = h.back[g + 3]
-                  a.d[a.o++] = h.back[g + 4]
-                  a.d[a.o++] = 100 * Ma + Qa
-                  a.d[a.o++] = n + 2
-                  a.d[a.o++] = 0.8
-                  a.d[a.o++] = z
-                  X and if 0 == block.lightSource[A] then ta = Math.floor((K + d[u - 1] + d[u - 324 - 1] + d[u - 324]) / 4)
-                  Sa = Math.floor((K + d[u - 324] + d[u - 324 + 1] + d[u + 1]) / 4)
-                  ua = Math.floor((K + d[u + 1] + d[u + 324 + 1] + d[u + 324]) / 4)
-                  Ta = Math.floor((K + d[u + 324] + d[u + 324 - 1] + d[u - 1]) / 4)
-                  va = Math.floor((M + e[u - 1] + e[u - 324 - 1] + e[u - 324]) / 4)
-                  Ua = Math.floor((M + e[u - 324] + e[u - 324 + 1] + e[u + 1]) / 4)
-                  wa = Math.floor((M + e[u + 1] + e[u + 324 + 1] + e[u + 324]) / 4)
-                  Va = Math.floor((M + e[u + 324] + e[u + 324 - 1] + e[u - 1]) / 4)
- else (ta = Sa = ua = Ta = va = Ua = wa = Va = 15)
-                  g = 0
-                  a.d[a.o++] = 16 * @xPos + E + h.right[g]
-                  a.d[a.o++] = 0 + G + h.right[g + 1] * fa
-                  a.d[a.o++] = 16 * @zPos + D + h.right[g + 2]
-                  a.d[a.o++] = h.right[g + 3]
-                  a.d[a.o++] = h.right[g + 4]
-                  a.d[a.o++] = 100 * ua + wa
-                  a.d[a.o++] = n + 3
-                  a.d[a.o++] = 0.55
-                  a.d[a.o++] = z
-                  g = 5
-                  a.d[a.o++] = 16 * @xPos + E + h.right[g]
-                  a.d[a.o++] = 0 + G + h.right[g + 1] * ca
-                  a.d[a.o++] = 16 * @zPos + D + h.right[g + 2]
-                  a.d[a.o++] = h.right[g + 3]
-                  a.d[a.o++] = h.right[g + 4]
-                  a.d[a.o++] = 100 * ta + va
-                  a.d[a.o++] = n + 3
-                  a.d[a.o++] = 0.55
-                  a.d[a.o++] = z
-                  g = 10
-                  a.d[a.o++] = 16 * @xPos + E + h.right[g]
-                  a.d[a.o++] = 0 + G + h.right[g + 1] * ca
-                  a.d[a.o++] = 16 * @zPos + D + h.right[g + 2]
-                  a.d[a.o++] = h.right[g + 3]
-                  a.d[a.o++] = h.right[g + 4]
-                  a.d[a.o++] = 100 * Ta + Va
-                  a.d[a.o++] = n + 3
-                  a.d[a.o++] = 0.55
-                  a.d[a.o++] = z
-                  g = 15
-                  a.d[a.o++] = 16 * @xPos + E + h.right[g]
-                  a.d[a.o++] = 0 + G + h.right[g + 1] * fa
-                  a.d[a.o++] = 16 * @zPos + D + h.right[g + 2]
-                  a.d[a.o++] = h.right[g + 3]
-                  a.d[a.o++] = h.right[g + 4]
-                  a.d[a.o++] = 100 * ua + wa
-                  a.d[a.o++] = n + 3
-                  a.d[a.o++] = 0.55
-                  a.d[a.o++] = z
-                  g = 20
-                  a.d[a.o++] = 16 * @xPos + E + h.right[g]
-                  a.d[a.o++] = 0 + G + h.right[g + 1] * fa
-                  a.d[a.o++] = 16 * @zPos + D + h.right[g + 2]
-                  a.d[a.o++] = h.right[g + 3]
-                  a.d[a.o++] = h.right[g + 4]
-                  a.d[a.o++] = 100 * Sa + Ua
-                  a.d[a.o++] = n + 3
-                  a.d[a.o++] = 0.55
-                  a.d[a.o++] = z
-                  g = 25
-                  a.d[a.o++] = 16 * @xPos + E + h.right[g]
-                  a.d[a.o++] = 0 + G + h.right[g + 1] * ca
-                  a.d[a.o++] = 16 * @zPos + D + h.right[g + 2]
-                  a.d[a.o++] = h.right[g + 3]
-                  a.d[a.o++] = h.right[g + 4]
-                  a.d[a.o++] = 100 * ta + va
-                  a.d[a.o++] = n + 3
-                  a.d[a.o++] = 0.55
-                  a.d[a.o++] = z
-                  H and if 0 == block.lightSource[A] then Wa = Math.floor((L + d[C - 1] + d[C - 324 - 1] + d[C - 324]) / 4)
-                  xa = Math.floor((L + d[C - 324] + d[C - 324 + 1] + d[C + 1]) / 4)
-                  Xa = Math.floor((L + d[C + 1] + d[C + 324 + 1] + d[C + 324]) / 4)
-                  ya = Math.floor((L + d[C + 324] + d[C + 324 - 1] + d[C - 1]) / 4)
-                  Ya = Math.floor((U + e[C - 1] + e[C - 324 - 1] + e[C - 324]) / 4)
-                  za = Math.floor((U + e[C - 324] + e[C - 324 + 1] + e[C + 1]) / 4)
-                  Za = Math.floor((U + e[C + 1] + e[C + 324 + 1] + e[C + 324]) / 4)
-                  Aa = Math.floor((U + e[C + 324] + e[C + 324 - 1] + e[C - 1]) / 4)
- else (Wa = xa = Xa = ya = Ya = za = Za = Aa = 15)
-                  g = 0
-                  a.d[a.o++] = 16 * @xPos + E + h.left[g]
-                  a.d[a.o++] = 0 + G + h.left[g + 1] * ga
-                  a.d[a.o++] = 16 * @zPos + D + h.left[g + 2]
-                  a.d[a.o++] = h.left[g + 3]
-                  a.d[a.o++] = h.left[g + 4]
-                  a.d[a.o++] = 100 * ya + Aa
-                  a.d[a.o++] = n + 4
-                  a.d[a.o++] = 0.55
-                  a.d[a.o++] = z
-                  g = 5
-                  a.d[a.o++] = 16 * @xPos + E + h.left[g]
-                  a.d[a.o++] = 0 + G + h.left[g + 1] * ga
-                  a.d[a.o++] = 16 * @zPos + D + h.left[g + 2]
-                  a.d[a.o++] = h.left[g + 3]
-                  a.d[a.o++] = h.left[g + 4]
-                  a.d[a.o++] = 100 * Wa + Ya
-                  a.d[a.o++] = n + 4
-                  a.d[a.o++] = 0.55
-                  a.d[a.o++] = z
-                  g = 10
-                  a.d[a.o++] = 16 * @xPos + E + h.left[g]
-                  a.d[a.o++] = 0 + G + h.left[g + 1] * da
-                  a.d[a.o++] = 16 * @zPos + D + h.left[g + 2]
-                  a.d[a.o++] = h.left[g + 3]
-                  a.d[a.o++] = h.left[g + 4]
-                  a.d[a.o++] = 100 * xa + za
-                  a.d[a.o++] = n + 4
-                  a.d[a.o++] = 0.55
-                  a.d[a.o++] = z
-                  g = 15
-                  a.d[a.o++] = 16 * @xPos + E + h.left[g]
-                  a.d[a.o++] = 0 + G + h.left[g + 1] * da
-                  a.d[a.o++] = 16 * @zPos + D + h.left[g + 2]
-                  a.d[a.o++] = h.left[g + 3]
-                  a.d[a.o++] = h.left[g + 4]
-                  a.d[a.o++] = 100 * Xa + Za
-                  a.d[a.o++] = n + 4
-                  a.d[a.o++] = 0.55
-                  a.d[a.o++] = z
-                  g = 20
-                  a.d[a.o++] = 16 * @xPos + E + h.left[g]
-                  a.d[a.o++] = 0 + G + h.left[g + 1] * ga
-                  a.d[a.o++] = 16 * @zPos + D + h.left[g + 2]
-                  a.d[a.o++] = h.left[g + 3]
-                  a.d[a.o++] = h.left[g + 4]
-                  a.d[a.o++] = 100 * ya + Aa
-                  a.d[a.o++] = n + 4
-                  a.d[a.o++] = 0.55
-                  a.d[a.o++] = z
-                  g = 25
-                  a.d[a.o++] = 16 * @xPos + E + h.left[g]
-                  a.d[a.o++] = 0 + G + h.left[g + 1] * da
-                  a.d[a.o++] = 16 * @zPos + D + h.left[g + 2]
-                  a.d[a.o++] = h.left[g + 3]
-                  a.d[a.o++] = h.left[g + 4]
-                  a.d[a.o++] = 100 * xa + za
-                  a.d[a.o++] = n + 4
-                  a.d[a.o++] = 0.55
-                  a.d[a.o++] = z
-                  V and if 0 == block.lightSource[A] then Ba = Math.floor((T + d[s - 1] + d[s - 18 - 1] + d[s - 18]) / 4)
-                  $a = Math.floor((T + d[s - 18] + d[s - 18 + 1] + d[s + 1]) / 4)
-                  Ca = Math.floor((T + d[s + 1] + d[s + 18 + 1] + d[s + 18]) / 4)
-                  ab = Math.floor((T + d[s + 18] + d[s + 18 - 1] + d[s - 1]) / 4)
-                  Da = Math.floor((P + e[s - 1] + e[s - 18 - 1] + e[s - 18]) / 4)
-                  bb = Math.floor((P + e[s - 18] + e[s - 18 + 1] + e[s + 1]) / 4)
-                  Ea = Math.floor((P + e[s + 1] + e[s + 18 + 1] + e[s + 18]) / 4)
-                  cb = Math.floor((P + e[s + 18] + e[s + 18 - 1] + e[s - 1]) / 4)
- else (Ba = $a = Ca = ab = Da = bb = Ea = cb = 15)
-                  g = 0
-                  a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
-                  a.d[a.o++] = 0 + G + h.bottom[g + 1]
-                  a.d[a.o++] = 16 * @zPos + D + h.bottom[g + 2]
-                  a.d[a.o++] = h.bottom[g + 3]
-                  a.d[a.o++] = h.bottom[g + 4]
-                  a.d[a.o++] = 100 * Ca + Ea
-                  a.d[a.o++] = n + 5
-                  a.d[a.o++] = 1
-                  a.d[a.o++] = z
-                  g = 5
-                  a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
-                  a.d[a.o++] = 0 + G + h.bottom[g + 1]
-                  a.d[a.o++] = 16 * @zPos + D + h.bottom[g + 2]
-                  a.d[a.o++] = h.bottom[g + 3]
-                  a.d[a.o++] = h.bottom[g + 4]
-                  a.d[a.o++] = 100 * Ba + Da
-                  a.d[a.o++] = n + 5
-                  a.d[a.o++] = 1
-                  a.d[a.o++] = z
-                  g = 10
-                  a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
-                  a.d[a.o++] = 0 + G + h.bottom[g + 1]
-                  a.d[a.o++] = 16 * @zPos + D + h.bottom[g + 2]
-                  a.d[a.o++] = h.bottom[g + 3]
-                  a.d[a.o++] = h.bottom[g + 4]
-                  a.d[a.o++] = 100 * $a + bb
-                  a.d[a.o++] = n + 5
-                  a.d[a.o++] = 1
-                  a.d[a.o++] = z
-                  g = 15
-                  a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
-                  a.d[a.o++] = 0 + G + h.bottom[g + 1]
-                  a.d[a.o++] = 16 * @zPos + D + h.bottom[g + 2]
-                  a.d[a.o++] = h.bottom[g + 3]
-                  a.d[a.o++] = h.bottom[g + 4]
-                  a.d[a.o++] = 100 * Ca + Ea
-                  a.d[a.o++] = n + 5
-                  a.d[a.o++] = 1
-                  a.d[a.o++] = z
-                  g = 20
-                  a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
-                  a.d[a.o++] = 0 + G + h.bottom[g + 1]
-                  a.d[a.o++] = 16 * @zPos + D + h.bottom[g + 2]
-                  a.d[a.o++] = h.bottom[g + 3]
-                  a.d[a.o++] = h.bottom[g + 4]
-                  a.d[a.o++] = 100 * ab + cb
-                  a.d[a.o++] = n + 5
-                  a.d[a.o++] = 1
-                  a.d[a.o++] = z
-                  g = 25
-                  a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
-                  a.d[a.o++] = 0 + G + h.bottom[g + 1]
-                  a.d[a.o++] = 16 * @zPos + D + h.bottom[g + 2]
-                  a.d[a.o++] = h.bottom[g + 3]
-                  a.d[a.o++] = h.bottom[g + 4]
-                  a.d[a.o++] = 100 * Ba + Da
-                  a.d[a.o++] = n + 5
-                  a.d[a.o++] = 1
-                  a.d[a.o++] = z
-                  J and if 0 == block.lightSource[A] then Fa = Math.floor((Y + d[r - 1] + d[r - 18 - 1] + d[r - 18]) / 4)
-                  db = Math.floor((Y + d[r - 18] + d[r - 18 + 1] + d[r + 1]) / 4)
-                  Ga = Math.floor((Y + d[r + 1] + d[r + 18 + 1] + d[r + 18]) / 4)
-                  eb = Math.floor((Y + d[r + 18] + d[r + 18 - 1] + d[r - 1]) / 4)
-                  Ha = Math.floor((N + e[r - 1] + e[r - 18 - 1] + e[r - 18]) / 4)
-                  fb = Math.floor((N + e[r - 18] + e[r - 18 + 1] + e[r + 1]) / 4)
-                  Ia = Math.floor((N + e[r + 1] + e[r + 18 + 1] + e[r + 18]) / 4)
-                  gb = Math.floor((N + e[r + 18] + e[r + 18 - 1] + e[r - 1]) / 4)
- else (Fa = db = Ga = eb = Ha = fb = Ia = gb = 15)
-                  g = 0
-                  a.d[a.o++] = 16 * @xPos + E + h.top[g]
-                  a.d[a.o++] = 0 + G + h.top[g + 1] * da
-                  a.d[a.o++] = 16 * @zPos + D + h.top[g + 2]
-                  a.d[a.o++] = h.top[g + 3]
-                  a.d[a.o++] = h.top[g + 4]
-                  a.d[a.o++] = 100 * Ga + Ia
-                  a.d[a.o++] = n + 6
-                  a.d[a.o++] = 1
-                  a.d[a.o++] = W
-                  g = 5
-                  a.d[a.o++] = 16 * @xPos + E + h.top[g]
-                  a.d[a.o++] = 0 + G + h.top[g + 1] * fa
-                  a.d[a.o++] = 16 * @zPos + D + h.top[g + 2]
-                  a.d[a.o++] = h.top[g + 3]
-                  a.d[a.o++] = h.top[g + 4]
-                  a.d[a.o++] = 100 * db + fb
-                  a.d[a.o++] = n + 6
-                  a.d[a.o++] = 1
-                  a.d[a.o++] = aa
-                  g = 10
-                  a.d[a.o++] = 16 * @xPos + E + h.top[g]
-                  a.d[a.o++] = 0 + G + h.top[g + 1] * ca
-                  a.d[a.o++] = 16 * @zPos + D + h.top[g + 2]
-                  a.d[a.o++] = h.top[g + 3]
-                  a.d[a.o++] = h.top[g + 4]
-                  a.d[a.o++] = 100 * Fa + Ha
-                  a.d[a.o++] = n + 6
-                  a.d[a.o++] = 1
-                  a.d[a.o++] = $
-                  g = 15
-                  a.d[a.o++] = 16 * @xPos + E + h.top[g]
-                  a.d[a.o++] = 0 + G + h.top[g + 1] * da
-                  a.d[a.o++] = 16 * @zPos + D + h.top[g + 2]
-                  a.d[a.o++] = h.top[g + 3]
-                  a.d[a.o++] = h.top[g + 4]
-                  a.d[a.o++] = 100 * Ga + Ia
-                  a.d[a.o++] = n + 6
-                  a.d[a.o++] = 1
-                  a.d[a.o++] = W
-                  g = 20
-                  a.d[a.o++] = 16 * @xPos + E + h.top[g]
-                  a.d[a.o++] = 0 + G + h.top[g + 1] * ca
-                  a.d[a.o++] = 16 * @zPos + D + h.top[g + 2]
-                  a.d[a.o++] = h.top[g + 3]
-                  a.d[a.o++] = h.top[g + 4]
-                  a.d[a.o++] = 100 * Fa + Ha
-                  a.d[a.o++] = n + 6
-                  a.d[a.o++] = 1
-                  a.d[a.o++] = $
-                  g = 25
-                  a.d[a.o++] = 16 * @xPos + E + h.top[g]
-                  a.d[a.o++] = 0 + G + h.top[g + 1] * ga
-                  a.d[a.o++] = 16 * @zPos + D + h.top[g + 2]
-                  a.d[a.o++] = h.top[g + 3]
-                  a.d[a.o++] = h.top[g + 4]
-                  a.d[a.o++] = 100 * eb + gb
-                  a.d[a.o++] = n + 6
-                  a.d[a.o++] = 1
-                  a.d[a.o++] = k
+                  Z and if 0 == block.lightSource[A]
+                    oa = Math.floor((y + d[w - 18] + d[w - 324 - 18] + d[w - 324]) / 4)
+                    Na = Math.floor((y + d[w - 324] + d[w - 324 + 18] + d[w + 18]) / 4)
+                    pa = Math.floor((y + d[w + 18] + d[w + 324 + 18] + d[w + 324]) / 4)
+                    Oa = Math.floor((y + d[w + 324] + d[w + 324 - 18] + d[w - 18]) / 4)
+                    la = Math.floor((S + e[w - 18] + e[w - 324 - 18] + e[w - 324]) / 4)
+                    Ka = Math.floor((S + e[w - 324] + e[w - 324 + 18] + e[w + 18]) / 4)
+                    ma = Math.floor((S + e[w + 18] + e[w + 324 + 18] + e[w + 324]) / 4)
+                    La = Math.floor((S + e[w + 324] + e[w + 324 - 18] + e[w - 18]) / 4)
+                  else
+                    oa = Na = pa = Oa = la = Ka = ma = La = 15
+                    g = 0
+                    a.d[a.o++] = 16 * @xPos + E + h.front[g]
+                    a.d[a.o++] = 0 + G + h.front[g + 1] * ca
+                    a.d[a.o++] = 16 * @zPos + D + h.front[g + 2]
+                    a.d[a.o++] = h.front[g + 3]
+                    a.d[a.o++] = h.front[g + 4]
+                    a.d[a.o++] = 100 * oa + la
+                    a.d[a.o++] = n + 1
+                    a.d[a.o++] = 0.8
+                    a.d[a.o++] = z
+                    g = 5
+                    a.d[a.o++] = 16 * @xPos + E + h.front[g]
+                    a.d[a.o++] = 0 + G + h.front[g + 1] * ga
+                    a.d[a.o++] = 16 * @zPos + D + h.front[g + 2]
+                    a.d[a.o++] = h.front[g + 3]
+                    a.d[a.o++] = h.front[g + 4]
+                    a.d[a.o++] = 100 * Na + Ka
+                    a.d[a.o++] = n + 1
+                    a.d[a.o++] = 0.8
+                    a.d[a.o++] = z
+                    g = 10
+                    a.d[a.o++] = 16 * @xPos + E + h.front[g]
+                    a.d[a.o++] = 0 + G + h.front[g + 1] * ga
+                    a.d[a.o++] = 16 * @zPos + D + h.front[g + 2]
+                    a.d[a.o++] = h.front[g + 3]
+                    a.d[a.o++] = h.front[g + 4]
+                    a.d[a.o++] = 100 * pa + ma
+                    a.d[a.o++] = n + 1
+                    a.d[a.o++] = 0.8
+                    a.d[a.o++] = z
+                    g = 15
+                    a.d[a.o++] = 16 * @xPos + E + h.front[g]
+                    a.d[a.o++] = 0 + G + h.front[g + 1] * ca
+                    a.d[a.o++] = 16 * @zPos + D + h.front[g + 2]
+                    a.d[a.o++] = h.front[g + 3]
+                    a.d[a.o++] = h.front[g + 4]
+                    a.d[a.o++] = 100 * oa + la
+                    a.d[a.o++] = n + 1
+                    a.d[a.o++] = 0.8
+                    a.d[a.o++] = z
+                    g = 20
+                    a.d[a.o++] = 16 * @xPos + E + h.front[g]
+                    a.d[a.o++] = 0 + G + h.front[g + 1] * ga
+                    a.d[a.o++] = 16 * @zPos + D + h.front[g + 2]
+                    a.d[a.o++] = h.front[g + 3]
+                    a.d[a.o++] = h.front[g + 4]
+                    a.d[a.o++] = 100 * pa + ma
+                    a.d[a.o++] = n + 1
+                    a.d[a.o++] = 0.8
+                    a.d[a.o++] = z
+                    g = 25
+                    a.d[a.o++] = 16 * @xPos + E + h.front[g]
+                    a.d[a.o++] = 0 + G + h.front[g + 1] * ca
+                    a.d[a.o++] = 16 * @zPos + D + h.front[g + 2]
+                    a.d[a.o++] = h.front[g + 3]
+                    a.d[a.o++] = h.front[g + 4]
+                    a.d[a.o++] = 100 * Oa + La
+                    a.d[a.o++] = n + 1
+                    a.d[a.o++] = 0.8
+                    a.d[a.o++] = z
+                  I and if 0 == block.lightSource[A]
+                    na = Math.floor((R + d[F - 18] + d[F - 324 - 18] + d[F - 324]) / 4)
+                    Ma = Math.floor((R + d[F - 324] + d[F - 324 + 18] + d[F + 18]) / 4)
+                    qa = Math.floor((R + d[F + 18] + d[F + 324 + 18] + d[F + 324]) / 4)
+                    Pa = Math.floor((R + d[F + 324] + d[F + 324 - 18] + d[F - 18]) / 4)
+                    ra = Math.floor((Q + e[F - 18] + e[F - 324 - 18] + e[F - 324]) / 4)
+                    Qa = Math.floor((Q + e[F - 324] + e[F - 324 + 18] + e[F + 18]) / 4)
+                    sa = Math.floor((Q + e[F + 18] + e[F + 324 + 18] + e[F + 324]) / 4)
+                    Ra = Math.floor((Q + e[F + 324] + e[F + 324 - 18] + e[F - 18]) / 4)
+                  else
+                    na = Ma = qa = Pa = ra = Qa = sa = Ra = 15
+                    g = 0
+                    a.d[a.o++] = 16 * @xPos + E + h.back[g]
+                    a.d[a.o++] = 0 + G + h.back[g + 1] * da
+                    a.d[a.o++] = 16 * @zPos + D + h.back[g + 2]
+                    a.d[a.o++] = h.back[g + 3]
+                    a.d[a.o++] = h.back[g + 4]
+                    a.d[a.o++] = 100 * qa + sa
+                    a.d[a.o++] = n + 2
+                    a.d[a.o++] = 0.8
+                    a.d[a.o++] = z
+                    g = 5
+                    a.d[a.o++] = 16 * @xPos + E + h.back[g]
+                    a.d[a.o++] = 0 + G + h.back[g + 1] * fa
+                    a.d[a.o++] = 16 * @zPos + D + h.back[g + 2]
+                    a.d[a.o++] = h.back[g + 3]
+                    a.d[a.o++] = h.back[g + 4]
+                    a.d[a.o++] = 100 * na + ra
+                    a.d[a.o++] = n + 2
+                    a.d[a.o++] = 0.8
+                    a.d[a.o++] = z
+                    g = 10
+                    a.d[a.o++] = 16 * @xPos + E + h.back[g]
+                    a.d[a.o++] = 0 + G + h.back[g + 1] * fa
+                    a.d[a.o++] = 16 * @zPos + D + h.back[g + 2]
+                    a.d[a.o++] = h.back[g + 3]
+                    a.d[a.o++] = h.back[g + 4]
+                    a.d[a.o++] = 100 * Pa + Ra
+                    a.d[a.o++] = n + 2
+                    a.d[a.o++] = 0.8
+                    a.d[a.o++] = z
+                    g = 15
+                    a.d[a.o++] = 16 * @xPos + E + h.back[g]
+                    a.d[a.o++] = 0 + G + h.back[g + 1] * fa
+                    a.d[a.o++] = 16 * @zPos + D + h.back[g + 2]
+                    a.d[a.o++] = h.back[g + 3]
+                    a.d[a.o++] = h.back[g + 4]
+                    a.d[a.o++] = 100 * na + ra
+                    a.d[a.o++] = n + 2
+                    a.d[a.o++] = 0.8
+                    a.d[a.o++] = z
+                    g = 20
+                    a.d[a.o++] = 16 * @xPos + E + h.back[g]
+                    a.d[a.o++] = 0 + G + h.back[g + 1] * da
+                    a.d[a.o++] = 16 * @zPos + D + h.back[g + 2]
+                    a.d[a.o++] = h.back[g + 3]
+                    a.d[a.o++] = h.back[g + 4]
+                    a.d[a.o++] = 100 * qa + sa
+                    a.d[a.o++] = n + 2
+                    a.d[a.o++] = 0.8
+                    a.d[a.o++] = z
+                    g = 25
+                    a.d[a.o++] = 16 * @xPos + E + h.back[g]
+                    a.d[a.o++] = 0 + G + h.back[g + 1] * da
+                    a.d[a.o++] = 16 * @zPos + D + h.back[g + 2]
+                    a.d[a.o++] = h.back[g + 3]
+                    a.d[a.o++] = h.back[g + 4]
+                    a.d[a.o++] = 100 * Ma + Qa
+                    a.d[a.o++] = n + 2
+                    a.d[a.o++] = 0.8
+                    a.d[a.o++] = z
+                  X and if 0 == block.lightSource[A]
+                    ta = Math.floor((K + d[u - 1] + d[u - 324 - 1] + d[u - 324]) / 4)
+                    Sa = Math.floor((K + d[u - 324] + d[u - 324 + 1] + d[u + 1]) / 4)
+                    ua = Math.floor((K + d[u + 1] + d[u + 324 + 1] + d[u + 324]) / 4)
+                    Ta = Math.floor((K + d[u + 324] + d[u + 324 - 1] + d[u - 1]) / 4)
+                    va = Math.floor((M + e[u - 1] + e[u - 324 - 1] + e[u - 324]) / 4)
+                    Ua = Math.floor((M + e[u - 324] + e[u - 324 + 1] + e[u + 1]) / 4)
+                    wa = Math.floor((M + e[u + 1] + e[u + 324 + 1] + e[u + 324]) / 4)
+                    Va = Math.floor((M + e[u + 324] + e[u + 324 - 1] + e[u - 1]) / 4)
+                  else
+                    ta = Sa = ua = Ta = va = Ua = wa = Va = 15
+                    g = 0
+                    a.d[a.o++] = 16 * @xPos + E + h.right[g]
+                    a.d[a.o++] = 0 + G + h.right[g + 1] * fa
+                    a.d[a.o++] = 16 * @zPos + D + h.right[g + 2]
+                    a.d[a.o++] = h.right[g + 3]
+                    a.d[a.o++] = h.right[g + 4]
+                    a.d[a.o++] = 100 * ua + wa
+                    a.d[a.o++] = n + 3
+                    a.d[a.o++] = 0.55
+                    a.d[a.o++] = z
+                    g = 5
+                    a.d[a.o++] = 16 * @xPos + E + h.right[g]
+                    a.d[a.o++] = 0 + G + h.right[g + 1] * ca
+                    a.d[a.o++] = 16 * @zPos + D + h.right[g + 2]
+                    a.d[a.o++] = h.right[g + 3]
+                    a.d[a.o++] = h.right[g + 4]
+                    a.d[a.o++] = 100 * ta + va
+                    a.d[a.o++] = n + 3
+                    a.d[a.o++] = 0.55
+                    a.d[a.o++] = z
+                    g = 10
+                    a.d[a.o++] = 16 * @xPos + E + h.right[g]
+                    a.d[a.o++] = 0 + G + h.right[g + 1] * ca
+                    a.d[a.o++] = 16 * @zPos + D + h.right[g + 2]
+                    a.d[a.o++] = h.right[g + 3]
+                    a.d[a.o++] = h.right[g + 4]
+                    a.d[a.o++] = 100 * Ta + Va
+                    a.d[a.o++] = n + 3
+                    a.d[a.o++] = 0.55
+                    a.d[a.o++] = z
+                    g = 15
+                    a.d[a.o++] = 16 * @xPos + E + h.right[g]
+                    a.d[a.o++] = 0 + G + h.right[g + 1] * fa
+                    a.d[a.o++] = 16 * @zPos + D + h.right[g + 2]
+                    a.d[a.o++] = h.right[g + 3]
+                    a.d[a.o++] = h.right[g + 4]
+                    a.d[a.o++] = 100 * ua + wa
+                    a.d[a.o++] = n + 3
+                    a.d[a.o++] = 0.55
+                    a.d[a.o++] = z
+                    g = 20
+                    a.d[a.o++] = 16 * @xPos + E + h.right[g]
+                    a.d[a.o++] = 0 + G + h.right[g + 1] * fa
+                    a.d[a.o++] = 16 * @zPos + D + h.right[g + 2]
+                    a.d[a.o++] = h.right[g + 3]
+                    a.d[a.o++] = h.right[g + 4]
+                    a.d[a.o++] = 100 * Sa + Ua
+                    a.d[a.o++] = n + 3
+                    a.d[a.o++] = 0.55
+                    a.d[a.o++] = z
+                    g = 25
+                    a.d[a.o++] = 16 * @xPos + E + h.right[g]
+                    a.d[a.o++] = 0 + G + h.right[g + 1] * ca
+                    a.d[a.o++] = 16 * @zPos + D + h.right[g + 2]
+                    a.d[a.o++] = h.right[g + 3]
+                    a.d[a.o++] = h.right[g + 4]
+                    a.d[a.o++] = 100 * ta + va
+                    a.d[a.o++] = n + 3
+                    a.d[a.o++] = 0.55
+                    a.d[a.o++] = z
+                  H and if 0 == block.lightSource[A]
+                    Wa = Math.floor((L + d[C - 1] + d[C - 324 - 1] + d[C - 324]) / 4)
+                    xa = Math.floor((L + d[C - 324] + d[C - 324 + 1] + d[C + 1]) / 4)
+                    Xa = Math.floor((L + d[C + 1] + d[C + 324 + 1] + d[C + 324]) / 4)
+                    ya = Math.floor((L + d[C + 324] + d[C + 324 - 1] + d[C - 1]) / 4)
+                    Ya = Math.floor((U + e[C - 1] + e[C - 324 - 1] + e[C - 324]) / 4)
+                    za = Math.floor((U + e[C - 324] + e[C - 324 + 1] + e[C + 1]) / 4)
+                    Za = Math.floor((U + e[C + 1] + e[C + 324 + 1] + e[C + 324]) / 4)
+                    Aa = Math.floor((U + e[C + 324] + e[C + 324 - 1] + e[C - 1]) / 4)
+                  else
+                    Wa = xa = Xa = ya = Ya = za = Za = Aa = 15
+                    g = 0
+                    a.d[a.o++] = 16 * @xPos + E + h.left[g]
+                    a.d[a.o++] = 0 + G + h.left[g + 1] * ga
+                    a.d[a.o++] = 16 * @zPos + D + h.left[g + 2]
+                    a.d[a.o++] = h.left[g + 3]
+                    a.d[a.o++] = h.left[g + 4]
+                    a.d[a.o++] = 100 * ya + Aa
+                    a.d[a.o++] = n + 4
+                    a.d[a.o++] = 0.55
+                    a.d[a.o++] = z
+                    g = 5
+                    a.d[a.o++] = 16 * @xPos + E + h.left[g]
+                    a.d[a.o++] = 0 + G + h.left[g + 1] * ga
+                    a.d[a.o++] = 16 * @zPos + D + h.left[g + 2]
+                    a.d[a.o++] = h.left[g + 3]
+                    a.d[a.o++] = h.left[g + 4]
+                    a.d[a.o++] = 100 * Wa + Ya
+                    a.d[a.o++] = n + 4
+                    a.d[a.o++] = 0.55
+                    a.d[a.o++] = z
+                    g = 10
+                    a.d[a.o++] = 16 * @xPos + E + h.left[g]
+                    a.d[a.o++] = 0 + G + h.left[g + 1] * da
+                    a.d[a.o++] = 16 * @zPos + D + h.left[g + 2]
+                    a.d[a.o++] = h.left[g + 3]
+                    a.d[a.o++] = h.left[g + 4]
+                    a.d[a.o++] = 100 * xa + za
+                    a.d[a.o++] = n + 4
+                    a.d[a.o++] = 0.55
+                    a.d[a.o++] = z
+                    g = 15
+                    a.d[a.o++] = 16 * @xPos + E + h.left[g]
+                    a.d[a.o++] = 0 + G + h.left[g + 1] * da
+                    a.d[a.o++] = 16 * @zPos + D + h.left[g + 2]
+                    a.d[a.o++] = h.left[g + 3]
+                    a.d[a.o++] = h.left[g + 4]
+                    a.d[a.o++] = 100 * Xa + Za
+                    a.d[a.o++] = n + 4
+                    a.d[a.o++] = 0.55
+                    a.d[a.o++] = z
+                    g = 20
+                    a.d[a.o++] = 16 * @xPos + E + h.left[g]
+                    a.d[a.o++] = 0 + G + h.left[g + 1] * ga
+                    a.d[a.o++] = 16 * @zPos + D + h.left[g + 2]
+                    a.d[a.o++] = h.left[g + 3]
+                    a.d[a.o++] = h.left[g + 4]
+                    a.d[a.o++] = 100 * ya + Aa
+                    a.d[a.o++] = n + 4
+                    a.d[a.o++] = 0.55
+                    a.d[a.o++] = z
+                    g = 25
+                    a.d[a.o++] = 16 * @xPos + E + h.left[g]
+                    a.d[a.o++] = 0 + G + h.left[g + 1] * da
+                    a.d[a.o++] = 16 * @zPos + D + h.left[g + 2]
+                    a.d[a.o++] = h.left[g + 3]
+                    a.d[a.o++] = h.left[g + 4]
+                    a.d[a.o++] = 100 * xa + za
+                    a.d[a.o++] = n + 4
+                    a.d[a.o++] = 0.55
+                    a.d[a.o++] = z
+                  V and if 0 == block.lightSource[A]
+                    Ba = Math.floor((T + d[s - 1] + d[s - 18 - 1] + d[s - 18]) / 4)
+                    $a = Math.floor((T + d[s - 18] + d[s - 18 + 1] + d[s + 1]) / 4)
+                    Ca = Math.floor((T + d[s + 1] + d[s + 18 + 1] + d[s + 18]) / 4)
+                    ab = Math.floor((T + d[s + 18] + d[s + 18 - 1] + d[s - 1]) / 4)
+                    Da = Math.floor((P + e[s - 1] + e[s - 18 - 1] + e[s - 18]) / 4)
+                    bb = Math.floor((P + e[s - 18] + e[s - 18 + 1] + e[s + 1]) / 4)
+                    Ea = Math.floor((P + e[s + 1] + e[s + 18 + 1] + e[s + 18]) / 4)
+                    cb = Math.floor((P + e[s + 18] + e[s + 18 - 1] + e[s - 1]) / 4)
+                  else
+                    Ba = $a = Ca = ab = Da = bb = Ea = cb = 15
+                    g = 0
+                    a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
+                    a.d[a.o++] = 0 + G + h.bottom[g + 1]
+                    a.d[a.o++] = 16 * @zPos + D + h.bottom[g + 2]
+                    a.d[a.o++] = h.bottom[g + 3]
+                    a.d[a.o++] = h.bottom[g + 4]
+                    a.d[a.o++] = 100 * Ca + Ea
+                    a.d[a.o++] = n + 5
+                    a.d[a.o++] = 1
+                    a.d[a.o++] = z
+                    g = 5
+                    a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
+                    a.d[a.o++] = 0 + G + h.bottom[g + 1]
+                    a.d[a.o++] = 16 * @zPos + D + h.bottom[g + 2]
+                    a.d[a.o++] = h.bottom[g + 3]
+                    a.d[a.o++] = h.bottom[g + 4]
+                    a.d[a.o++] = 100 * Ba + Da
+                    a.d[a.o++] = n + 5
+                    a.d[a.o++] = 1
+                    a.d[a.o++] = z
+                    g = 10
+                    a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
+                    a.d[a.o++] = 0 + G + h.bottom[g + 1]
+                    a.d[a.o++] = 16 * @zPos + D + h.bottom[g + 2]
+                    a.d[a.o++] = h.bottom[g + 3]
+                    a.d[a.o++] = h.bottom[g + 4]
+                    a.d[a.o++] = 100 * $a + bb
+                    a.d[a.o++] = n + 5
+                    a.d[a.o++] = 1
+                    a.d[a.o++] = z
+                    g = 15
+                    a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
+                    a.d[a.o++] = 0 + G + h.bottom[g + 1]
+                    a.d[a.o++] = 16 * @zPos + D + h.bottom[g + 2]
+                    a.d[a.o++] = h.bottom[g + 3]
+                    a.d[a.o++] = h.bottom[g + 4]
+                    a.d[a.o++] = 100 * Ca + Ea
+                    a.d[a.o++] = n + 5
+                    a.d[a.o++] = 1
+                    a.d[a.o++] = z
+                    g = 20
+                    a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
+                    a.d[a.o++] = 0 + G + h.bottom[g + 1]
+                    a.d[a.o++] = 16 * @zPos + D + h.bottom[g + 2]
+                    a.d[a.o++] = h.bottom[g + 3]
+                    a.d[a.o++] = h.bottom[g + 4]
+                    a.d[a.o++] = 100 * ab + cb
+                    a.d[a.o++] = n + 5
+                    a.d[a.o++] = 1
+                    a.d[a.o++] = z
+                    g = 25
+                    a.d[a.o++] = 16 * @xPos + E + h.bottom[g]
+                    a.d[a.o++] = 0 + G + h.bottom[g + 1]
+                    a.d[a.o++] = 16 * @zPos + D + h.bottom[g + 2]
+                    a.d[a.o++] = h.bottom[g + 3]
+                    a.d[a.o++] = h.bottom[g + 4]
+                    a.d[a.o++] = 100 * Ba + Da
+                    a.d[a.o++] = n + 5
+                    a.d[a.o++] = 1
+                    a.d[a.o++] = z
+                  J and if 0 == block.lightSource[A]
+                    Fa = Math.floor((Y + d[r - 1] + d[r - 18 - 1] + d[r - 18]) / 4)
+                    db = Math.floor((Y + d[r - 18] + d[r - 18 + 1] + d[r + 1]) / 4)
+                    Ga = Math.floor((Y + d[r + 1] + d[r + 18 + 1] + d[r + 18]) / 4)
+                    eb = Math.floor((Y + d[r + 18] + d[r + 18 - 1] + d[r - 1]) / 4)
+                    Ha = Math.floor((N + e[r - 1] + e[r - 18 - 1] + e[r - 18]) / 4)
+                    fb = Math.floor((N + e[r - 18] + e[r - 18 + 1] + e[r + 1]) / 4)
+                    Ia = Math.floor((N + e[r + 1] + e[r + 18 + 1] + e[r + 18]) / 4)
+                    gb = Math.floor((N + e[r + 18] + e[r + 18 - 1] + e[r - 1]) / 4)
+                  else
+                    Fa = db = Ga = eb = Ha = fb = Ia = gb = 15
+                    g = 0
+                    a.d[a.o++] = 16 * @xPos + E + h.top[g]
+                    a.d[a.o++] = 0 + G + h.top[g + 1] * da
+                    a.d[a.o++] = 16 * @zPos + D + h.top[g + 2]
+                    a.d[a.o++] = h.top[g + 3]
+                    a.d[a.o++] = h.top[g + 4]
+                    a.d[a.o++] = 100 * Ga + Ia
+                    a.d[a.o++] = n + 6
+                    a.d[a.o++] = 1
+                    a.d[a.o++] = W
+                    g = 5
+                    a.d[a.o++] = 16 * @xPos + E + h.top[g]
+                    a.d[a.o++] = 0 + G + h.top[g + 1] * fa
+                    a.d[a.o++] = 16 * @zPos + D + h.top[g + 2]
+                    a.d[a.o++] = h.top[g + 3]
+                    a.d[a.o++] = h.top[g + 4]
+                    a.d[a.o++] = 100 * db + fb
+                    a.d[a.o++] = n + 6
+                    a.d[a.o++] = 1
+                    a.d[a.o++] = aa
+                    g = 10
+                    a.d[a.o++] = 16 * @xPos + E + h.top[g]
+                    a.d[a.o++] = 0 + G + h.top[g + 1] * ca
+                    a.d[a.o++] = 16 * @zPos + D + h.top[g + 2]
+                    a.d[a.o++] = h.top[g + 3]
+                    a.d[a.o++] = h.top[g + 4]
+                    a.d[a.o++] = 100 * Fa + Ha
+                    a.d[a.o++] = n + 6
+                    a.d[a.o++] = 1
+                    a.d[a.o++] = $
+                    g = 15
+                    a.d[a.o++] = 16 * @xPos + E + h.top[g]
+                    a.d[a.o++] = 0 + G + h.top[g + 1] * da
+                    a.d[a.o++] = 16 * @zPos + D + h.top[g + 2]
+                    a.d[a.o++] = h.top[g + 3]
+                    a.d[a.o++] = h.top[g + 4]
+                    a.d[a.o++] = 100 * Ga + Ia
+                    a.d[a.o++] = n + 6
+                    a.d[a.o++] = 1
+                    a.d[a.o++] = W
+                    g = 20
+                    a.d[a.o++] = 16 * @xPos + E + h.top[g]
+                    a.d[a.o++] = 0 + G + h.top[g + 1] * ca
+                    a.d[a.o++] = 16 * @zPos + D + h.top[g + 2]
+                    a.d[a.o++] = h.top[g + 3]
+                    a.d[a.o++] = h.top[g + 4]
+                    a.d[a.o++] = 100 * Fa + Ha
+                    a.d[a.o++] = n + 6
+                    a.d[a.o++] = 1
+                    a.d[a.o++] = $
+                    g = 25
+                    a.d[a.o++] = 16 * @xPos + E + h.top[g]
+                    a.d[a.o++] = 0 + G + h.top[g + 1] * ga
+                    a.d[a.o++] = 16 * @zPos + D + h.top[g + 2]
+                    a.d[a.o++] = h.top[g + 3]
+                    a.d[a.o++] = h.top[g + 4]
+                    a.d[a.o++] = 100 * eb + gb
+                    a.d[a.o++] = n + 6
+                    a.d[a.o++] = 1
+                    a.d[a.o++] = k
                 else if 10 == t.shapeType and p = t.drawLevel
                   a = B[p]
                   h = t.shape
@@ -10215,7 +10237,7 @@ Chunk::getBuffer = (b) ->
       else
         f = 0
         while 16 > f
-                    H = 0
+          H = 0
           while 16 > H
             d = 0 + 16 * f + H
             e = 5508 + 18 * (f + 1) + H + 1
@@ -10225,7 +10247,7 @@ Chunk::getBuffer = (b) ->
       if a
         I = 0
         while 16 > I
-                    H = 0
+          H = 0
           while 16 > H
             e = 324 * (I + 1) + 306 + H + 1
             Chunk.cacheBlock[e] = if m then 1 else 0
@@ -10234,7 +10256,7 @@ Chunk::getBuffer = (b) ->
       else
         I = 0
         while 16 > I
-                    H = 0
+          H = 0
           while 16 > H
             d = 256 * I + 0 + H
             e = 324 * (I + 1) + 306 + H + 1
@@ -10244,7 +10266,7 @@ Chunk::getBuffer = (b) ->
       if y
         I = 0
         while 16 > I
-                    H = 0
+          H = 0
           while 16 > H
             e = 324 * (I + 1) + 0 + H + 1
             Chunk.cacheBlock[e] = if l then 1 else 0
@@ -10253,7 +10275,7 @@ Chunk::getBuffer = (b) ->
       else
         I = 0
         while 16 > I
-                    H = 0
+          H = 0
           while 16 > H
             d = 256 * I + 240 + H
             e = 324 * (I + 1) + 0 + H + 1
@@ -10263,7 +10285,7 @@ Chunk::getBuffer = (b) ->
       if Y
         I = 0
         while 16 > I
-                    f = 0
+          f = 0
           while 16 > f
             e = 324 * (I + 1) + 18 * (f + 1) + 0
             Chunk.cacheBlock[e] = if p then 1 else 0
@@ -10272,7 +10294,7 @@ Chunk::getBuffer = (b) ->
       else
         I = 0
         while 16 > I
-                    f = 0
+          f = 0
           while 16 > f
             d = 256 * I + 16 * f + 15
             e = 324 * (I + 1) + 18 * (f + 1) + 0
@@ -10282,7 +10304,7 @@ Chunk::getBuffer = (b) ->
       if T
         I = 0
         while 16 > I
-                    f = 0
+          f = 0
           while 16 > f
             e = 324 * (I + 1) + 18 * (f + 1) + 17
             Chunk.cacheBlock[e] = if q then 1 else 0
@@ -10291,7 +10313,7 @@ Chunk::getBuffer = (b) ->
       else
         I = 0
         while 16 > I
-                    f = 0
+          f = 0
           while 16 > f
             d = 256 * I + 16 * f + 0
             e = 324 * (I + 1) + 18 * (f + 1) + 17
@@ -11361,37 +11383,39 @@ Pointer::render = ->
   mat4.identity gluu.pMatrix
   gl.uniformMatrix4fv b.pMatrixUniform, !1, gluu.pMatrix
   gl.uniformMatrix4fv b.mvMatrixUniform, !1, gluu.mvMatrix
-  if undefined == @vbol then @vbol = gl.createBuffer()
-  b = new Float32Array([
-    -0.03
-    0
-    0
-    0
-    0
-    0.03
-    0
-    0
-    0
-    0
-    0
-    -0.05
-    0
-    0
-    0
-    0
-    0.05
-    0
-    0
-    0
-  ])
-  @vbol = gl.createBuffer()
-  gl.bindBuffer(gl.ARRAY_BUFFER, @vbol)
-  gl.bufferData(gl.ARRAY_BUFFER, b, gl.STATIC_DRAW)
- else gl.bindBuffer(gl.ARRAY_BUFFER, @vbol)
-  gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0)
-  gl.vertexAttribPointer(b.lightAttribute, 4, gl.FLOAT, !1, 20, 0)
-  gl.vertexAttribPointer(b.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12)
-  gl.drawArrays(gl.LINES, 0, 4)
+  if undefined == @vbol
+    @vbol = gl.createBuffer()
+    b = new Float32Array([
+      -0.03
+      0
+      0
+      0
+      0
+      0.03
+      0
+      0
+      0
+      0
+      0
+      -0.05
+      0
+      0
+      0
+      0
+      0.05
+      0
+      0
+      0
+    ])
+    @vbol = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, @vbol)
+    gl.bufferData(gl.ARRAY_BUFFER, b, gl.STATIC_DRAW)
+  else
+    gl.bindBuffer(gl.ARRAY_BUFFER, @vbol)
+    gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0)
+    gl.vertexAttribPointer(b.lightAttribute, 4, gl.FLOAT, !1, 20, 0)
+    gl.vertexAttribPointer(b.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12)
+    gl.drawArrays(gl.LINES, 0, 4)
   return
 
 SelectionBox::render = (b) ->
@@ -11408,136 +11432,138 @@ SelectionBox::render = (b) ->
   ]
   gl.uniformMatrix4fv f.pMatrixUniform, !1, gluu.pMatrix
   gl.uniformMatrix4fv f.mvMatrixUniform, !1, gluu.mvMatrix
-  if undefined == @vboBox then b = new Float32Array([
-    0
-    0
-    0
-    0
-    0
-    0
-    1
-    0
-    0
-    0
-    0
-    1
-    0
-    0
-    0
-    1
-    1
-    0
-    0
-    0
-    1
-    1
-    0
-    0
-    0
-    1
-    0
-    0
-    0
-    0
-    1
-    0
-    0
-    0
-    0
-    0
-    0
-    0
-    0
-    0
-    0
-    0
-    1
-    0
-    0
-    0
-    1
-    1
-    0
-    0
-    0
-    1
-    1
-    0
-    0
-    1
-    1
-    1
-    0
-    0
-    1
-    1
-    1
-    0
-    0
-    1
-    0
-    1
-    0
-    0
-    1
-    0
-    1
-    0
-    0
-    0
-    0
-    1
-    0
-    0
-    0
-    0
-    1
-    0
-    0
-    0
-    0
-    0
-    0
-    0
-    1
-    1
-    1
-    0
-    0
-    1
-    1
-    0
-    0
-    0
-    0
-    1
-    1
-    0
-    0
-    0
-    1
-    0
-    0
-    0
-    1
-    0
-    1
-    0
-    0
-    1
-    0
-    0
-    0
-    0
-  ])
-  @vboBox = gl.createBuffer()
-  gl.bindBuffer(gl.ARRAY_BUFFER, @vboBox)
-  gl.bufferData(gl.ARRAY_BUFFER, b, gl.STATIC_DRAW)
- else gl.bindBuffer(gl.ARRAY_BUFFER, @vboBox)
-  gl.vertexAttribPointer(f.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0)
-  gl.vertexAttribPointer(f.lightAttribute, 4, gl.FLOAT, !1, 20, 0)
-  gl.vertexAttribPointer(f.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12)
-  gl.drawArrays(gl.LINES, 0, 24)
+  if undefined == @vboBox
+    b = new Float32Array([
+      0
+      0
+      0
+      0
+      0
+      0
+      1
+      0
+      0
+      0
+      0
+      1
+      0
+      0
+      0
+      1
+      1
+      0
+      0
+      0
+      1
+      1
+      0
+      0
+      0
+      1
+      0
+      0
+      0
+      0
+      1
+      0
+      0
+      0
+      0
+      0
+      0
+      0
+      0
+      0
+      0
+      0
+      1
+      0
+      0
+      0
+      1
+      1
+      0
+      0
+      0
+      1
+      1
+      0
+      0
+      1
+      1
+      1
+      0
+      0
+      1
+      1
+      1
+      0
+      0
+      1
+      0
+      1
+      0
+      0
+      1
+      0
+      1
+      0
+      0
+      0
+      0
+      1
+      0
+      0
+      0
+      0
+      1
+      0
+      0
+      0
+      0
+      0
+      0
+      0
+      1
+      1
+      1
+      0
+      0
+      1
+      1
+      0
+      0
+      0
+      0
+      1
+      1
+      0
+      0
+      0
+      1
+      0
+      0
+      0
+      1
+      0
+      1
+      0
+      0
+      1
+      0
+      0
+      0
+      0
+    ])
+    @vboBox = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, @vboBox)
+    gl.bufferData(gl.ARRAY_BUFFER, b, gl.STATIC_DRAW)
+  else
+    gl.bindBuffer(gl.ARRAY_BUFFER, @vboBox)
+    gl.vertexAttribPointer(f.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0)
+    gl.vertexAttribPointer(f.lightAttribute, 4, gl.FLOAT, !1, 20, 0)
+    gl.vertexAttribPointer(f.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12)
+    gl.drawArrays(gl.LINES, 0, 24)
   return
 
 gl = undefined
