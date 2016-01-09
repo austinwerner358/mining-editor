@@ -6666,20 +6666,6 @@ Mob.prototype.render = function() {
         this.shapeVbo), gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0), gl.vertexAttribPointer(b.lightAttribute, 4, gl.FLOAT, !1, 20, 0), gl.vertexAttribPointer(b.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12), gl.drawArrays(gl.TRIANGLES, 0, 36)))
 };
 
-function Player(b, f, c) {
-    this.pos = b || [0, 0, 0];
-    this.rot = f || [0, 0];
-    this.up = c || [0, 1, 0];
-    this.eyePos = [0, 1.65, 0];
-    this.przesx = 8;
-    this.przesy = 1;
-    this.przesz = 8
-}
-Player.prototype = Mob.prototype;
-Player.prototype.shape = new Float32Array([-0.3, 0.01, -0.3, 0, 0, -0.3, 0.01, 0.3, 0, 0, -0.3, 1.8, 0.3, 0, 0, 0.3, 1.8, -0.3, 0, 0, -0.3, 0.01, -0.3, 0, 0, -0.3, 1.8, -0.3, 0, 0, 0.3, 0.01, 0.3, 0, 0, -0.3, 0.01, -0.3, 0, 0, 0.3, 0.01, -0.3, 0, 0, 0.3, 1.8, -0.3, 0, 0, 0.3, 0.01, -0.3, 0, 0, -0.3, 0.01, -0.3, 0, 0, -0.3, 0.01, -0.3, 0, 0, -0.3, 1.8, 0.3, 0, 0, -0.3, 1.8, -0.3, 0, 0, 0.3, 0.01, 0.3, 0, 0, -0.3, 0.01, 0.3, 0, 0, -0.3, 0.01, -0.3, 0, 0, -0.3, 1.8, 0.3, 0, 0, -0.3, 0.01, 0.3, 0, 0, 0.3, 0.01, 0.3, 0, 0, 0.3, 1.8, 0.3, 0, 0, 0.3, 0.01, -0.3, 0, 0, 0.3, 1.8, -0.3, 0, 0, 0.3, 0.01, -0.3, 0, 0, 0.3, 1.8, 0.3, 0, 0,
-    0.3, 0.01, 0.3, 0, 0, 0.3, 1.8, 0.3, 0, 0, 0.3, 1.8, -0.3, 0, 0, -0.3, 1.8, -0.3, 0, 0, 0.3, 1.8, 0.3, 0, 0, -0.3, 1.8, -0.3, 0, 0, -0.3, 1.8, 0.3, 0, 0, 0.3, 1.8, 0.3, 0, 0, -0.3, 1.8, 0.3, 0, 0, 0.3, 0.01, 0.3, 0, 0
-]);
-
 function Pointer() {}
 Pointer.prototype.render = function() {
     var b = gluu.lineShader;
@@ -7027,7 +7013,6 @@ function webGLStart() {
     gl.enable(gl.DEPTH_TEST);
     initTextures();
     initBlocks();
-    player = new Player;
     "CameraGod" === settings.cameraType ? camera = new CameraGod(settings.pos, settings.rot, [0, 1, 0]) : "Camera" === settings.cameraType ? camera = new Camera(settings.pos, settings.rot, [0, 1, 0]) : (player.setPosRot([settings.pos[0], settings.pos[1], settings.pos[2]], [settings.rot[0], settings.rot[1]]), camera = new CameraPlayer(player));
     camera.sensitivity = 2 * settings.sensitivity;
     var b;
