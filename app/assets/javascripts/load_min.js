@@ -6635,37 +6635,6 @@ Chunk.prototype.getBuffer = function(b) {
     return 0 < punkty1[0].o ? new Float32Array(punkty1[0].d.buffer, 0, punkty1[0].o) : !1
 };
 
-function Mob(b, f, c) {
-    this.pos = b || [0, 0, 0];
-    this.rot = f || [0, 0];
-    this.up = c || [0, 1, 0];
-    this.eyePos = [0, 0, 0];
-    this.przesz = this.przesy = this.przesx = 0
-}
-Mob.prototype.getEye = function() {
-    return [this.pos[0] + this.eyePos[0], this.pos[1] + this.eyePos[1], this.pos[2] + this.eyePos[2]]
-};
-Mob.prototype.getPos = function() {
-    return this.pos
-};
-Mob.prototype.setPosRot = function(b, f) {
-    void 0 !== b && (this.pos[0] = b[0], this.pos[1] = b[1], this.pos[2] = b[2]);
-    void 0 !== f && (this.rot[0] = f[0], this.rot[1] = f[1], this.rot[2] = f[2])
-};
-Mob.prototype.getTarget = function() {
-    return [this.pos[0] + this.eyePos[0] + Math.sin(this.rot[0]) * Math.cos(this.rot[1]), this.pos[1] + this.eyePos[1] + 1 * Math.sin(this.rot[1]), this.pos[2] + this.eyePos[2] + Math.cos(this.rot[0]) * Math.cos(this.rot[1])]
-};
-Mob.prototype.render = function() {
-    var b = gluu.lineShader;
-    gl.useProgram(b);
-    mat4.identity(gluu.mvMatrix);
-    mat4.translate(gluu.mvMatrix, gluu.mvMatrix, [this.pos[0], this.pos[1], this.pos[2]]);
-    gl.uniformMatrix4fv(b.pMatrixUniform, !1, gluu.pMatrix);
-    gl.uniformMatrix4fv(b.mvMatrixUniform, !1, gluu.mvMatrix);
-    void 0 !== this.shape && (void 0 === this.shapeVbo ? (this.shapeVbo = gl.createBuffer(), gl.bindBuffer(gl.ARRAY_BUFFER, this.shapeVbo), gl.bufferData(gl.ARRAY_BUFFER, this.shape, gl.STATIC_DRAW)) : (gl.bindBuffer(gl.ARRAY_BUFFER,
-        this.shapeVbo), gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0), gl.vertexAttribPointer(b.lightAttribute, 4, gl.FLOAT, !1, 20, 0), gl.vertexAttribPointer(b.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12), gl.drawArrays(gl.TRIANGLES, 0, 36)))
-};
-
 function Pointer() {}
 Pointer.prototype.render = function() {
     var b = gluu.lineShader;
