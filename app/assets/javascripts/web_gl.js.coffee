@@ -1,5 +1,4 @@
 window.webGLStart = ->
-  console.log('lslsllsls')
   b = undefined
   camera = undefined
   firstTime = undefined
