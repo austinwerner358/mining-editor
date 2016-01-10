@@ -6664,6 +6664,9 @@ SelectionBox.prototype.render = function(b) {
         4, gl.FLOAT, !1, 20, 0), gl.vertexAttribPointer(f.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12), gl.drawArrays(gl.LINES, 0, 24))
 };
 
+var h_u_d = {};
+h_u_d.gameStateHtml = null;
+
 var gl, gluu = new Gluu,
     glCanvas, lastTarget = !1,
     codeEditor = null,
@@ -6679,7 +6682,6 @@ var gl, gluu = new Gluu,
     selectE = !1,
     selectT = 0,
     selectTt = 1,
-    textDiv = null,
     useBlock = {},
     punkty1 = [],
     pointer = new Pointer,

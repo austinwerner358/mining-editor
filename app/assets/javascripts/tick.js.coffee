@@ -6,10 +6,10 @@ window.tick = ->
   f = window.camera.getPos()
   c = window.camera.getRot()
   if 0 < Math.floor(b / 100) - Math.floor(window.lastTime / 100)
-    window.textDiv.innerHTML = 'x: ' + f[0].toFixed(2) + '  y: ' + f[1].toFixed(2) + '  z: ' + f[2].toFixed(2)
-    window.textDiv.innerHTML += '<br/>FPS: ' + Math.floor(fps)
-    window.textDiv.innerHTML += '<br/>Block: ' + window.useBlock.id + '-' + window.useBlock.data + '  : ' + (window.block[window.useBlock.id][window.useBlock.data].name or window.block[window.useBlock.id].name or window.block[window.useBlock.id][window.useBlock.data].defaultTexture or '')
-    window.textDiv.innerHTML += '<br/>Est. Gpu Mem: ' + Math.floor(8 * gpuMem / 1048576) + ' M'
+    h_u_d.gameStateHtml.innerHTML = 'x: ' + f[0].toFixed(2) + '  y: ' + f[1].toFixed(2) + '  z: ' + f[2].toFixed(2)
+    h_u_d.gameStateHtml.innerHTML += '<br/>FPS: ' + Math.floor(fps)
+    h_u_d.gameStateHtml.innerHTML += '<br/>Block: ' + window.useBlock.id + '-' + window.useBlock.data + '  : ' + (window.block[window.useBlock.id][window.useBlock.data].name or window.block[window.useBlock.id].name or window.block[window.useBlock.id][window.useBlock.data].defaultTexture or '')
+    h_u_d.gameStateHtml.innerHTML += '<br/>Est. Gpu Mem: ' + Math.floor(8 * gpuMem / 1048576) + ' M'
   window.newSec = !1
   window.lastTime % 1e3 > b % 1e3 and window.newSec = !0
   window.sec++

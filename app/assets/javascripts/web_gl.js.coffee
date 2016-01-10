@@ -5,7 +5,7 @@ window.webGLStart = ->
   glCanvas = undefined
   lastTime = undefined
   mcWorld = undefined
-  textDiv = undefined
+  gameStateHtml = undefined
   glCanvas = document.getElementById('webgl')
   glCanvas.width = window.innerWidth
   glCanvas.height = window.innerHeight
@@ -20,7 +20,7 @@ window.webGLStart = ->
   window.addEventListener 'mouseup', mouseUp, !0
   window.addEventListener 'mousewheel', mouseWheel, !1
   window.addEventListener 'DOMMouseScroll', mouseWheel, !1
-  textDiv = document.getElementById('text')
+  gameStateHtml = document.getElementById('game-state')
   gluu.initGL glCanvas
   gluu.initStandardShader settings.worldShader
   gluu.initLineShader()
@@ -81,7 +81,7 @@ window.webGLStart = ->
   window.glCanvas = glCanvas
   window.lastTime = lastTime
   window.mcWorld = mcWorld
-  window.textDiv = textDiv
+  h_u_d.gameStateHtml = gameStateHtml
 
   tick()
   return
