@@ -83,5 +83,5 @@ window.webGLStart = ->
   window.mcWorld = mcWorld
   h_u_d.gameStateHtml = gameStateHtml
 
-  tick()
+  chronometer.tick()
   return

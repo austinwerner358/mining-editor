@@ -4026,7 +4026,7 @@ RegionLib.prototype.render = function() {
             m[0] = 0;
             m[1] = 0;
             for (B = -1; B < e[A] * e[A] * 4; B++)
-                if (-1 !== B && (m = spiralLoop(B)), l = t + m[0], p = a + m[1], q = 1E4 * l + p, -1 === this.rchunk[q] || -2 === this.rchunk[q]) this.rchunk[q].timestamp = lastTime;
+                if (-1 !== B && (m = spiralLoop(B)), l = t + m[0], p = a + m[1], q = 1E4 * l + p, -1 === this.rchunk[q] || -2 === this.rchunk[q]) this.rchunk[q].timestamp = chronometer.lastTime;
                 else if (c = x[0] - (16 * l + 8), d = x[2] - (16 * p + 8), f = Math.sqrt(c * c + d * d), !(f > 16 * e[A])) {
                 if (64 < f) {
                     var v = camera.getTarget(),
@@ -4041,8 +4041,8 @@ RegionLib.prototype.render = function() {
                     v = Math.sqrt(2 * v * v * (1 - c));
                     if (0 < c && 16 < v) continue
                 }
-                void 0 === this.rchunk[q] ? 1 < iLag &&
-                    (iLag -= 1, this.requestChunk(l, p)) : (this.rchunk[q].timestamp = lastTime, (62 <= x[1] || 160 > f) && this.rchunk[q].render(A, b, 0), 62 > x[1] && 96 > f ? this.rchunk[q].render(A, b, 1) : 64 > f && this.rchunk[q].render(A, b, 1))
+                void 0 === this.rchunk[q] ? 1 < chronometer.iLag &&
+                    (chronometer.iLag -= 1, this.requestChunk(l, p)) : (this.rchunk[q].timestamp = chronometer.lastTime, (62 <= x[1] || 160 > f) && this.rchunk[q].render(A, b, 0), 62 > x[1] && 96 > f ? this.rchunk[q].render(A, b, 1) : 64 > f && this.rchunk[q].render(A, b, 1))
             }
         }
     }
@@ -4066,7 +4066,7 @@ RegionLib.prototype.renderSelection = function() {
                 q = Math.floor(f[2] / 16);
             c[0] = 0;
             c[1] = 0;
-            for (x = -1; 24 > x; x++) - 1 !== x && (c = spiralLoop(x)), d = p + c[0], e = q + c[1], m = 1E4 * d + e, -1 === this.rchunk[m] || -2 === this.rchunk[m] ? this.rchunk[m].timestamp = lastTime : void 0 === this.rchunk[m] ? 1 < iLag && (iLag -= 1, this.requestChunk(d, e)) : (this.rchunk[m].timestamp = lastTime, this.rchunk[m].render(l, b, 0), this.rchunk[m].render(l, b, 1))
+            for (x = -1; 24 > x; x++) - 1 !== x && (c = spiralLoop(x)), d = p + c[0], e = q + c[1], m = 1E4 * d + e, -1 === this.rchunk[m] || -2 === this.rchunk[m] ? this.rchunk[m].timestamp = chronometer.lastTime : void 0 === this.rchunk[m] ? 1 < chronometer.iLag && (chronometer.iLag -= 1, this.requestChunk(d, e)) : (this.rchunk[m].timestamp = chronometer.lastTime, this.rchunk[m].render(l, b, 0), this.rchunk[m].render(l, b, 1))
         }
         q = new Uint8Array(4);
         gl.readPixels(Math.floor(gl.viewportWidth /
@@ -4788,12 +4788,12 @@ Chunk.prototype.getSunLightValue = function(b, f, c) {
 Chunk.prototype.render = function(b, f, c) {
     if (this.visible && (0 !== c || -1 !== this.isInit) && (1 !== c || -1 !== this.isInit1)) {
         if (0 === c && 0 === this.isInit)
-            if (1 < iLag) {
-                if (iLag -= 1, !this.init2(0, !0)) return
+            if (1 < chronometer.iLag) {
+                if (chronometer.iLag -= 1, !this.init2(0, !0)) return
             } else return;
         if (1 === c && 0 === this.isInit1)
-            if (1 < iLag) {
-                if (iLag -= 1, !this.init2(1, !0)) return
+            if (1 < chronometer.iLag) {
+                if (chronometer.iLag -= 1, !this.init2(1, !0)) return
             } else return;
         gl.bindTexture(gl.TEXTURE_2D, blockTexture);
         void 0 !== this.vbo[c] && void 0 !== this.vbo[c][b] && (gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo[c][b]), gl.vertexAttribPointer(f.vertexPositionAttribute, 3, gl.FLOAT, !1, 36, 0), gl.vertexAttribPointer(f.textureCoordAttribute,
@@ -6667,17 +6667,19 @@ SelectionBox.prototype.render = function(b) {
 var h_u_d = {};
 h_u_d.gameStateHtml = null;
 
+var chronometer = {};
+chronometer.sec = 0;
+chronometer.newSec = !1;
+chronometer.iLag = 0;
+chronometer.lastTime = 0;
+chronometer.firstTime = 0;
+chronometer.fps = 0;
+
 var gl, gluu = new Gluu,
     glCanvas, lastTarget = !1,
     codeEditor = null,
     biomes, mcWorld, block, blockTexture, blockSelection, camera, initTexture = !1,
     gpuMem = 0,
-    lastTime = 0,
-    firstTime = 0,
-    fps = 0,
-    newSec = !1,
-    sec = 0,
-    iLag = 0,
     click = 0,
     selectE = !1,
     selectT = 0,
@@ -6768,7 +6770,7 @@ function useNextBlockData(b) {
 }
 
 function keyDown(b) {
-    if (lastTarget === glCanvas) switch (camera.keyDown(b, fps), b.keyCode) {
+    if (lastTarget === glCanvas) switch (camera.keyDown(b, chronometer.fps), b.keyCode) {
         case 81:
             0 === camera.upY && (camera.upY = 200);
             break;
@@ -6828,18 +6830,18 @@ function keyUp(b) {
 
 function mouseDown(b) {
     lastTarget = b.target;
-    lastTarget === glCanvas && (camera.starex = b.clientX, camera.starey = b.clientY, settings.edit && (camera.autoMove && (selectE = !0), selectT = 0 === b.button ? 0 : selectTt), camera.mouseDown(fps))
+    lastTarget === glCanvas && (camera.starex = b.clientX, camera.starey = b.clientY, settings.edit && (camera.autoMove && (selectE = !0), selectT = 0 === b.button ? 0 : selectTt), camera.mouseDown(chronometer.fps))
 }
 
 function mouseUp(b) {
-    lastTarget === glCanvas && camera.mouseUp(fps)
+    lastTarget === glCanvas && camera.mouseUp(chronometer.fps)
 }
 
 function mouseMove(b) {
     if (lastTarget === glCanvas) {
         var f = b.clientX;
         b = b.clientY;
-        camera.mouseMove(camera.starex - f, camera.starey - b, fps);
+        camera.mouseMove(camera.starex - f, camera.starey - b, chronometer.fps);
         camera.starex = f;
         camera.starey = b
     }

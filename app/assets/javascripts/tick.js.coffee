@@ -1,24 +1,24 @@
-window.tick = ->
+chronometer.tick = ->
   `var d`
-  window.requestAnimFrame tick
+  window.requestAnimFrame chronometer.tick
   b = (new Date).getTime()
-  window.fps = 1e3 / (b - window.lastTime)
+  chronometer.fps = 1e3 / (b - chronometer.lastTime)
   f = window.camera.getPos()
   c = window.camera.getRot()
-  if 0 < Math.floor(b / 100) - Math.floor(window.lastTime / 100)
+  if 0 < Math.floor(b / 100) - Math.floor(chronometer.lastTime / 100)
     h_u_d.gameStateHtml.innerHTML = 'x: ' + f[0].toFixed(2) + '  y: ' + f[1].toFixed(2) + '  z: ' + f[2].toFixed(2)
-    h_u_d.gameStateHtml.innerHTML += '<br/>FPS: ' + Math.floor(fps)
+    h_u_d.gameStateHtml.innerHTML += '<br/>FPS: ' + Math.floor(chronometer.fps)
     h_u_d.gameStateHtml.innerHTML += '<br/>Block: ' + window.useBlock.id + '-' + window.useBlock.data + '  : ' + (window.block[window.useBlock.id][window.useBlock.data].name or window.block[window.useBlock.id].name or window.block[window.useBlock.id][window.useBlock.data].defaultTexture or '')
     h_u_d.gameStateHtml.innerHTML += '<br/>Est. Gpu Mem: ' + Math.floor(8 * gpuMem / 1048576) + ' M'
-  window.newSec = !1
-  window.lastTime % 1e3 > b % 1e3 and window.newSec = !0
-  window.sec++
+  chronometer.newSec = !1
+  chronometer.lastTime % 1e3 > b % 1e3 and chronometer.newSec = !0
+  chronometer.sec++
   d = !1
-  window.lastTime % 100 > b % 100 and (d = !0)
-  window.lastTime = b
-  window.camera.updatePosition fps
-  window.iLag += window.settings.loadSpeed
-  window.iLag > window.settings.loadLag and (window.iLag = window.settings.loadLag)
+  chronometer.lastTime % 100 > b % 100 and (d = !0)
+  chronometer.lastTime = b
+  window.camera.updatePosition chronometer.fps
+  chronometer.iLag += window.settings.loadSpeed
+  chronometer.iLag > window.settings.loadLag and (chronometer.iLag = window.settings.loadLag)
   if window.settings.edit and d and (window.blockSelection = window.mcWorld.renderSelection()) and window.selectE
     b = window.blockSelection
     window.selectE = !1
@@ -72,8 +72,8 @@ window.tick = ->
   window.mcWorld.render()
   window.settings.edit and window.selectBox.render(window.blockSelection)
   window.pointer.render()
-  window.newSec and window.settings.setHashURL(f, c, window.camera.name)
-  10 == window.sec and window.sec = 0
+  chronometer.newSec and window.settings.setHashURL(f, c, window.camera.name)
+  10 == chronometer.sec and chronometer.sec = 0
   window.mcWorld.deleteBuffers()
   return
 
