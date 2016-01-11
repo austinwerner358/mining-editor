@@ -1,4 +1,19 @@
+intersection3D = function() {
+  this.d = new Float32Array(3);
+  this.e1 = new Float32Array(3);
+  this.e2 = new Float32Array(3);
+  this.h = new Float32Array(3);
+  this.s = new Float32Array(3);
+  this.q = new Float32Array(3);
+  this.v0 = new Float32Array(3);
+  this.v1 = new Float32Array(3);
+  this.v2 = new Float32Array(3);
+  this.p0 = new Float32Array(3);
+  this.p1 = new Float32Array(3);
+  this.p2 = new Float32Array(3);
+};
 
+Intersection3D = new intersection3D
 
 vector = function(b, f, c) {
     b[0] = f[0] - c[0];
