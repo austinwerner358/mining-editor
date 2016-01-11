@@ -3393,59 +3393,6 @@ NBT = {
         return f
     }
 };
-var Intersection3D = {};
-Intersection3D.d = new Float32Array(3);
-Intersection3D.e1 = new Float32Array(3);
-Intersection3D.e2 = new Float32Array(3);
-Intersection3D.h = new Float32Array(3);
-Intersection3D.s = new Float32Array(3);
-Intersection3D.q = new Float32Array(3);
-Intersection3D.v0 = new Float32Array(3);
-Intersection3D.v1 = new Float32Array(3);
-Intersection3D.v2 = new Float32Array(3);
-Intersection3D.p0 = new Float32Array(3);
-Intersection3D.p1 = new Float32Array(3);
-Intersection3D.p2 = new Float32Array(3);
-Intersection3D.vector = function(b, f, c) {
-    b[0] = f[0] - c[0];
-    b[1] = f[1] - c[1];
-    b[2] = f[2] - c[2]
-};
-Intersection3D.dot = function(b, f) {
-    return b[0] * f[0] + b[1] * f[1] + b[2] * f[2]
-};
-Intersection3D.cross = function(b, f, c) {
-    b[0] = f[1] * c[2] - f[2] * c[1];
-    b[1] = f[2] * c[0] - f[0] * c[2];
-    b[2] = f[0] * c[1] - f[1] * c[0]
-};
-Intersection3D.shapeIntersectsShape = function(b, f, c, d, e) {
-    var m, l, p, q, x, A, t, a, B;
-    for (m = Intersection3D.v0, l = Intersection3D.v1, p = Intersection3D.v2, q = Intersection3D.p0, x = Intersection3D.p1, A = Intersection3D.p2, t = 0, a = 0; a < b.length; a += 3 * c)
-        for (B = 0; B < f.length; B += 3 * d) m[0] = b[a], m[1] = b[a + 1], m[2] = b[a + 2], l[0] = b[a + c], l[1] = b[a + 1 + c], l[2] = b[a + 2 + c], p[0] = b[a + 2 * c], p[1] = b[a + 1 + 2 * c], p[2] = b[a + 2 + 2 * c], q[0] = f[B] + e[0], q[1] = f[B + 1] + e[1], q[2] = f[B + 2] + e[2], x[0] = f[B + d] + e[0], x[1] = f[B + 1 + d] + e[1], x[2] = f[B + 2 + d] + e[2], A[0] = f[B + 2 * d] + e[0], A[1] = f[B + 1 + 2 * d] + e[1],
-            A[2] = f[B + 2 + 2 * d] + e[2], t += Intersection3D.segmentIntersectsTriangle(q, x, m, l, p), t += Intersection3D.segmentIntersectsTriangle(q, A, m, l, p), t += Intersection3D.segmentIntersectsTriangle(x, A, m, l, p), t += Intersection3D.segmentIntersectsTriangle(m, l, q, x, A), t += Intersection3D.segmentIntersectsTriangle(m, p, q, x, A), t += Intersection3D.segmentIntersectsTriangle(l, p, q, x, A);
-    return t
-};
-Intersection3D.segmentIntersectsTriangle = function(b, f, c, d, e) {
-    Intersection3D.d[0] = f[0] - b[0];
-    Intersection3D.d[1] = f[1] - b[1];
-    Intersection3D.d[2] = f[2] - b[2];
-    Intersection3D.vector(Intersection3D.e1, d, c);
-    Intersection3D.vector(Intersection3D.e2, e, c);
-    Intersection3D.cross(Intersection3D.h, Intersection3D.d, Intersection3D.e2);
-    f = Intersection3D.e1[0] * Intersection3D.h[0] + Intersection3D.e1[1] * Intersection3D.h[1] + Intersection3D.e1[2] * Intersection3D.h[2];
-    if (-1E-5 < f && 1E-5 > f) return 0;
-    f = 1 / f;
-    Intersection3D.vector(Intersection3D.s,
-        b, c);
-    b = f * (Intersection3D.s[0] * Intersection3D.h[0] + Intersection3D.s[1] * Intersection3D.h[1] + Intersection3D.s[2] * Intersection3D.h[2]);
-    if (0 > b || 1 < b) return 0;
-    Intersection3D.cross(Intersection3D.q, Intersection3D.s, Intersection3D.e1);
-    c = f * (Intersection3D.d[0] * Intersection3D.q[0] + Intersection3D.d[1] * Intersection3D.q[1] + Intersection3D.d[2] * Intersection3D.q[2]);
-    if (0 > c || 1 < b + c) return 0;
-    b = f * (Intersection3D.e2[0] * Intersection3D.q[0] + Intersection3D.e2[1] * Intersection3D.q[1] + Intersection3D.e2[2] * Intersection3D.q[2]);
-    return 1E-5 < b && 1 >= b ? 1 : 0
-};
 
 function Camera(b, f, c) {
     this.name = "Camera";
@@ -4111,7 +4058,7 @@ RegionLib.prototype.testCollisions = function() {
                     if (void 0 === this.rchunk[l]) return !0;
                     l = this.rchunk[l].getBuffer([Math.floor(b[0] - 16 * e), Math.floor(b[1]), Math.floor(b[2] - 16 * m)]);
                     if (!1 !== l) var p = 0,
-                        p = p + Intersection3D.shapeIntersectsShape(l, player.shape,
+                        p = p + shapeIntersectsShape(l, player.shape,
                             9, 5, b),
                         d = d + p
                 }
@@ -6674,6 +6621,20 @@ chronometer.iLag = 0;
 chronometer.lastTime = 0;
 chronometer.firstTime = 0;
 chronometer.fps = 0;
+
+var Intersection3D = {};
+Intersection3D.d = new Float32Array(3);
+Intersection3D.e1 = new Float32Array(3);
+Intersection3D.e2 = new Float32Array(3);
+Intersection3D.h = new Float32Array(3);
+Intersection3D.s = new Float32Array(3);
+Intersection3D.q = new Float32Array(3);
+Intersection3D.v0 = new Float32Array(3);
+Intersection3D.v1 = new Float32Array(3);
+Intersection3D.v2 = new Float32Array(3);
+Intersection3D.p0 = new Float32Array(3);
+Intersection3D.p1 = new Float32Array(3);
+Intersection3D.p2 = new Float32Array(3);
 
 var gl, gluu = new Gluu,
     glCanvas, lastTarget = !1,
