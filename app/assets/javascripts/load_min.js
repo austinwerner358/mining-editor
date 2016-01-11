@@ -4058,7 +4058,7 @@ RegionLib.prototype.testCollisions = function() {
                     if (void 0 === this.rchunk[l]) return !0;
                     l = this.rchunk[l].getBuffer([Math.floor(b[0] - 16 * e), Math.floor(b[1]), Math.floor(b[2] - 16 * m)]);
                     if (!1 !== l) var p = 0,
-                        p = p + shapeIntersectsShape(l, player.shape,
+                        p = p + intersection3D.shapeIntersectsShape(l, player.shape,
                             9, 5, b),
                         d = d + p
                 }
