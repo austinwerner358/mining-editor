@@ -1,7 +1,20 @@
 window.initBlocks = ->
   window.texLib = JSON.parse(Readfile.readTxt('config/textures.json'))
   console.log window.texLib
-  window.block = JSON.parse(Readfile.readTxt('config/blocks.json'))
+#  window.block = JSON.parse(Readfile.readTxt('config/blocks.json'))
+#  console.log(window.block)
+  blocksResponse = $.ajax(
+    type: 'GET'
+    url: '/blocks.json'
+    # data: queryParams
+    dataType: 'html'
+    context: document.body
+    global: false
+    async: false
+    success: (data) ->
+      data
+  ).responseText
+  window.block = JSON.parse(blocksResponse)
   window.block.length = 300
   window.biomes = JSON.parse(Readfile.readTxt('config/biomes.json'))
   window.shapeLib = JSON.parse(Readfile.readTxt('config/shapes.json'))
