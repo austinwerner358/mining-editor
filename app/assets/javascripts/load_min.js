@@ -6129,29 +6129,37 @@ chronometer.lastTime = 0;
 chronometer.firstTime = 0;
 chronometer.fps = 0;
 
-// var Intersection3D = {};
-// Intersection3D.d = new Float32Array(3);
-// Intersection3D.e1 = new Float32Array(3);
-// Intersection3D.e2 = new Float32Array(3);
-// Intersection3D.h = new Float32Array(3);
-// Intersection3D.s = new Float32Array(3);
-// Intersection3D.q = new Float32Array(3);
-// Intersection3D.v0 = new Float32Array(3);
-// Intersection3D.v1 = new Float32Array(3);
-// Intersection3D.v2 = new Float32Array(3);
-// Intersection3D.p0 = new Float32Array(3);
-// Intersection3D.p1 = new Float32Array(3);
-// Intersection3D.p2 = new Float32Array(3);
+function superkeyDown(e) {
+    window.controls.keyDown(e);
+}
+function superkeyUp(e) {
+    window.controls.keyUp(e);
+}
+function supermouseDown(e) {
+    window.controls.mouseDown(e);
+}
+function supermouseUp(e) {
+    window.controls.mouseUp(e);
+}
+// function supermouseMove(e) {
+//     window.controls.mouseMove(e);
+// }
+function superpointerMove(e) {
+    window.controls.pointerMove(e);
+}
+function supermouseWheel(e) {
+    window.controls.mouseWheel(e);
+}
+function superpointerChange(e) {
+    window.controls.pointerChange(e);
+}
 
 var gl, gluu = new Gluu,
-    glCanvas, lastTarget = !1,
+    glCanvas,
     codeEditor = null,
     biomes, mcWorld, block, blockTexture, blockSelection, camera, initTexture = !1,
     gpuMem = 0,
     click = 0,
-    selectE = !1,
-    selectT = 0,
-    selectTt = 1,
     useBlock = {},
     punkty1 = [],
     pointer = new Pointer,
@@ -6198,99 +6206,6 @@ function useNextBlockData(b) {
         16 === b.data && (b.data = -1)
     }
     b.data = 0
-}
-
-function keyDown(b) {
-    if (lastTarget === glCanvas) switch (camera.keyDown(b, chronometer.fps), b.keyCode) {
-        case 81:
-            0 === camera.upY && (camera.upY = 200);
-            break;
-        case 90:
-            useNextBlock(useBlock);
-            break;
-        case 88:
-            usePrevBlock(useBlock);
-            break;
-        case 67:
-            useNextBlockData(useBlock);
-            break;
-        case 49:
-            selectTt = 0;
-            break;
-        case 50:
-            selectTt = 1;
-            break;
-        case 51:
-            selectTt = 2;
-            break;
-        case 52:
-            selectTt = 3;
-            break;
-        case 80:
-            mcWorld.save();
-            break;
-        case 71:
-            b = document.getElementById("settings");
-            "none" === b.style.display ? b.style.display = "block" : "block" === b.style.display && (b.style.display =
-                "none");
-            void 0 !== window.ace && settings.edit && (null === codeEditor && (codeEditor = ace.edit("editor"), codeEditor.setTheme("ace/theme/tomorrow_night"), codeEditor.getSession().setMode("ace/mode/javascript"), codeEditor.setValue("var pos = camera.getXYZPos();\nvar block = { id: 17, data: 0};\n\nfor(var i = -2; i < 3; i++)\n    for(var j = -2; j < 3; j++){\n    if(i > -2 && i < 2 && j > -2 && j < 2) continue;\n    useNextBlockData(block);\n    mcWorld.setBlock(pos.x+i,pos.y,pos.z+j,block.id,block.data);\n}\n\nmcWorld.updateChunks();")),
-                b = document.getElementById("tools"), "none" === b.style.display ? b.style.display = "block" : "block" === b.style.display && (b.style.display = "none"));
-            document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock;
-            document.exitPointerLock();
-            camera.moveX = 0;
-            camera.moveY = 0;
-            break;
-        case 72:
-            if (void 0 === window.ace) break;
-            if (!settings.edit) break;
-            executeJS();
-            break;
-        case 77:
-            window.localStorage.clear();
-            break;
-        case 86:
-            console.log(camera.name), "CameraGod" === camera.name ? (player.setPosRot(camera.getEye(),
-                camera.getRot()), camera = window.cameraPlayer.updatePos(player)) : "CameraPlayer" === camera.name && (camera = window.cameraGod.updatePos(camera.getEye(), camera.getRot(), [0, 1, 0])), camera.sensitivity = 2 * settings.sensitivity
-            break;
-    }
-}
-
-function keyUp(b) {
-    lastTarget === glCanvas && camera.keyUp(b)
-}
-
-function mouseDown(b) {
-    lastTarget = b.target;
-    lastTarget === glCanvas && (camera.starex = b.clientX, camera.starey = b.clientY, settings.edit && (camera.autoMove && (selectE = !0), selectT = 0 === b.button ? 0 : selectTt), camera.mouseDown(chronometer.fps))
-}
-
-function mouseUp(b) {
-    lastTarget === glCanvas && camera.mouseUp(chronometer.fps)
-}
-
-function mouseMove(b) {
-    if (lastTarget === glCanvas) {
-        var f = b.clientX;
-        b = b.clientY;
-        camera.mouseMove(camera.starex - f, camera.starey - b, chronometer.fps);
-        camera.starex = f;
-        camera.starey = b
-    }
-}
-
-function pointerMove(b) {
-    var f = b.movementY || b.mozMovementY || b.webkitMovementY || 0;
-    camera.moveX -= b.movementX || b.mozMovementX || b.webkitMovementX || 0;
-    camera.moveY -= f
-}
-
-function mouseWheel(b) {
-    lastTarget === glCanvas && (b = window.event || b, 0 > Math.max(-1, Math.min(1, b.wheelDelta || -b.detail)) ? useNextBlock(useBlock) : usePrevBlock(useBlock))
-}
-
-function pointerChange(b) {
-    b = document.getElementById("webgl");
-    document.pointerLockElement === b || document.mozPointerLockElement === b || document.webkitPointerLockElement === b ? window.addEventListener("mousemove", pointerMove, !1) : (b.onclick = canvasOn, window.removeEventListener("mousemove", pointerMove, !1), camera.moveX = 0, camera.moveY = 0)
 }
 
 function windowResize() {

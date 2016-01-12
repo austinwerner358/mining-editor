@@ -19,11 +19,11 @@ chronometer.tick = ->
   window.camera.updatePosition chronometer.fps
   chronometer.iLag += window.settings.loadSpeed
   chronometer.iLag > window.settings.loadLag and (chronometer.iLag = window.settings.loadLag)
-  if window.settings.edit and d and (window.blockSelection = window.mcWorld.renderSelection()) and window.selectE
+  if window.settings.edit and d and (window.blockSelection = window.mcWorld.renderSelection()) and controls.selectE
     b = window.blockSelection
-    window.selectE = !1
+    controls.selectE = !1
     console.log('y: ' + b.y + ' z: ' + b.z + ' x: ' + b.x + ' chx: ' + b.chx + ' chz: ' + b.chz + ' side: ' + b.side)
-    switch window.selectT
+    switch controls.selectT
       when 0
         window.mcWorld.updateChunkBlock b.chx, b.chz, b.x, b.y, b.z, 0, 0
       when 1
