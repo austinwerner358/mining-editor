@@ -32,7 +32,7 @@ window.webGLStart = ->
   gl.blendFunc gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA
   gl.enable gl.DEPTH_TEST
   initTextures()
-  initBlocks()
+  window.initBlocks()
   if 'CameraGod' == settings.cameraType
     camera = new CameraGod(settings.pos, settings.rot, [
       0
@@ -85,3 +85,4 @@ window.webGLStart = ->
 
   chronometer.tick()
   return
+

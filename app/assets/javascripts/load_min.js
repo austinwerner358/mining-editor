@@ -6177,43 +6177,6 @@ function handleTextureLoaded(b, f) {
     initTexture = !0
 }
 
-function initBlocks() {
-    texLib = JSON.parse(Readfile.readTxt("config/textures.json"));
-    console.log(texLib);
-    block = JSON.parse(Readfile.readTxt("config/blocks.json"));
-    block.length = 300;
-    biomes = JSON.parse(Readfile.readTxt("config/biomes.json"));
-    shapeLib = JSON.parse(Readfile.readTxt("config/shapes.json"));
-    console.log(shapeLib);
-    texLib.texF = 1 / texLib.row;
-    var b = 0,
-        f = 0,
-        c = texLib.texF,
-        d = 0;
-    block.lightSource = new Uint8Array(block.length);
-    block.lightTransmission = new Float32Array(block.length);
-    var e, m, l;
-    for (e = 0; e < block.length; e++) {
-        void 0 === block[e] && (block[e] = {}, block[e].type = 0);
-        void 0 === block[e][0] && (block[e][0] = {}, block[e][0].type = 0);
-        block.lightSource[e] = block[e].lightSource || 0;
-        block.lightTransmission[e] = 1 === block[e].type ? block[e].lightTransmission || 0 : block[e].lightTransmission || 1;
-        for (m in block[e])
-            if ("mask" === m) block[e][m] = parseInt(block[e][m], 16);
-            else if (void 0 !== block[e][m].shapeName) {
-            block[e][m].shape = {};
-            for (l in shapeLib[block[e][m].shapeName])
-                for (block[e][m].shape[l] = [], void 0 !== block[e][m][l] ? (d = texLib.texture[block[e][m][l]], b = d % texLib.row,
-                        f = (d - b) / texLib.row) : void 0 !== block[e][m].defaultTexture && (d = texLib.texture[block[e][m].defaultTexture], b = d % texLib.row, f = (d - b) / texLib.row), block[e][m].shape[l] = new Float32Array(shapeLib[block[e][m].shapeName][l].length), d = 0; d < shapeLib[block[e][m].shapeName][l].length; d += 5) block[e][m].shape[l][d] = shapeLib[block[e][m].shapeName][l][d], block[e][m].shape[l][d + 1] = shapeLib[block[e][m].shapeName][l][d + 1], block[e][m].shape[l][d + 2] = shapeLib[block[e][m].shapeName][l][d + 2], block[e][m].shape[l][d + 3] = c * (shapeLib[block[e][m].shapeName][l][d +
-                    3
-                ] + b), block[e][m].shape[l][d + 4] = c * (shapeLib[block[e][m].shapeName][l][d + 4] + f)
-        }
-    }
-    useBlock.id = 1;
-    useBlock.data = 0;
-    console.log(block)
-}
-
 function useNextBlock(b) {
     b.id === block.length - 1 && (b.id = 0);
     for (; 0 === block[++b.id].type;) b.id === block.length - 1 && (b.id = 0);
