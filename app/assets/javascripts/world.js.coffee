@@ -72,7 +72,7 @@ RegionLib::updateChunks = ->
   b = (new Date).getTime()
   f = 0
   c = undefined
-  for c of @rchunk
+  for c,v of @rchunk
     undefined != @rchunk[c] and -1 != @rchunk[c] and -2 != @rchunk[c] and !0 == @rchunk[c].needsUpdate and @rchunk[c].update()
     f++
   c = (new Date).getTime()
@@ -83,7 +83,7 @@ RegionLib::deleteBuffers = ->
   b = (new Date).getTime()
   f = 0
   c = undefined
-  for c of @rchunk
+  for c,v of @rchunk
     undefined != @rchunk[c] and -1 != @rchunk[c] and -2 != @rchunk[c] and !0 != @rchunk[c].changed and (1 == @rchunk[c].isInit or 1 == @rchunk[c].isInit1) and @rchunk[c].timestamp + 1e4 < b and @rchunk[c].deleteBuffers()
     @rchunk[c] = undefined
     f++
@@ -98,7 +98,7 @@ RegionLib::render = ->
   `var d`
   `var v`
   `var f`
-  if initTexture
+  if window.initTexture
     b = window.gluu.standardShader
     gluu.gl.useProgram b
     gluu.gl.viewport 0, 0, gluu.gl.viewportWidth, gluu.gl.viewportHeight
@@ -147,54 +147,53 @@ RegionLib::render = ->
       m[1] = 0
       B = -1
       while B < e[A] * e[A] * 4
-        if -1 != B and (m = spiralLoop(B))
-          l = t + m[0]
-          p = a + m[1]
-          q = 1e4 * l + p
-          -1 == @rchunk[q] or -2 == @rchunk[q]
-
+        -1 != B and (m = window.spiralLoop(B))
+        l = t + m[0]
+        p = a + m[1]
+        q = 1e4 * l + p
+        if -1 == @rchunk[q] or -2 == @rchunk[q]
           @rchunk[q].timestamp = chronometer.lastTime
-        else if c = x[0] - (16 * l + 8)
+        else
+          c = x[0] - (16 * l + 8)
           d = x[2] - (16 * p + 8)
           f = Math.sqrt(c * c + d * d)
-          !(f > 16 * e[A])
-
-          if 64 < f
-            v = camera.getTarget()
-            v = [
-              x[0] - (v[0])
-              x[2] - (v[2])
-            ]
-            d = [
-              -c
-              -d
-            ]
-            c = v[0] * d[0] + v[1] * d[1]
-            C = Math.sqrt(v[0] * v[0] + v[1] * v[1])
-            v = Math.sqrt(d[0] * d[0] + d[1] * d[1])
-            c = c / (C * v)
-            if 0 < c
-              B++
-              continue
-            c = Math.cos(camera.fovx / 1.5) + c
-            v = Math.sqrt(2 * v * v * (1 - c))
-            if 0 < c and 16 < v
-              B++
-              continue
-          if undefined == @rchunk[q]
-            1 < chronometer.iLag and chronometer.iLag -= 1
-            @requestChunk(l, p)
-          else
-            @rchunk[q].timestamp = chronometer.lastTime
-            (62 <= x[1] or 160 > f) and @rchunk[q].render(A, b, 0)
-            if 62 > x[1] and 96 > f then @rchunk[q].render(A, b, 1) else 64 > f and @rchunk[q].render(A, b, 1)
+          if !(f > 16 * e[A])
+            if 64 < f
+              v = camera.getTarget()
+              v = [
+                x[0] - (v[0])
+                x[2] - (v[2])
+              ]
+              d = [
+                -c
+                -d
+              ]
+              c = v[0] * d[0] + v[1] * d[1]
+              C = Math.sqrt(v[0] * v[0] + v[1] * v[1])
+              v = Math.sqrt(d[0] * d[0] + d[1] * d[1])
+              c = c / (C * v)
+              if 0 < c
+                B++
+                continue
+              c = Math.cos(camera.fovx / 1.5) + c
+              v = Math.sqrt(2 * v * v * (1 - c))
+              if 0 < c and 16 < v
+                B++
+                continue
+            if undefined == @rchunk[q]
+              1 < chronometer.iLag and chronometer.iLag -= 1
+              @requestChunk(l, p)
+            else
+              @rchunk[q].timestamp = chronometer.lastTime
+              (62 <= x[1] or 160 > f) and @rchunk[q].render(A, b, 0)
+              if 62 > x[1] and 96 > f then @rchunk[q].render(A, b, 1) else 64 > f and @rchunk[q].render(A, b, 1)
         B++
       A++
   return
 
 RegionLib::renderSelection = ->
   `var f`
-  if initTexture
+  if window.initTexture
     b = window.gluu.selectionShader
     gluu.gl.useProgram b
     gluu.gl.viewport 0, 0, gluu.gl.viewportWidth, gluu.gl.viewportHeight
@@ -226,7 +225,7 @@ RegionLib::renderSelection = ->
       c[1] = 0
       x = -1
       while 24 > x
-        -1 != x and (c = spiralLoop(x))
+        -1 != x and (c = window.spiralLoop(x))
         d = p + c[0]
         e = q + c[1]
         m = 1e4 * d + e
@@ -302,12 +301,15 @@ RegionLib::testCollisions = ->
       m++
     e++
   (new Date).getTime()
-  if 0 < d then !0 else !1
+  if 0 < d
+    return !0
+  else
+    return !1
 
 RegionLib::save = ->
   b = undefined
-  for b of @rchunk
-    undefined != @rchunk[b] and -1 != @rchunk[b] and -2 != @rchunk[b] and @rchunk[b].changed and mcWorld.saveChunkToStorage(@rchunk[b].xPos, @rchunk[b].zPos)
+  for b,v of @rchunk
+    undefined != @rchunk[b] and -1 != @rchunk[b] and -2 != @rchunk[b] and @rchunk[b].changed and window.mcWorld.saveChunkToStorage(@rchunk[b].xPos, @rchunk[b].zPos)
     @rchunk[b].changed = !1
   return
 
@@ -329,7 +331,7 @@ RegionLib::saveChunkToStorage = (b, f) ->
     while c < d.length
       e[c + 5] = d[c]
       c++
-    d = ab2str(e)
+    d = window.ab2str(e)
     window.localStorage.setItem @gameRoot + ' ' + @worldName + ' ' + b + ' ' + f, d
   return
 
@@ -341,7 +343,7 @@ RegionLib::getChunkFromStorage = (b, f) ->
   RegionLib.loadChunk 0, c, !0
 
 RegionLib::loadChunkFromStorage = (b, f, c) ->
-  d = mcWorld.getChunkFromStorage(b, f)
+  d = window.mcWorld.getChunkFromStorage(b, f)
   if -1 == d
     return -1
   if c
@@ -349,19 +351,19 @@ RegionLib::loadChunkFromStorage = (b, f, c) ->
   @rchunk[1e4 * b + f] = d
   e = d = c = !1
   m = !1
-  l = mcWorld.requestChunk(b + 1, f)
+  l = window.mcWorld.requestChunk(b + 1, f)
   undefined == l and (m = !0)
   -1 == l and (m = !0)
   -2 == l and (m = !0)
-  p = mcWorld.requestChunk(b - 1, f)
+  p = window.mcWorld.requestChunk(b - 1, f)
   undefined == p and (e = !0)
   -1 == p and (e = !0)
   -2 == p and (e = !0)
-  q = mcWorld.requestChunk(b, f + 1)
+  q = window.mcWorld.requestChunk(b, f + 1)
   undefined == q and (c = !0)
   -1 == q and (c = !0)
   -2 == q and (c = !0)
-  b = mcWorld.requestChunk(b, f - 1)
+  b = window.mcWorld.requestChunk(b, f - 1)
   undefined == b and (d = !0)
   -1 == b and (d = !0)
   -2 == b and (d = !0)
@@ -376,7 +378,7 @@ RegionLib::loadRegion = (b, f) ->
   @region[1e3 * b + f] = {}
   @region[1e3 * b + f].loaded = -2
   if undefined != window.threadsCode
-    c = new Blob([ threadsCode.loadRegionThread ], type: 'application/javascript')
+    c = new Blob([ window.threadsCode.loadRegionThread ], type: 'application/javascript')
     c = new Worker(window.URL.createObjectURL(c))
   else
     c = new Worker('threads/loadRegionThread.js')
@@ -411,24 +413,24 @@ RegionLib::regionLoaded = (b) ->
   if 1 != b.data.loaded
     f = @region[1e3 * f + c]
     f.loaded = -1
-  else if b = new Uint8Array(b.data.data)
-    1e3 > b.length
-
-    f = @region[1e3 * f + c]
-    f.loaded = -1
   else
-    f = @region[1e3 * f + c]
-    f.regionData = b
-    f.loaded = 0
-    f.chunkPos = []
-    f.chunkLen = []
-    d = undefined
-    d = c = 0
-    while 4096 > c
-      f.chunkPos[d] = 65536 * b[c] + 256 * b[c + 1] + b[c + 2]
-      f.chunkLen[d] = b[c + 3]
-      c += 4
-      d++
+    b = new Uint8Array(b.data.data)
+    if 1e3 > b.length
+      f = @region[1e3 * f + c]
+      f.loaded = -1
+    else
+      f = @region[1e3 * f + c]
+      f.regionData = b
+      f.loaded = 0
+      f.chunkPos = []
+      f.chunkLen = []
+      d = undefined
+      d = c = 0
+      while 4096 > c
+        f.chunkPos[d] = 65536 * b[c] + 256 * b[c + 1] + b[c + 2]
+        f.chunkLen[d] = b[c + 3]
+        c += 4
+        d++
   return
 
 RegionLib::loadRegionFile = (b, f) ->
@@ -476,15 +478,14 @@ RegionLib::requestChunk = (b, f) ->
     0 > l and (l += 32)
     m += 32 * l
     if 0 < @region[1e3 * d + e].chunkPos[m]
-      return console.log('chunk ' + c + ' : ' + @region[1e3 * d + e].chunkPos[m] + ' ' + @region[1e3 * d + e].chunkLen[m])
+      console.log('chunk ' + c + ' : ' + @region[1e3 * d + e].chunkPos[m] + ' ' + @region[1e3 * d + e].chunkLen[m])
       @iChunk++
-      @rchunk[c] = RegionLib.loadChunk(4096 * @region[1e3 * d + e].chunkPos[m], @region[1e3 * d + e].regionData, !0)
-      @rchunk[c]
-
+      @rchunk[c] = @loadChunk(4096 * @region[1e3 * d + e].chunkPos[m], @region[1e3 * d + e].regionData, !0)
+      return @rchunk[c]
     @rchunk[c] = -1
   return
 
-RegionLib.loadChunk = (b, f, c) ->
+RegionLib::loadChunk = (b, f, c) ->
   d = {}
   e = new Chunk
   d.offset = 0
@@ -495,9 +496,8 @@ RegionLib.loadChunk = (b, f, c) ->
     else
       d.data = f
   catch l
-    return console.log('fail')
-    -1
-
+    console.log('fail')
+    return -1
   f = 0
   while 2e3 > f and -1 != (b = NBT.nextTag(d))
     switch b.name
@@ -512,7 +512,7 @@ RegionLib.loadChunk = (b, f, c) ->
       when 'LightPopulated'
         e.lightPopulated = b.value
       when 'Sections'
-        RegionLib.readSections b, e, d
+        @readSections b, e, d
         f++
         continue
     9 == b.type and NBT.read9(b, e, d)
@@ -520,7 +520,7 @@ RegionLib.loadChunk = (b, f, c) ->
   undefined == e.heightMap and e.initHeightMap()
   e
 
-RegionLib.readSections = (b, f, c) ->
+RegionLib::readSections = (b, f, c) ->
   d = undefined
   e = undefined
   m = undefined
