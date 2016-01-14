@@ -3,7 +3,6 @@ window.webGLStart = ->
   camera = undefined
   firstTime = undefined
   lastTime = undefined
-  mcWorld = undefined
   gameStateHtml = undefined
   gluu.glCanvas = document.getElementById('webgl')
   gluu.glCanvas.width = window.innerWidth
@@ -53,7 +52,7 @@ window.webGLStart = ->
     punkty1[b].d = new Float32Array(2e6)
     punkty1[b].o = 0
     b++
-  mcWorld = new RegionLib(settings.gameRoot, settings.worldName)
+  window.mcWorld.initRegionLib(settings.gameRoot, settings.worldName)
   document.getElementById('tools').style.display = 'none'
   document.getElementById('setDstLvl').value = settings.distanceLevel[0]
   document.getElementById('setDstLvl_val').innerHTML = settings.distanceLevel[0]
@@ -69,7 +68,6 @@ window.webGLStart = ->
   window.camera = camera
   window.firstTime = firstTime
   window.lastTime = lastTime
-  window.mcWorld = mcWorld
   h_u_d.gameStateHtml = gameStateHtml
 
   chronometer.tick()
