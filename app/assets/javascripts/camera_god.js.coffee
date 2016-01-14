@@ -20,7 +20,7 @@ CameraGod = ->
 window.cameraGod = new CameraGod
 
 CameraGod::updatePos = (position, rotation, u) ->
-  @aspect = window.gl.viewportWidth / window.gl.viewportHeight
+  @aspect = window.gluu.gl.viewportWidth / window.gluu.gl.viewportHeight
   @pos = position
   @rot = rotation
   @up = u

@@ -25,12 +25,12 @@ window.webGLStart = ->
   window.gluu.initStandardShader settings.worldShader
   window.gluu.initLineShader()
   window.gluu.initSelectionShader()
-  gl.enable gl.CULL_FACE
-  gl.enable gl.BLEND
-  gl.cullFace gl.BACK
-  gl.clearColor 0, 0, 0, 1
-  gl.blendFunc gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA
-  gl.enable gl.DEPTH_TEST
+  gluu.gl.enable gluu.gl.CULL_FACE
+  gluu.gl.enable gluu.gl.BLEND
+  gluu.gl.cullFace gluu.gl.BACK
+  gluu.gl.clearColor 0, 0, 0, 1
+  gluu.gl.blendFunc gluu.gl.SRC_ALPHA, gluu.gl.ONE_MINUS_SRC_ALPHA
+  gluu.gl.enable gluu.gl.DEPTH_TEST
   initTextures()
   window.initBlocks()
   if 'CameraGod' == settings.cameraType

@@ -3334,21 +3334,21 @@ RegionLib.prototype.deleteBuffers = function() {
 RegionLib.prototype.render = function() {
     if (initTexture) {
         var b = window.gluu.standardShader;
-        gl.useProgram(b);
-        gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
-        gl.clearColor(settings.skyColor[0], settings.skyColor[1], settings.skyColor[2], 1);
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        mat4.perspective(window.gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6E3);
+        gluu.gl.useProgram(b);
+        gluu.gl.viewport(0, 0, gluu.gl.viewportWidth, gluu.gl.viewportHeight);
+        gluu.gl.clearColor(settings.skyColor[0], settings.skyColor[1], settings.skyColor[2], 1);
+        gluu.gl.clear(gluu.gl.COLOR_BUFFER_BIT | gluu.gl.DEPTH_BUFFER_BIT);
+        mat4.perspective(window.gluu.pMatrix, camera.fovy, gluu.gl.viewportWidth / gluu.gl.viewportHeight, 0.1, 6E3);
         var f = camera.getMatrix();
         mat4.multiply(window.gluu.pMatrix, window.gluu.pMatrix, f);
         mat4.identity(window.gluu.mvMatrix);
-        gl.uniformMatrix4fv(b.pMatrixUniform, !1,
+        gluu.gl.uniformMatrix4fv(b.pMatrixUniform, !1,
             window.gluu.pMatrix);
-        gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
-        gl.uniform1f(b.lod, settings.distanceLevel[1]);
-        gl.uniform1f(b.sun, settings.sun);
-        gl.uniform1f(b.brightness, settings.brightness);
-        gl.uniform4fv(b.skyColor, settings.skyColor);
+        gluu.gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
+        gluu.gl.uniform1f(b.lod, settings.distanceLevel[1]);
+        gluu.gl.uniform1f(b.sun, settings.sun);
+        gluu.gl.uniform1f(b.brightness, settings.brightness);
+        gluu.gl.uniform4fv(b.skyColor, settings.skyColor);
         var c, d, f, e, m, l, p, q, x, A, B;
         for (c = 0, d = 0, f = 0, e = [settings.distanceLevel[0], settings.distanceLevel[1], settings.distanceLevel[2], settings.distanceLevel[2]], m = [], l = 0, p = 0, q = 0, x = camera.getPos(), A = 0; 4 > A; A++) {
             var t = Math.floor(x[0] / 16),
@@ -3380,16 +3380,16 @@ RegionLib.prototype.render = function() {
 RegionLib.prototype.renderSelection = function() {
     if (initTexture) {
         var b = window.gluu.selectionShader;
-        gl.useProgram(b);
-        gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
-        gl.clearColor(0, 0, 0, 0);
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        mat4.perspective(window.gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6E3);
+        gluu.gl.useProgram(b);
+        gluu.gl.viewport(0, 0, gluu.gl.viewportWidth, gluu.gl.viewportHeight);
+        gluu.gl.clearColor(0, 0, 0, 0);
+        gluu.gl.clear(gluu.gl.COLOR_BUFFER_BIT | gluu.gl.DEPTH_BUFFER_BIT);
+        mat4.perspective(window.gluu.pMatrix, camera.fovy, gluu.gl.viewportWidth / gluu.gl.viewportHeight, 0.1, 6E3);
         var f = camera.getMatrix();
         mat4.multiply(window.gluu.pMatrix, window.gluu.pMatrix, f);
         mat4.identity(window.gluu.mvMatrix);
-        gl.uniformMatrix4fv(b.pMatrixUniform, !1, window.gluu.pMatrix);
-        gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
+        gluu.gl.uniformMatrix4fv(b.pMatrixUniform, !1, window.gluu.pMatrix);
+        gluu.gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
         var c, d, e, m, f, l, x;
         for (c = [], d = 0, e = 0, m = 0, f = camera.getPos(), l = 0; 4 > l; l++) {
             var p = Math.floor(f[0] / 16),
@@ -3399,8 +3399,8 @@ RegionLib.prototype.renderSelection = function() {
             for (x = -1; 24 > x; x++) - 1 !== x && (c = spiralLoop(x)), d = p + c[0], e = q + c[1], m = 1E4 * d + e, -1 === this.rchunk[m] || -2 === this.rchunk[m] ? this.rchunk[m].timestamp = chronometer.lastTime : void 0 === this.rchunk[m] ? 1 < chronometer.iLag && (chronometer.iLag -= 1, this.requestChunk(d, e)) : (this.rchunk[m].timestamp = chronometer.lastTime, this.rchunk[m].render(l, b, 0), this.rchunk[m].render(l, b, 1))
         }
         q = new Uint8Array(4);
-        gl.readPixels(Math.floor(gl.viewportWidth /
-            2), Math.floor(gl.viewportHeight / 2), 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, q);
+        gluu.gl.readPixels(Math.floor(gluu.gl.viewportWidth /
+            2), Math.floor(gluu.gl.viewportHeight / 2), 1, 1, gluu.gl.RGBA, gluu.gl.UNSIGNED_BYTE, q);
         b = {};
         b.y = q[0];
         b.z = Math.floor(q[1] / 16);
@@ -4125,19 +4125,19 @@ Chunk.prototype.render = function(b, f, c) {
             if (1 < chronometer.iLag) {
                 if (chronometer.iLag -= 1, !this.init2(1, !0)) return
             } else return;
-        gl.bindTexture(gl.TEXTURE_2D, blockTexture);
-        void 0 !== this.vbo[c] && void 0 !== this.vbo[c][b] && (gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo[c][b]), gl.vertexAttribPointer(f.vertexPositionAttribute, 3, gl.FLOAT, !1, 36, 0), gl.vertexAttribPointer(f.textureCoordAttribute,
-            2, gl.FLOAT, !1, 36, 12), gl.vertexAttribPointer(f.lightAttribute, 4, gl.FLOAT, !1, 36, 20), gl.drawArrays(gl.TRIANGLES, 0, this.ivbo[c][b] / 9))
+        gluu.gl.bindTexture(gluu.gl.TEXTURE_2D, blockTexture);
+        void 0 !== this.vbo[c] && void 0 !== this.vbo[c][b] && (gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, this.vbo[c][b]), gluu.gl.vertexAttribPointer(f.vertexPositionAttribute, 3, gluu.gl.FLOAT, !1, 36, 0), gluu.gl.vertexAttribPointer(f.textureCoordAttribute,
+            2, gluu.gl.FLOAT, !1, 36, 12), gluu.gl.vertexAttribPointer(f.lightAttribute, 4, gluu.gl.FLOAT, !1, 36, 20), gluu.gl.drawArrays(gluu.gl.TRIANGLES, 0, this.ivbo[c][b] / 9))
     }
 };
 Chunk.prototype.deleteBuffers = function() {
     this.isInit1 = this.isInit = 0;
     void 0 !== this.vbo && (void 0 !== this.vbo[0] && (this.vbo[0].forEach(function(b) {
-        gl.deleteBuffer(b)
+        gluu.gl.deleteBuffer(b)
     }), this.ivbo[0].forEach(function(b) {
         gpuMem -= b
     })), void 0 !== this.vbo[1] && (this.vbo[1].forEach(function(b) {
-        gl.deleteBuffer(b)
+        gluu.gl.deleteBuffer(b)
     }), this.ivbo[1].forEach(function(b) {
         gpuMem -= b
     })))
@@ -5480,11 +5480,11 @@ Chunk.prototype.init2 = function(b) {
                         }
                     }
     void 0 !== this.vbo && (0 === b && void 0 !== this.vbo[0] && (this.vbo[0].forEach(function(a) {
-        gl.deleteBuffer(a)
+        gluu.gl.deleteBuffer(a)
     }), this.ivbo[0].forEach(function(a) {
         gpuMem -= a
     })), 1 === b && void 0 !== this.vbo[1] && (this.vbo[1].forEach(function(a) {
-        gl.deleteBuffer(a)
+        gluu.gl.deleteBuffer(a)
     }), this.ivbo[1].forEach(function(a) {
         gpuMem -= a
     })));
@@ -5496,10 +5496,10 @@ Chunk.prototype.init2 = function(b) {
             if (0 < B[ba].o) {
                 var Ja = new Float32Array(B[ba].d.buffer, 0, B[ba].o);
                 this.ivbo[0][ba] = Ja.length;
-                this.vbo[0][ba] = gl.createBuffer();
+                this.vbo[0][ba] = gluu.gl.createBuffer();
                 gpuMem += Ja.length;
-                gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo[0][ba]);
-                gl.bufferData(gl.ARRAY_BUFFER, Ja, gl.STATIC_DRAW);
+                gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, this.vbo[0][ba]);
+                gluu.gl.bufferData(gluu.gl.ARRAY_BUFFER, Ja, gluu.gl.STATIC_DRAW);
                 Ja = null
             }
         this.isInit = 1
@@ -5507,8 +5507,8 @@ Chunk.prototype.init2 = function(b) {
     if (1 === b) {
         this.ivbo[1] = [];
         this.vbo[1] = [];
-        for (ba = 0; 4 > ba; ba++) 0 < B[ba].o && (Ja = new Float32Array(B[ba].d.buffer, 0, B[ba].o), this.ivbo[1][ba] = Ja.length, this.vbo[1][ba] = gl.createBuffer(), gpuMem += Ja.length, gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo[1][ba]),
-            gl.bufferData(gl.ARRAY_BUFFER, Ja, gl.STATIC_DRAW), Ja = null);
+        for (ba = 0; 4 > ba; ba++) 0 < B[ba].o && (Ja = new Float32Array(B[ba].d.buffer, 0, B[ba].o), this.ivbo[1][ba] = Ja.length, this.vbo[1][ba] = gluu.gl.createBuffer(), gpuMem += Ja.length, gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, this.vbo[1][ba]),
+            gluu.gl.bufferData(gluu.gl.ARRAY_BUFFER, Ja, gluu.gl.STATIC_DRAW), Ja = null);
         this.isInit1 = 1
     }
     return !0
@@ -5968,30 +5968,30 @@ Chunk.prototype.getBuffer = function(b) {
 function Pointer() {}
 Pointer.prototype.render = function() {
     var b = window.gluu.lineShader;
-    gl.useProgram(b);
+    gluu.gl.useProgram(b);
     mat4.identity(window.gluu.mvMatrix);
     mat4.identity(window.gluu.pMatrix);
-    gl.uniformMatrix4fv(b.pMatrixUniform, !1, window.gluu.pMatrix);
-    gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
-    void 0 === this.vbol ? (this.vbol = gl.createBuffer(), b = new Float32Array([-0.03, 0, 0, 0, 0, 0.03, 0, 0, 0, 0, 0, -0.05, 0, 0, 0, 0, 0.05, 0, 0, 0]), this.vbol = gl.createBuffer(), gl.bindBuffer(gl.ARRAY_BUFFER, this.vbol), gl.bufferData(gl.ARRAY_BUFFER, b, gl.STATIC_DRAW)) : (gl.bindBuffer(gl.ARRAY_BUFFER,
-        this.vbol), gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0), gl.vertexAttribPointer(b.lightAttribute, 4, gl.FLOAT, !1, 20, 0), gl.vertexAttribPointer(b.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12), gl.drawArrays(gl.LINES, 0, 4))
+    gluu.gl.uniformMatrix4fv(b.pMatrixUniform, !1, window.gluu.pMatrix);
+    gluu.gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
+    void 0 === this.vbol ? (this.vbol = gluu.gl.createBuffer(), b = new Float32Array([-0.03, 0, 0, 0, 0, 0.03, 0, 0, 0, 0, 0, -0.05, 0, 0, 0, 0, 0.05, 0, 0, 0]), this.vbol = gluu.gl.createBuffer(), gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, this.vbol), gluu.gl.bufferData(gluu.gl.ARRAY_BUFFER, b, gluu.gl.STATIC_DRAW)) : (gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER,
+        this.vbol), gluu.gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gluu.gl.FLOAT, !1, 20, 0), gluu.gl.vertexAttribPointer(b.lightAttribute, 4, gluu.gl.FLOAT, !1, 20, 0), gluu.gl.vertexAttribPointer(b.textureCoordAttribute, 2, gluu.gl.FLOAT, !1, 20, 12), gluu.gl.drawArrays(gluu.gl.LINES, 0, 4))
 };
 
 function SelectionBox() {}
 SelectionBox.prototype.render = function(b) {
     var f = window.gluu.lineShader;
-    gl.useProgram(f);
-    mat4.perspective(window.gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6E3);
+    gluu.gl.useProgram(f);
+    mat4.perspective(window.gluu.pMatrix, camera.fovy, gluu.gl.viewportWidth / gluu.gl.viewportHeight, 0.1, 6E3);
     var c = camera.getMatrix();
     mat4.multiply(window.gluu.pMatrix, window.gluu.pMatrix, c);
     mat4.identity(window.gluu.mvMatrix);
     mat4.translate(window.gluu.mvMatrix, window.gluu.mvMatrix, [16 * b.chx + b.x, b.y, 16 * b.chz + b.z]);
-    gl.uniformMatrix4fv(f.pMatrixUniform, !1, window.gluu.pMatrix);
-    gl.uniformMatrix4fv(f.mvMatrixUniform, !1, window.gluu.mvMatrix);
+    gluu.gl.uniformMatrix4fv(f.pMatrixUniform, !1, window.gluu.pMatrix);
+    gluu.gl.uniformMatrix4fv(f.mvMatrixUniform, !1, window.gluu.mvMatrix);
     void 0 === this.vboBox ? (b = new Float32Array([0, 0, 0, 0, 0,
         0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0
-    ]), this.vboBox = gl.createBuffer(), gl.bindBuffer(gl.ARRAY_BUFFER, this.vboBox), gl.bufferData(gl.ARRAY_BUFFER, b, gl.STATIC_DRAW)) : (gl.bindBuffer(gl.ARRAY_BUFFER, this.vboBox), gl.vertexAttribPointer(f.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0), gl.vertexAttribPointer(f.lightAttribute,
-        4, gl.FLOAT, !1, 20, 0), gl.vertexAttribPointer(f.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12), gl.drawArrays(gl.LINES, 0, 24))
+    ]), this.vboBox = gluu.gl.createBuffer(), gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, this.vboBox), gluu.gl.bufferData(gluu.gl.ARRAY_BUFFER, b, gluu.gl.STATIC_DRAW)) : (gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, this.vboBox), gluu.gl.vertexAttribPointer(f.vertexPositionAttribute, 3, gluu.gl.FLOAT, !1, 20, 0), gluu.gl.vertexAttribPointer(f.lightAttribute,
+        4, gluu.gl.FLOAT, !1, 20, 0), gluu.gl.vertexAttribPointer(f.textureCoordAttribute, 2, gluu.gl.FLOAT, !1, 20, 12), gluu.gl.drawArrays(gluu.gl.LINES, 0, 24))
 };
 
 var h_u_d = {};
@@ -6043,7 +6043,7 @@ var glCanvas,
 console.log(window.settings);
 
 function initTextures() {
-    blockTexture = gl.createTexture();
+    blockTexture = gluu.gl.createTexture();
     var b = new Image;
     b.onload = function() {
         handleTextureLoaded(b, blockTexture)
@@ -6052,11 +6052,11 @@ function initTextures() {
 }
 
 function handleTextureLoaded(b, f) {
-    gl.bindTexture(gl.TEXTURE_2D, f);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, b);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.bindTexture(gl.TEXTURE_2D, null);
+    gluu.gl.bindTexture(gluu.gl.TEXTURE_2D, f);
+    gluu.gl.texImage2D(gluu.gl.TEXTURE_2D, 0, gluu.gl.RGBA, gluu.gl.RGBA, gluu.gl.UNSIGNED_BYTE, b);
+    gluu.gl.texParameteri(gluu.gl.TEXTURE_2D, gluu.gl.TEXTURE_MAG_FILTER, gluu.gl.NEAREST);
+    gluu.gl.texParameteri(gluu.gl.TEXTURE_2D, gluu.gl.TEXTURE_MIN_FILTER, gluu.gl.NEAREST);
+    gluu.gl.bindTexture(gluu.gl.TEXTURE_2D, null);
     initTexture = !0
 }
 
@@ -6087,8 +6087,8 @@ function windowResize() {
     var b = document.getElementById("webgl");
     b.width = window.innerWidth;
     b.height = window.innerHeight;
-    gl.viewportWidth = b.width;
-    gl.viewportHeight = b.height
+    gluu.gl.viewportWidth = b.width;
+    gluu.gl.viewportHeight = b.height
 }
 
 function canvasOn() {

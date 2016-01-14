@@ -49,24 +49,24 @@ Mob::getTarget = ->
 
 Mob::render = ->
   b = gluu.lineShader
-  gl.useProgram b
+  gluu.gl.useProgram b
   mat4.identity gluu.mvMatrix
   mat4.translate gluu.mvMatrix, gluu.mvMatrix, [
     @pos[0]
     @pos[1]
     @pos[2]
   ]
-  gl.uniformMatrix4fv b.pMatrixUniform, !1, gluu.pMatrix
-  gl.uniformMatrix4fv b.mvMatrixUniform, !1, gluu.mvMatrix
+  gluu.gl.uniformMatrix4fv b.pMatrixUniform, !1, gluu.pMatrix
+  gluu.gl.uniformMatrix4fv b.mvMatrixUniform, !1, gluu.mvMatrix
   undefined != @shape and (if undefined == @shapeVbo
-    @shapeVbo = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, @shapeVbo)
-    gl.bufferData(gl.ARRAY_BUFFER, @shape, gl.STATIC_DRAW)
+    @shapeVbo = gluu.gl.createBuffer()
+    gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, @shapeVbo)
+    gluu.gl.bufferData(gluu.gl.ARRAY_BUFFER, @shape, gluu.gl.STATIC_DRAW)
   else
-    gl.bindBuffer(gl.ARRAY_BUFFER, @shapeVbo)
-    gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0)
-    gl.vertexAttribPointer(b.lightAttribute, 4, gl.FLOAT, !1, 20, 0)
-    gl.vertexAttribPointer(b.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12)
-    gl.drawArrays(gl.TRIANGLES, 0, 36)
+    gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, @shapeVbo)
+    gluu.gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gluu.gl.FLOAT, !1, 20, 0)
+    gluu.gl.vertexAttribPointer(b.lightAttribute, 4, gluu.gl.FLOAT, !1, 20, 0)
+    gluu.gl.vertexAttribPointer(b.textureCoordAttribute, 2, gluu.gl.FLOAT, !1, 20, 12)
+    gluu.gl.drawArrays(gluu.gl.TRIANGLES, 0, 36)
   )
   return

@@ -24,7 +24,7 @@ CameraPlayer = ->
 window.cameraPlayer = new CameraPlayer
 
 CameraPlayer::updatePos = (position) ->
-  @aspect = window.gl.viewportWidth / window.gl.viewportHeight
+  @aspect = window.gluu.gl.viewportWidth / window.gluu.gl.viewportHeight
   @entity = position
   @tPos[0] = position.pos[0]
   @tPos[1] = position.pos[1]
