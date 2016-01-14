@@ -6005,31 +6005,6 @@ chronometer.lastTime = 0;
 chronometer.firstTime = 0;
 chronometer.fps = 0;
 
-function superkeyDown(e) {
-    window.controls.keyDown(e);
-}
-function superkeyUp(e) {
-    window.controls.keyUp(e);
-}
-function supermouseDown(e) {
-    window.controls.mouseDown(e);
-}
-function supermouseUp(e) {
-    window.controls.mouseUp(e);
-}
-// function supermouseMove(e) {
-//     window.controls.mouseMove(e);
-// }
-function superpointerMove(e) {
-    window.controls.pointerMove(e);
-}
-function supermouseWheel(e) {
-    window.controls.mouseWheel(e);
-}
-function superpointerChange(e) {
-    window.controls.pointerChange(e);
-}
-
 var glCanvas,
     codeEditor = null,
     biomes, mcWorld, block, blockTexture, blockSelection, camera, initTexture = !1,

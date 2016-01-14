@@ -4,15 +4,15 @@ Controls = ->
   @selectT = 0
   @selectU = 1
 
-  # window.addEventListener 'keydown', ((e) => @keyDown(e)), !1
-  # window.addEventListener 'keyup', ((e) => @keyUp(e)), !0
-  # document.addEventListener 'pointerlockchange', ((e) => @pointerChange(e)), !1
-  # document.addEventListener 'mozpointerlockchange', ((e) => @pointerChange(e)), !1
-  # document.addEventListener 'webkitpointerlockchange', ((e) => @pointerChange(e)), !1
-  # window.addEventListener 'mousedown', ((e) => @mouseDown(e)), !0
-  # window.addEventListener 'mouseup', ((e) => @mouseUp(e)), !0
-  # window.addEventListener 'mousewheel', ((e) => @mouseWheel(e)), !1
-  # window.addEventListener 'DOMMouseScroll', ((e) => @mouseWheel(e)), !1
+  window.addEventListener 'keydown', ((e) => @keyDown(e)), !1
+  window.addEventListener 'keyup', ((e) => @keyUp(e)), !0
+  document.addEventListener 'pointerlockchange', ((e) => @pointerChange(e)), !1
+  document.addEventListener 'mozpointerlockchange', ((e) => @pointerChange(e)), !1
+  document.addEventListener 'webkitpointerlockchange', ((e) => @pointerChange(e)), !1
+  window.addEventListener 'mousedown', ((e) => @mouseDown(e)), !0
+  window.addEventListener 'mouseup', ((e) => @mouseUp(e)), !0
+  window.addEventListener 'mousewheel', ((e) => @mouseWheel(e)), !1
+  window.addEventListener 'DOMMouseScroll', ((e) => @mouseWheel(e)), !1
 
   return
 
@@ -127,10 +127,10 @@ Controls::mouseWheel = (b) ->
 Controls::pointerChange = (b) ->
   b = document.getElementById('webgl')
   if document.pointerLockElement == b or document.mozPointerLockElement == b or document.webkitPointerLockElement == b
-    window.addEventListener 'mousemove', window.superpointerMove, !1
+    window.addEventListener 'mousemove', @pointerMove, !1
   else
     b.onclick = canvasOn
-    window.removeEventListener 'mousemove', window.superpointerMove, !1
+    window.removeEventListener 'mousemove', @pointerMove, !1
   window.camera.moveX = 0
   window.camera.moveY = 0
   return

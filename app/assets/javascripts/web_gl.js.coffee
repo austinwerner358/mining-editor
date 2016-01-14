@@ -10,16 +10,7 @@ window.webGLStart = ->
   glCanvas.width = window.innerWidth
   glCanvas.height = window.innerHeight
   window.onresize = windowResize
-  window.addEventListener 'keydown', superkeyDown, !1
-  window.addEventListener 'keyup', superkeyUp, !0
   glCanvas.onclick = canvasOn
-  document.addEventListener 'pointerlockchange', superpointerChange, !1
-  document.addEventListener 'mozpointerlockchange', superpointerChange, !1
-  document.addEventListener 'webkitpointerlockchange', superpointerChange, !1
-  window.addEventListener 'mousedown', supermouseDown, !0
-  window.addEventListener 'mouseup', supermouseUp, !0
-  window.addEventListener 'mousewheel', supermouseWheel, !1
-  window.addEventListener 'DOMMouseScroll', supermouseWheel, !1
   gameStateHtml = document.getElementById('game-state')
   window.gluu.initGL glCanvas
   window.gluu.initStandardShader settings.worldShader
