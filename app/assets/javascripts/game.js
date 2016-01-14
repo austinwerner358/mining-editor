@@ -1,15 +1,3 @@
-var shadersCode = {
-    fs: [],
-    vs: []
-};
-shadersCode.fs.bloom = "precision mediump float;varying vec2 vTextureCoord;varying float aaa;varying vec4 sLight;varying vec4 color;varying vec3 sky;uniform vec4 skyColor;uniform sampler2D uSampler;            void main(void) {    gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));    if(gl_FragColor.a < 0.3)       discard;        gl_FragColor *= color;    gl_FragColor = gl_FragColor*sLight;    vec4 FragColor2 = gl_FragColor + aaa*skyColor;    float a = 0.0;    if(FragColor2.r > skyColor.x )         FragColor2.r = max(skyColor.x, gl_FragColor.r);    if(FragColor2.g > skyColor.y )         FragColor2.g = max(skyColor.y, gl_FragColor.g);    if(FragColor2.b > skyColor.z )         FragColor2.b = max(skyColor.z, gl_FragColor.b);   gl_FragColor = FragColor2;}";
-shadersCode.vs.bloom = "attribute vec3 aVertexPosition;attribute vec4 lightValue;attribute vec2 aTextureCoord;uniform float lod;uniform float sun;uniform float brightness;uniform mat4 uMVMatrix;uniform mat4 uMSMatrix;uniform mat4 uPMatrix;varying vec2 vTextureCoord;varying float aaa;varying vec4 color;varying vec4 sLight;void main(void) {     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);     vTextureCoord = aTextureCoord;    aaa = sqrt((gl_Position.x)*(gl_Position.x) + (gl_Position.z)*(gl_Position.z))/(lod*13.5)-0.30;    if(aaa<0.0) aaa = 0.0;    if(aaa>1.0) aaa = 1.0;    float skylight = floor(lightValue.x/100.0);    float blocklight = lightValue.x - skylight*100.0;    float slight = ((skylight*sun)/15.0 + blocklight/15.0);    if(slight > 1.0) slight = 1.0;    slight = slight*(1.0 - brightness) + brightness;    slight *= lightValue.z;    sLight = vec4(slight,slight,slight,1.0);    if(lightValue.a != 0.0) {        float m5 = floor(lightValue.a/(256.0*256.0));        float m6 = floor((lightValue.a - m5*256.0*256.0)/(256.0));        float m7 = lightValue.a - m5*256.0*256.0 - m6*256.0;        color = vec4(m5/255.0, m6/255.0, m7/255.0, 1.0);    }    else color = vec4(1.0,1.0,1.0,1.0);}";
-shadersCode.fs.line = "precision mediump float;varying vec4 color;            void main(void) {    gl_FragColor = color;}";
-shadersCode.vs.line = "attribute vec3 aVertexPosition;attribute vec2 aTextureCoord;attribute vec4 lightValue;uniform mat4 uMVMatrix;uniform mat4 uPMatrix;varying vec4 color;void main(void) {    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);    color = vec4(1.0,1.0,1.0,1.0);    color.r = aTextureCoord.x;    color.g = lightValue.x;    color = vec4(0.0,0.0,0.0,1.0);}";
-shadersCode.fs.selection = "precision mediump float;varying vec2 vTextureCoord;varying float aaa;varying float slight;varying vec4 color;uniform sampler2D uSampler;            void main(void) {    gl_FragColor = color;    gl_FragColor.a = 1.0;}";
-shadersCode.vs.selection = "attribute vec3 aVertexPosition;attribute vec4 lightValue;attribute vec2 aTextureCoord;uniform mat4 uMVMatrix;uniform mat4 uMSMatrix;uniform mat4 uPMatrix;varying vec2 vTextureCoord;varying float aaa;varying vec4 color;varying float slight;void main(void) {     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);     vTextureCoord = aTextureCoord;     color = vec4(0.0,0.0,0.0,1.0);     float yy = floor(lightValue.y/(256.0*256.0));     float zx = floor((lightValue.y - yy*256.0*256.0)/(256.0));     float cv = lightValue.y - yy*256.0*256.0 - zx*256.0;     color.r = yy/255.0;     color.g = zx/255.0;     color.b = cv/255.0;     slight = 1.0;}";
-shadersCode.fs.standard = "precision mediump float;varying vec2 vTextureCoord;varying float aaa;varying vec4 sLight;varying vec4 color;varying vec3 sky;uniform vec4 skyColor;uniform sampler2D uSampler;            void main(void) {    gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));    if(gl_FragColor.a < 0.3)       discard;        gl_FragColor *= color;    gl_FragColor = gl_FragColor*sLight;    gl_FragColor = mix(gl_FragColor, skyColor, aaa);}";
-shadersCode.vs.standard = "attribute vec3 aVertexPosition;attribute vec4 lightValue;attribute vec2 aTextureCoord;uniform float lod;uniform float sun;uniform float brightness;uniform mat4 uMVMatrix;uniform mat4 uMSMatrix;uniform mat4 uPMatrix;varying vec2 vTextureCoord;varying float aaa;varying vec4 color;varying vec4 sLight;void main(void) {     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);     vTextureCoord = aTextureCoord;    aaa = sqrt((gl_Position.x)*(gl_Position.x) + (gl_Position.z)*(gl_Position.z))/(lod*13.0)-0.25;    if(aaa<0.0) aaa = 0.0;    if(aaa>1.0) aaa = 1.0;    float skylight = floor(lightValue.x/100.0);    float blocklight = lightValue.x - skylight*100.0;    float slight = ((skylight*sun)/15.0 + blocklight/15.0);    if(slight > 1.0) slight = 1.0;    slight = slight*(1.0 - brightness) + brightness;    slight *= lightValue.z;    sLight = vec4(slight,slight,slight,1.0);    if(lightValue.a != 0.0) {        float m5 = floor(lightValue.a/(256.0*256.0));        float m6 = floor((lightValue.a - m5*256.0*256.0)/(256.0));        float m7 = lightValue.a - m5*256.0*256.0 - m6*256.0;        color = vec4(m5/255.0, m6/255.0, m7/255.0, 1.0);    }    else color = vec4(1.0,1.0,1.0,1.0);}";
 var threadsCode = [];
 threadsCode.loadRegionThread = "self.addEventListener('message', function(e) {        var x = e.data.x;        var y = e.data.y;        var xhr = new XMLHttpRequest();        xhr.open('GET', e.data.name, false);        xhr.responseType = 'arraybuffer';        try{            xhr.send();        } catch(e) {            self.postMessage({loaded: 0, x: x, y: y});            self.close();            return;        }        var regionData =  new Uint8Array(xhr.response);        self.postMessage({loaded: 1, x: x, y: y, data: regionData.buffer}, [regionData.buffer]);        self.close();    }, false);";
 String.prototype.equalsIgnoreCase = function(b) {
@@ -2083,118 +2071,6 @@ window.requestAnimFrame = function() {
     })(f)
 })(this);
 
-function Gluu() {
-    this.selectionShader = this.lineShader = this.standardShader = null;
-    this.mvMatrix = mat4.create();
-    this.objStrMatrix = mat4.create([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
-    this.mvMatrixStack = [];
-    this.pMatrix = mat4.create()
-}
-Gluu.prototype.initGL = function(b) {
-    try {
-        gl = b.getContext("experimental-webgl", {
-            antialias: !1,
-            alpha: !1
-        }), gl.viewportWidth = b.width, gl.viewportHeight = b.height
-    } catch (f) {}
-    gl || alert("Could not initialise WebGL")
-};
-Gluu.prototype.getShader = function(b, f, c) {
-    var d = new XMLHttpRequest;
-    if (void 0 !== window.shadersCode) {
-        if (f = shadersCode[c][f], void 0 === f) return null
-    } else if (d.open("GET", "shaders/" + f + "." + c, !1), d.send(null), f = d.responseText, !f) return null;
-    if ("fs" === c) c = b.createShader(b.FRAGMENT_SHADER);
-    else if ("vs" === c) c = b.createShader(b.VERTEX_SHADER);
-    else return null;
-    b.shaderSource(c, f);
-    b.compileShader(c);
-    return b.getShaderParameter(c, b.COMPILE_STATUS) ? c : (alert(b.getShaderInfoLog(c)), null)
-};
-Gluu.prototype.initLineShader = function() {
-    var b = this.getShader(gl, "line", "fs"),
-        f = this.getShader(gl, "line", "vs");
-    this.lineShader = gl.createProgram();
-    gl.attachShader(this.lineShader, f);
-    gl.attachShader(this.lineShader, b);
-    gl.linkProgram(this.lineShader);
-    gl.getProgramParameter(this.lineShader, gl.LINK_STATUS) || alert("Could not initialise shaders");
-    gl.useProgram(this.lineShader);
-    this.lineShader.vertexPositionAttribute = gl.getAttribLocation(this.lineShader, "aVertexPosition");
-    gl.enableVertexAttribArray(this.lineShader.vertexPositionAttribute);
-    this.lineShader.textureCoordAttribute = gl.getAttribLocation(this.lineShader, "aTextureCoord");
-    gl.enableVertexAttribArray(this.lineShader.textureCoordAttribute);
-    this.lineShader.lightAttribute = gl.getAttribLocation(this.lineShader, "lightValue");
-    gl.enableVertexAttribArray(this.lineShader.lightAttribute);
-    this.lineShader.pMatrixUniform = gl.getUniformLocation(this.lineShader, "uPMatrix");
-    this.lineShader.mvMatrixUniform = gl.getUniformLocation(this.lineShader, "uMVMatrix")
-};
-Gluu.prototype.initSelectionShader = function() {
-    var b = this.getShader(gl, "selection", "fs"),
-        f = this.getShader(gl, "selection", "vs");
-    this.selectionShader = gl.createProgram();
-    gl.attachShader(this.selectionShader, f);
-    gl.attachShader(this.selectionShader, b);
-    gl.linkProgram(this.selectionShader);
-    gl.getProgramParameter(this.selectionShader, gl.LINK_STATUS) || alert("Could not initialise shaders");
-    gl.useProgram(this.selectionShader);
-    this.selectionShader.vertexPositionAttribute = gl.getAttribLocation(this.selectionShader,
-        "aVertexPosition");
-    gl.enableVertexAttribArray(this.selectionShader.vertexPositionAttribute);
-    this.selectionShader.textureCoordAttribute = gl.getAttribLocation(this.selectionShader, "aTextureCoord");
-    gl.enableVertexAttribArray(this.selectionShader.textureCoordAttribute);
-    this.selectionShader.lightAttribute = gl.getAttribLocation(this.selectionShader, "lightValue");
-    gl.enableVertexAttribArray(this.selectionShader.lightAttribute);
-    this.selectionShader.pMatrixUniform = gl.getUniformLocation(this.selectionShader, "uPMatrix");
-    this.selectionShader.mvMatrixUniform = gl.getUniformLocation(this.selectionShader, "uMVMatrix");
-    this.selectionShader.msMatrixUniform = gl.getUniformLocation(this.selectionShader, "uMSMatrix");
-    this.selectionShader.samplerUniform = gl.getUniformLocation(this.selectionShader, "uSampler")
-};
-Gluu.prototype.initStandardShader = function(b) {
-    void 0 !== this.standardShader && gl.deleteProgram(this.standardShader);
-    var f = this.getShader(gl, b, "fs"),
-        c = this.getShader(gl, b, "vs");
-    this.standardShader = gl.createProgram();
-    gl.attachShader(this.standardShader, c);
-    gl.attachShader(this.standardShader, f);
-    gl.linkProgram(this.standardShader);
-    gl.getProgramParameter(this.standardShader, gl.LINK_STATUS) || alert("Could not initialise shaders");
-    settings.worldShader = b;
-    gl.useProgram(this.standardShader);
-    this.standardShader.vertexPositionAttribute =
-        gl.getAttribLocation(this.standardShader, "aVertexPosition");
-    gl.enableVertexAttribArray(this.standardShader.vertexPositionAttribute);
-    this.standardShader.textureCoordAttribute = gl.getAttribLocation(this.standardShader, "aTextureCoord");
-    gl.enableVertexAttribArray(this.standardShader.textureCoordAttribute);
-    this.standardShader.lightAttribute = gl.getAttribLocation(this.standardShader, "lightValue");
-    gl.enableVertexAttribArray(this.standardShader.lightAttribute);
-    this.standardShader.lod = gl.getUniformLocation(this.standardShader,
-        "lod");
-    this.standardShader.sun = gl.getUniformLocation(this.standardShader, "sun");
-    this.standardShader.brightness = gl.getUniformLocation(this.standardShader, "brightness");
-    this.standardShader.skyColor = gl.getUniformLocation(this.standardShader, "skyColor");
-    this.standardShader.pMatrixUniform = gl.getUniformLocation(this.standardShader, "uPMatrix");
-    this.standardShader.mvMatrixUniform = gl.getUniformLocation(this.standardShader, "uMVMatrix");
-    this.standardShader.msMatrixUniform = gl.getUniformLocation(this.standardShader,
-        "uMSMatrix");
-    this.standardShader.samplerUniform = gl.getUniformLocation(this.standardShader, "uSampler")
-};
-Gluu.prototype.setMatrixUniforms = function() {
-    gl.uniformMatrix4fv(this.standardShader.pMatrixUniform, !1, this.pMatrix);
-    gl.uniformMatrix4fv(this.standardShader.mvMatrixUniform, !1, this.mvMatrix);
-    gl.uniformMatrix4fv(this.standardShader.msMatrixUniform, !1, this.objStrMatrix)
-};
-Gluu.prototype.mvPushMatrix = function() {
-    var b = mat4.clone(this.mvMatrix);
-    this.mvMatrixStack.push(b)
-};
-Gluu.prototype.mvPopMatrix = function() {
-    if (0 == this.mvMatrixStack.length) throw "Invalid popMatrix!";
-    this.mvMatrix = this.mvMatrixStack.pop()
-};
-Gluu.prototype.degToRad = function(b) {
-    return b * Math.PI / 180
-};
 (function() {
     function b(a) {
         throw a;
@@ -3457,18 +3333,18 @@ RegionLib.prototype.deleteBuffers = function() {
 };
 RegionLib.prototype.render = function() {
     if (initTexture) {
-        var b = gluu.standardShader;
+        var b = window.gluu.standardShader;
         gl.useProgram(b);
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
         gl.clearColor(settings.skyColor[0], settings.skyColor[1], settings.skyColor[2], 1);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        mat4.perspective(gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6E3);
+        mat4.perspective(window.gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6E3);
         var f = camera.getMatrix();
-        mat4.multiply(gluu.pMatrix, gluu.pMatrix, f);
-        mat4.identity(gluu.mvMatrix);
+        mat4.multiply(window.gluu.pMatrix, window.gluu.pMatrix, f);
+        mat4.identity(window.gluu.mvMatrix);
         gl.uniformMatrix4fv(b.pMatrixUniform, !1,
-            gluu.pMatrix);
-        gl.uniformMatrix4fv(b.mvMatrixUniform, !1, gluu.mvMatrix);
+            window.gluu.pMatrix);
+        gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
         gl.uniform1f(b.lod, settings.distanceLevel[1]);
         gl.uniform1f(b.sun, settings.sun);
         gl.uniform1f(b.brightness, settings.brightness);
@@ -3503,17 +3379,17 @@ RegionLib.prototype.render = function() {
 };
 RegionLib.prototype.renderSelection = function() {
     if (initTexture) {
-        var b = gluu.selectionShader;
+        var b = window.gluu.selectionShader;
         gl.useProgram(b);
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
         gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        mat4.perspective(gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6E3);
+        mat4.perspective(window.gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6E3);
         var f = camera.getMatrix();
-        mat4.multiply(gluu.pMatrix, gluu.pMatrix, f);
-        mat4.identity(gluu.mvMatrix);
-        gl.uniformMatrix4fv(b.pMatrixUniform, !1, gluu.pMatrix);
-        gl.uniformMatrix4fv(b.mvMatrixUniform, !1, gluu.mvMatrix);
+        mat4.multiply(window.gluu.pMatrix, window.gluu.pMatrix, f);
+        mat4.identity(window.gluu.mvMatrix);
+        gl.uniformMatrix4fv(b.pMatrixUniform, !1, window.gluu.pMatrix);
+        gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
         var c, d, e, m, f, l, x;
         for (c = [], d = 0, e = 0, m = 0, f = camera.getPos(), l = 0; 4 > l; l++) {
             var p = Math.floor(f[0] / 16),
@@ -6091,27 +5967,27 @@ Chunk.prototype.getBuffer = function(b) {
 
 function Pointer() {}
 Pointer.prototype.render = function() {
-    var b = gluu.lineShader;
+    var b = window.gluu.lineShader;
     gl.useProgram(b);
-    mat4.identity(gluu.mvMatrix);
-    mat4.identity(gluu.pMatrix);
-    gl.uniformMatrix4fv(b.pMatrixUniform, !1, gluu.pMatrix);
-    gl.uniformMatrix4fv(b.mvMatrixUniform, !1, gluu.mvMatrix);
+    mat4.identity(window.gluu.mvMatrix);
+    mat4.identity(window.gluu.pMatrix);
+    gl.uniformMatrix4fv(b.pMatrixUniform, !1, window.gluu.pMatrix);
+    gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
     void 0 === this.vbol ? (this.vbol = gl.createBuffer(), b = new Float32Array([-0.03, 0, 0, 0, 0, 0.03, 0, 0, 0, 0, 0, -0.05, 0, 0, 0, 0, 0.05, 0, 0, 0]), this.vbol = gl.createBuffer(), gl.bindBuffer(gl.ARRAY_BUFFER, this.vbol), gl.bufferData(gl.ARRAY_BUFFER, b, gl.STATIC_DRAW)) : (gl.bindBuffer(gl.ARRAY_BUFFER,
         this.vbol), gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0), gl.vertexAttribPointer(b.lightAttribute, 4, gl.FLOAT, !1, 20, 0), gl.vertexAttribPointer(b.textureCoordAttribute, 2, gl.FLOAT, !1, 20, 12), gl.drawArrays(gl.LINES, 0, 4))
 };
 
 function SelectionBox() {}
 SelectionBox.prototype.render = function(b) {
-    var f = gluu.lineShader;
+    var f = window.gluu.lineShader;
     gl.useProgram(f);
-    mat4.perspective(gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6E3);
+    mat4.perspective(window.gluu.pMatrix, camera.fovy, gl.viewportWidth / gl.viewportHeight, 0.1, 6E3);
     var c = camera.getMatrix();
-    mat4.multiply(gluu.pMatrix, gluu.pMatrix, c);
-    mat4.identity(gluu.mvMatrix);
-    mat4.translate(gluu.mvMatrix, gluu.mvMatrix, [16 * b.chx + b.x, b.y, 16 * b.chz + b.z]);
-    gl.uniformMatrix4fv(f.pMatrixUniform, !1, gluu.pMatrix);
-    gl.uniformMatrix4fv(f.mvMatrixUniform, !1, gluu.mvMatrix);
+    mat4.multiply(window.gluu.pMatrix, window.gluu.pMatrix, c);
+    mat4.identity(window.gluu.mvMatrix);
+    mat4.translate(window.gluu.mvMatrix, window.gluu.mvMatrix, [16 * b.chx + b.x, b.y, 16 * b.chz + b.z]);
+    gl.uniformMatrix4fv(f.pMatrixUniform, !1, window.gluu.pMatrix);
+    gl.uniformMatrix4fv(f.mvMatrixUniform, !1, window.gluu.mvMatrix);
     void 0 === this.vboBox ? (b = new Float32Array([0, 0, 0, 0, 0,
         0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0
     ]), this.vboBox = gl.createBuffer(), gl.bindBuffer(gl.ARRAY_BUFFER, this.vboBox), gl.bufferData(gl.ARRAY_BUFFER, b, gl.STATIC_DRAW)) : (gl.bindBuffer(gl.ARRAY_BUFFER, this.vboBox), gl.vertexAttribPointer(f.vertexPositionAttribute, 3, gl.FLOAT, !1, 20, 0), gl.vertexAttribPointer(f.lightAttribute,
@@ -6154,8 +6030,7 @@ function superpointerChange(e) {
     window.controls.pointerChange(e);
 }
 
-var gl, gluu = new Gluu,
-    glCanvas,
+var glCanvas,
     codeEditor = null,
     biomes, mcWorld, block, blockTexture, blockSelection, camera, initTexture = !1,
     gpuMem = 0,

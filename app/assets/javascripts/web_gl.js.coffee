@@ -21,10 +21,10 @@ window.webGLStart = ->
   window.addEventListener 'mousewheel', supermouseWheel, !1
   window.addEventListener 'DOMMouseScroll', supermouseWheel, !1
   gameStateHtml = document.getElementById('game-state')
-  gluu.initGL glCanvas
-  gluu.initStandardShader settings.worldShader
-  gluu.initLineShader()
-  gluu.initSelectionShader()
+  window.gluu.initGL glCanvas
+  window.gluu.initStandardShader settings.worldShader
+  window.gluu.initLineShader()
+  window.gluu.initSelectionShader()
   gl.enable gl.CULL_FACE
   gl.enable gl.BLEND
   gl.cullFace gl.BACK
