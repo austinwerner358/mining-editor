@@ -6005,8 +6005,7 @@ chronometer.lastTime = 0;
 chronometer.firstTime = 0;
 chronometer.fps = 0;
 
-var glCanvas,
-    codeEditor = null,
+var codeEditor = null,
     biomes, mcWorld, block, blockTexture, blockSelection, camera, initTexture = !1,
     gpuMem = 0,
     click = 0,
@@ -6016,24 +6015,6 @@ var glCanvas,
     selectBox = new SelectionBox;
 
 console.log(window.settings);
-
-function initTextures() {
-    blockTexture = gluu.gl.createTexture();
-    var b = new Image;
-    b.onload = function() {
-        handleTextureLoaded(b, blockTexture)
-    };
-    b.src = "config/blocks.png"
-}
-
-function handleTextureLoaded(b, f) {
-    gluu.gl.bindTexture(gluu.gl.TEXTURE_2D, f);
-    gluu.gl.texImage2D(gluu.gl.TEXTURE_2D, 0, gluu.gl.RGBA, gluu.gl.RGBA, gluu.gl.UNSIGNED_BYTE, b);
-    gluu.gl.texParameteri(gluu.gl.TEXTURE_2D, gluu.gl.TEXTURE_MAG_FILTER, gluu.gl.NEAREST);
-    gluu.gl.texParameteri(gluu.gl.TEXTURE_2D, gluu.gl.TEXTURE_MIN_FILTER, gluu.gl.NEAREST);
-    gluu.gl.bindTexture(gluu.gl.TEXTURE_2D, null);
-    initTexture = !0
-}
 
 function useNextBlock(b) {
     b.id === block.length - 1 && (b.id = 0);

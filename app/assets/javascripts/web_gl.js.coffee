@@ -2,17 +2,16 @@ window.webGLStart = ->
   b = undefined
   camera = undefined
   firstTime = undefined
-  glCanvas = undefined
   lastTime = undefined
   mcWorld = undefined
   gameStateHtml = undefined
-  glCanvas = document.getElementById('webgl')
-  glCanvas.width = window.innerWidth
-  glCanvas.height = window.innerHeight
+  gluu.glCanvas = document.getElementById('webgl')
+  gluu.glCanvas.width = window.innerWidth
+  gluu.glCanvas.height = window.innerHeight
   window.onresize = windowResize
-  glCanvas.onclick = canvasOn
+  gluu.glCanvas.onclick = canvasOn
   gameStateHtml = document.getElementById('game-state')
-  window.gluu.initGL glCanvas
+  window.gluu.initGL gluu.glCanvas
   window.gluu.initStandardShader settings.worldShader
   window.gluu.initLineShader()
   window.gluu.initSelectionShader()
@@ -22,7 +21,7 @@ window.webGLStart = ->
   gluu.gl.clearColor 0, 0, 0, 1
   gluu.gl.blendFunc gluu.gl.SRC_ALPHA, gluu.gl.ONE_MINUS_SRC_ALPHA
   gluu.gl.enable gluu.gl.DEPTH_TEST
-  initTextures()
+  gluu.initTextures()
   window.initBlocks()
   if 'CameraGod' == settings.cameraType
     camera = new CameraGod(settings.pos, settings.rot, [
@@ -69,7 +68,6 @@ window.webGLStart = ->
 
   window.camera = camera
   window.firstTime = firstTime
-  window.glCanvas = glCanvas
   window.lastTime = lastTime
   window.mcWorld = mcWorld
   h_u_d.gameStateHtml = gameStateHtml

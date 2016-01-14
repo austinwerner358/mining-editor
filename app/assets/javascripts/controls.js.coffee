@@ -20,7 +20,7 @@ window.controls = new Controls
 console.log(window.controls)
 
 Controls::keyDown = (b) ->
-  if @lastTarget == window.glCanvas
+  if @lastTarget == gluu.glCanvas
     window.camera.keyDown b, chronometer.fps
     switch b.keyCode
       when 81
@@ -83,12 +83,12 @@ Controls::keyDown = (b) ->
   return
 
 Controls::keyUp = (b) ->
-  @lastTarget == window.glCanvas and window.camera.keyUp(b)
+  @lastTarget == gluu.glCanvas and window.camera.keyUp(b)
   return
 
 Controls::mouseDown = (b) ->
   @lastTarget = b.target
-  @lastTarget == window.glCanvas and (window.camera.starex = b.clientX)
+  @lastTarget == gluu.glCanvas and (window.camera.starex = b.clientX)
   window.camera.starey = b.clientY
   window.settings.edit and window.camera.autoMove and (@selectE = !0)
   @selectT = if 0 == b.button then 0 else @selectU
@@ -96,12 +96,12 @@ Controls::mouseDown = (b) ->
   return
 
 Controls::mouseUp = (b) ->
-  @lastTarget == window.glCanvas and window.camera.mouseUp(chronometer.fps)
+  @lastTarget == gluu.glCanvas and window.camera.mouseUp(chronometer.fps)
   return
 
 # Controls::mouseMove = (b) ->
 #   f = undefined
-#   if @lastTarget == window.glCanvas
+#   if @lastTarget == gluu.glCanvas
 #     f = b.clientX
 #     b = b.clientY
 #     window.camera.mouseMove window.camera.starex - f, window.camera.starey - b, chronometer.fps
@@ -117,7 +117,7 @@ Controls::pointerMove = (b) ->
   return
 
 Controls::mouseWheel = (b) ->
-  @lastTarget == window.glCanvas and (b = window.event or b)
+  @lastTarget == gluu.glCanvas and (b = window.event or b)
   if 0 > Math.max(-1, Math.min(1, b.wheelDelta or -b.detail))
     window.useNextBlock useBlock
   else
