@@ -7,46 +7,7 @@ function RegionLib(b, f) {
     this.rchunk = [];
     this.iChunk = 0
 }
-RegionLib.prototype.getChunkBlock = function(b, f, c, d, e) {
-    b = 1e4 * b + f;
-    return void 0 !== this.rchunk[b] ? this.rchunk[b].getBlock(c, d, e) : {
-        id: 0,
-        data: 0
-    }
-};
-RegionLib.prototype.getBlock = function(b, f, c) {
-    var d = Math.floor(b / 16),
-        e = Math.floor(c / 16),
-        m = 1e4 * d + e;
-    if (void 0 !== this.rchunk[m]) {
-        b -= 16 * d
-        0 > b && (b += 16)
-        c -= 16 * e
-        0 > c && (c += 16)
-        return this.rchunk[m].getBlock(b, f, c)
-    } else {
-        return {
-            id: 0,
-            data: 0
-        }
-    }
-};
-RegionLib.prototype.updateChunkBlock = function(b, f, c, d, e, m, l) {
-    b = 1e4 * b + f;
-    if (void 0 !== this.rchunk[b]) this.rchunk[b].updateBlock(c, d, e, m, l)
-};
-RegionLib.prototype.updateBlock = function(b, f, c, d, e) {
-    var m = Math.floor(b / 16),
-        l = Math.floor(c / 16),
-        p = 1e4 * m + l;
-    void 0 !== this.rchunk[p] && (b -= 16 * m, 0 > b && (b += 16), c -= 16 * l, 0 > c && (c += 16), this.rchunk[p].updateBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e))
-};
-RegionLib.prototype.setBlock = function(b, f, c, d, e) {
-    var m = Math.floor(b / 16),
-        l = Math.floor(c / 16),
-        p = 1e4 * m + l;
-    void 0 !== this.rchunk[p] && (b -= 16 * m, 0 > b && (b += 16), c -= 16 * l, 0 > c && (c += 16), this.rchunk[p].setBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e))
-};
+
 RegionLib.prototype.changeChunkBlockAdd = function(b, f, c, d, e) {
     b = 1e4 * b + f;
     void 0 !== this.rchunk[b] && this.rchunk[b].changeAdd(c, d, e)
@@ -251,46 +212,6 @@ RegionLib.prototype.renderSelection = function() {
     b.rchx = c;
     b.rchz = d;
     return b;
-  }
-};
-RegionLib.prototype.testCollisions = function() {
-  var d;
-  var p;
-  var b, c, d, e, f, l, m, p;
-  b = camera.getPos();
-  f = Math.floor(b[0] / 16);
-  c = Math.floor(b[2] / 16);
-  d = 0;
-  (new Date).getTime();
-  e = void 0;
-  m = void 0;
-  e = f - 1;
-  while (e < f + 2) {
-    m = c - 1;
-    while (m < c + 2) {
-      if (16 * e - 2 < b[0] && 16 * e + 18 > b[0] && 16 * m - 2 < b[2] && 16 * m + 18 > b[2]) {
-        l = 1e4 * e + m;
-        if (-1 !== this.rchunk[l] && -2 !== this.rchunk[l]) {
-          if (void 0 === this.rchunk[l]) {
-            return !0;
-          }
-          l = this.rchunk[l].getBuffer([Math.floor(b[0] - (16 * e)), Math.floor(b[1]), Math.floor(b[2] - (16 * m))]);
-          if (!1 !== l) {
-            p = 0;
-            p = p + intersection3D.shapeIntersectsShape(l, player.shape, 9, 5, b);
-            d = d + p;
-          }
-        }
-      }
-      m++;
-    }
-    e++;
-  }
-  (new Date).getTime();
-  if (0 < d) {
-    return !0;
-  } else {
-    return !1;
   }
 };
 RegionLib.prototype.save = function() {
