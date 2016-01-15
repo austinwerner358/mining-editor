@@ -5607,7 +5607,7 @@ function SelectionBox() {}
 SelectionBox.prototype.render = function(b) {
     var f = window.gluu.lineShader;
     gluu.gl.useProgram(f);
-    mat4.perspective(window.gluu.pMatrix, camera.fovy, gluu.gl.viewportWidth / gluu.gl.viewportHeight, 0.1, 6E3);
+    mat4.perspective(window.gluu.pMatrix, camera.fovy, gluu.gl.viewportWidth / gluu.gl.viewportHeight, 0.1, 6e3);
     var c = camera.getMatrix();
     mat4.multiply(window.gluu.pMatrix, window.gluu.pMatrix, c);
     mat4.identity(window.gluu.mvMatrix);

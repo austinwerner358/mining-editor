@@ -8,7 +8,7 @@ function RegionLib(b, f) {
     this.iChunk = 0
 }
 RegionLib.prototype.getChunkBlock = function(b, f, c, d, e) {
-    b = 1E4 * b + f;
+    b = 1e4 * b + f;
     return void 0 !== this.rchunk[b] ? this.rchunk[b].getBlock(c, d, e) : {
         id: 0,
         data: 0
@@ -17,31 +17,38 @@ RegionLib.prototype.getChunkBlock = function(b, f, c, d, e) {
 RegionLib.prototype.getBlock = function(b, f, c) {
     var d = Math.floor(b / 16),
         e = Math.floor(c / 16),
-        m = 1E4 * d + e,
-        m = 1E4 * d + e;
-    return void 0 !== this.rchunk[m] ? (b -= 16 * d, 0 > b && (b += 16), c -= 16 * e, 0 > c && (c += 16), this.rchunk[m].getBlock(b, f, c)) : {
-        id: 0,
-        data: 0
+        m = 1e4 * d + e;
+    if (void 0 !== this.rchunk[m]) {
+        b -= 16 * d
+        0 > b && (b += 16)
+        c -= 16 * e
+        0 > c && (c += 16)
+        return this.rchunk[m].getBlock(b, f, c)
+    } else {
+        return {
+            id: 0,
+            data: 0
+        }
     }
 };
 RegionLib.prototype.updateChunkBlock = function(b, f, c, d, e, m, l) {
-    b = 1E4 * b + f;
-    void 0 !== this.rchunk[b] && this.rchunk[b].updateBlock(c, d, e, m, l)
+    b = 1e4 * b + f;
+    if (void 0 !== this.rchunk[b]) this.rchunk[b].updateBlock(c, d, e, m, l)
 };
 RegionLib.prototype.updateBlock = function(b, f, c, d, e) {
     var m = Math.floor(b / 16),
         l = Math.floor(c / 16),
-        p = 1E4 * m + l;
+        p = 1e4 * m + l;
     void 0 !== this.rchunk[p] && (b -= 16 * m, 0 > b && (b += 16), c -= 16 * l, 0 > c && (c += 16), this.rchunk[p].updateBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e))
 };
 RegionLib.prototype.setBlock = function(b, f, c, d, e) {
     var m = Math.floor(b / 16),
         l = Math.floor(c / 16),
-        p = 1E4 * m + l;
+        p = 1e4 * m + l;
     void 0 !== this.rchunk[p] && (b -= 16 * m, 0 > b && (b += 16), c -= 16 * l, 0 > c && (c += 16), this.rchunk[p].setBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e))
 };
 RegionLib.prototype.changeChunkBlockAdd = function(b, f, c, d, e) {
-    b = 1E4 * b + f;
+    b = 1e4 * b + f;
     void 0 !== this.rchunk[b] && this.rchunk[b].changeAdd(c, d, e)
 };
 RegionLib.prototype.updateChunks = function() {
@@ -56,133 +63,242 @@ RegionLib.prototype.deleteBuffers = function() {
     var b = (new Date).getTime(),
         f = 0,
         c;
-    for (c in this.rchunk) void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c] && !0 !== this.rchunk[c].changed && (1 === this.rchunk[c].isInit || 1 === this.rchunk[c].isInit1) && this.rchunk[c].timestamp + 1E4 < b && (this.rchunk[c].deleteBuffers(), this.rchunk[c] = void 0, f++);
+    for (c in this.rchunk) void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c] && !0 !== this.rchunk[c].changed && (1 === this.rchunk[c].isInit || 1 === this.rchunk[c].isInit1) && this.rchunk[c].timestamp + 1e4 < b && (this.rchunk[c].deleteBuffers(), this.rchunk[c] = void 0, f++);
     c = (new Date).getTime();
     console.log("delete buffers " + (c - b) + " " + f)
 };
 RegionLib.prototype.render = function() {
-    if (initTexture) {
-        var b = window.gluu.standardShader;
-        gluu.gl.useProgram(b);
-        gluu.gl.viewport(0, 0, gluu.gl.viewportWidth, gluu.gl.viewportHeight);
-        gluu.gl.clearColor(settings.skyColor[0], settings.skyColor[1], settings.skyColor[2], 1);
-        gluu.gl.clear(gluu.gl.COLOR_BUFFER_BIT | gluu.gl.DEPTH_BUFFER_BIT);
-        mat4.perspective(window.gluu.pMatrix, camera.fovy, gluu.gl.viewportWidth / gluu.gl.viewportHeight, 0.1, 6E3);
-        var f = camera.getMatrix();
-        mat4.multiply(window.gluu.pMatrix, window.gluu.pMatrix, f);
-        mat4.identity(window.gluu.mvMatrix);
-        gluu.gl.uniformMatrix4fv(b.pMatrixUniform, !1,
-            window.gluu.pMatrix);
-        gluu.gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
-        gluu.gl.uniform1f(b.lod, settings.distanceLevel[1]);
-        gluu.gl.uniform1f(b.sun, settings.sun);
-        gluu.gl.uniform1f(b.brightness, settings.brightness);
-        gluu.gl.uniform4fv(b.skyColor, settings.skyColor);
-        var c, d, f, e, m, l, p, q, x, A, B;
-        for (c = 0, d = 0, f = 0, e = [settings.distanceLevel[0], settings.distanceLevel[1], settings.distanceLevel[2], settings.distanceLevel[2]], m = [], l = 0, p = 0, q = 0, x = camera.getPos(), A = 0; 4 > A; A++) {
-            var t = Math.floor(x[0] / 16),
-                a = Math.floor(x[2] / 16);
-            m[0] = 0;
-            m[1] = 0;
-            for (B = -1; B < e[A] * e[A] * 4; B++)
-                if (-1 !== B && (m = spiralLoop(B)), l = t + m[0], p = a + m[1], q = 1E4 * l + p, -1 === this.rchunk[q] || -2 === this.rchunk[q]) this.rchunk[q].timestamp = chronometer.lastTime;
-                else if (c = x[0] - (16 * l + 8), d = x[2] - (16 * p + 8), f = Math.sqrt(c * c + d * d), !(f > 16 * e[A])) {
-                if (64 < f) {
-                    var v = camera.getTarget(),
-                        v = [x[0] - v[0], x[2] - v[2]],
-                        d = [-c, -d],
-                        c = v[0] * d[0] + v[1] * d[1],
-                        C = Math.sqrt(v[0] * v[0] + v[1] * v[1]),
-                        v = Math.sqrt(d[0] * d[0] + d[1] * d[1]),
-                        c = c / (C * v);
-                    if (0 < c) continue;
-                    c = Math.cos(camera.fovx / 1.5) + c;
-                    v = Math.sqrt(2 * v * v * (1 - c));
-                    if (0 < c && 16 < v) continue
-                }
-                void 0 === this.rchunk[q] ? 1 < chronometer.iLag &&
-                    (chronometer.iLag -= 1, this.requestChunk(l, p)) : (this.rchunk[q].timestamp = chronometer.lastTime, (62 <= x[1] || 160 > f) && this.rchunk[q].render(A, b, 0), 62 > x[1] && 96 > f ? this.rchunk[q].render(A, b, 1) : 64 > f && this.rchunk[q].render(A, b, 1))
+  var c;
+  var v;
+  var c;
+  var d;
+  var v;
+  var f;
+  var A, B, C, a, b, c, d, e, f, l, m, p, q, t, v, x;
+  if (window.initTexture) {
+    b = window.gluu.standardShader;
+    gluu.gl.useProgram(b);
+    gluu.gl.viewport(0, 0, gluu.gl.viewportWidth, gluu.gl.viewportHeight);
+    gluu.gl.clearColor(settings.skyColor[0], settings.skyColor[1], settings.skyColor[2], 1);
+    gluu.gl.clear(gluu.gl.COLOR_BUFFER_BIT | gluu.gl.DEPTH_BUFFER_BIT);
+    mat4.perspective(window.gluu.pMatrix, camera.fovy, gluu.gl.viewportWidth / gluu.gl.viewportHeight, 0.1, 6e3);
+    f = camera.getMatrix();
+    mat4.multiply(window.gluu.pMatrix, window.gluu.pMatrix, f);
+    mat4.identity(window.gluu.mvMatrix);
+    gluu.gl.uniformMatrix4fv(b.pMatrixUniform, !1, window.gluu.pMatrix);
+    gluu.gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
+    gluu.gl.uniform1f(b.lod, settings.distanceLevel[1]);
+    gluu.gl.uniform1f(b.sun, settings.sun);
+    gluu.gl.uniform1f(b.brightness, settings.brightness);
+    gluu.gl.uniform4fv(b.skyColor, settings.skyColor);
+    c = void 0;
+    d = void 0;
+    f = void 0;
+    e = void 0;
+    m = void 0;
+    l = void 0;
+    p = void 0;
+    q = void 0;
+    x = void 0;
+    A = void 0;
+    B = void 0;
+    c = 0;
+    d = 0;
+    f = 0;
+    e = [settings.distanceLevel[0], settings.distanceLevel[1], settings.distanceLevel[2], settings.distanceLevel[2]];
+    m = [];
+    l = 0;
+    p = 0;
+    q = 0;
+    x = camera.getPos();
+    A = 0;
+    while (4 > A) {
+      t = Math.floor(x[0] / 16);
+      a = Math.floor(x[2] / 16);
+      m[0] = 0;
+      m[1] = 0;
+      B = -1;
+      while (B < e[A] * e[A] * 4) {
+        -1 !== B && (m = window.spiralLoop(B));
+        l = t + m[0];
+        p = a + m[1];
+        q = 1e4 * l + p;
+        if (-1 === this.rchunk[q] || -2 === this.rchunk[q]) {
+          this.rchunk[q].timestamp = window.chronometer.lastTime;
+        } else {
+          if (c = x[0] - (16 * l + 8)) {
+            d = x[2] - (16 * p + 8);
+            f = Math.sqrt(c * c + d * d);
+            !(f > 16 * e[A]);
+            if (64 < f) {
+              v = camera.getTarget();
+              v = [x[0] - v[0], x[2] - v[2]];
+              d = [-c, -d];
+              c = v[0] * d[0] + v[1] * d[1];
+              C = Math.sqrt(v[0] * v[0] + v[1] * v[1]);
+              v = Math.sqrt(d[0] * d[0] + d[1] * d[1]);
+              c = c / (C * v);
+              if (0 < c) {
+                B++;
+                continue;
+              }
+              c = Math.cos(camera.fovx / 1.5) + c;
+              v = Math.sqrt(2 * v * v * (1 - c));
+              if (0 < c && 16 < v) {
+                B++;
+                continue;
+              }
             }
+            if (void 0 === this.rchunk[q]) {
+              1 < chronometer.iLag && (chronometer.iLag -= 1);
+              this.requestChunk(l, p);
+            } else {
+              this.rchunk[q].timestamp = chronometer.lastTime;
+              (62 <= x[1] || 160 > f) && this.rchunk[q].render(A, b, 0);
+              if (62 > x[1] && 96 > f) {
+                this.rchunk[q].render(A, b, 1);
+              } else {
+                64 > f && this.rchunk[q].render(A, b, 1);
+              }
+            }
+          }
         }
+        B++;
+      }
+      A++;
     }
+  }
 };
 RegionLib.prototype.renderSelection = function() {
-    if (initTexture) {
-        var b = window.gluu.selectionShader;
-        gluu.gl.useProgram(b);
-        gluu.gl.viewport(0, 0, gluu.gl.viewportWidth, gluu.gl.viewportHeight);
-        gluu.gl.clearColor(0, 0, 0, 0);
-        gluu.gl.clear(gluu.gl.COLOR_BUFFER_BIT | gluu.gl.DEPTH_BUFFER_BIT);
-        mat4.perspective(window.gluu.pMatrix, camera.fovy, gluu.gl.viewportWidth / gluu.gl.viewportHeight, 0.1, 6E3);
-        var f = camera.getMatrix();
-        mat4.multiply(window.gluu.pMatrix, window.gluu.pMatrix, f);
-        mat4.identity(window.gluu.mvMatrix);
-        gluu.gl.uniformMatrix4fv(b.pMatrixUniform, !1, window.gluu.pMatrix);
-        gluu.gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
-        var c, d, e, m, f, l, x;
-        for (c = [], d = 0, e = 0, m = 0, f = camera.getPos(), l = 0; 4 > l; l++) {
-            var p = Math.floor(f[0] / 16),
-                q = Math.floor(f[2] / 16);
-            c[0] = 0;
-            c[1] = 0;
-            for (x = -1; 24 > x; x++) - 1 !== x && (c = spiralLoop(x)), d = p + c[0], e = q + c[1], m = 1E4 * d + e, -1 === this.rchunk[m] || -2 === this.rchunk[m] ? this.rchunk[m].timestamp = chronometer.lastTime : void 0 === this.rchunk[m] ? 1 < chronometer.iLag && (chronometer.iLag -= 1, this.requestChunk(d, e)) : (this.rchunk[m].timestamp = chronometer.lastTime, this.rchunk[m].render(l, b, 0), this.rchunk[m].render(l, b, 1))
+  var f;
+  var b, c, d, e, f, l, m, p, q, x;
+  if (window.initTexture) {
+    b = window.gluu.selectionShader;
+    gluu.gl.useProgram(b);
+    gluu.gl.viewport(0, 0, gluu.gl.viewportWidth, gluu.gl.viewportHeight);
+    gluu.gl.clearColor(0, 0, 0, 0);
+    gluu.gl.clear(gluu.gl.COLOR_BUFFER_BIT | gluu.gl.DEPTH_BUFFER_BIT);
+    mat4.perspective(window.gluu.pMatrix, camera.fovy, gluu.gl.viewportWidth / gluu.gl.viewportHeight, 0.1, 6e3);
+    f = camera.getMatrix();
+    mat4.multiply(window.gluu.pMatrix, window.gluu.pMatrix, f);
+    mat4.identity(window.gluu.mvMatrix);
+    gluu.gl.uniformMatrix4fv(b.pMatrixUniform, !1, window.gluu.pMatrix);
+    gluu.gl.uniformMatrix4fv(b.mvMatrixUniform, !1, window.gluu.mvMatrix);
+    c = void 0;
+    d = void 0;
+    e = void 0;
+    m = void 0;
+    f = void 0;
+    l = void 0;
+    x = void 0;
+    c = [];
+    d = 0;
+    e = 0;
+    m = 0;
+    f = camera.getPos();
+    l = 0;
+    while (4 > l) {
+      p = Math.floor(f[0] / 16);
+      q = Math.floor(f[2] / 16);
+      c[0] = 0;
+      c[1] = 0;
+      x = -1;
+      while (24 > x) {
+        -1 !== x && (c = window.spiralLoop(x));
+        d = p + c[0];
+        e = q + c[1];
+        m = 1e4 * d + e;
+        if (-1 === this.rchunk[m] || -2 === this.rchunk[m]) {
+          this.rchunk[m].timestamp = chronometer.lastTime;
+        } else {
+          if (void 0 === this.rchunk[m]) {
+            1 < chronometer.iLag && (chronometer.iLag -= 1);
+            this.requestChunk(d, e);
+          } else {
+            this.rchunk[m].timestamp = chronometer.lastTime;
+            this.rchunk[m].render(l, b, 0);
+            this.rchunk[m].render(l, b, 1);
+          }
         }
-        q = new Uint8Array(4);
-        gluu.gl.readPixels(Math.floor(gluu.gl.viewportWidth /
-            2), Math.floor(gluu.gl.viewportHeight / 2), 1, 1, gluu.gl.RGBA, gluu.gl.UNSIGNED_BYTE, q);
-        b = {};
-        b.y = q[0];
-        b.z = Math.floor(q[1] / 16);
-        b.x = q[1] - 16 * b.z;
-        p = Math.floor(q[2] / 10);
-        b.side = q[2] - 10 * p;
-        c = Math.floor(p / 5);
-        d = p - 5 * c;
-        p = Math.floor(f[0] / 16);
-        q = Math.floor(f[2] / 16);
-        f = p % 5;
-        0 > f && (f += 5);
-        e = q % 5;
-        0 > e && (e += 5);
-        c -= f;
-        d -= e;
-        2 < c && (c -= 5); - 2 > c && (c += 5);
-        2 < d && (d -= 5); - 2 > d && (d += 5);
-        b.chx = p + c;
-        b.chz = q + d;
-        b.rchx = c;
-        b.rchz = d;
-        return b
+        x++;
+      }
+      l++;
     }
+    q = new Uint8Array(4);
+    gluu.gl.readPixels(Math.floor(gluu.gl.viewportWidth / 2), Math.floor(gluu.gl.viewportHeight / 2), 1, 1, gluu.gl.RGBA, gluu.gl.UNSIGNED_BYTE, q);
+    b = {};
+    b.y = q[0];
+    b.z = Math.floor(q[1] / 16);
+    b.x = q[1] - (16 * b.z);
+    p = Math.floor(q[2] / 10);
+    b.side = q[2] - (10 * p);
+    c = Math.floor(p / 5);
+    d = p - (5 * c);
+    p = Math.floor(f[0] / 16);
+    q = Math.floor(f[2] / 16);
+    f = p % 5;
+    0 > f && (f += 5);
+    e = q % 5;
+    0 > e && (e += 5);
+    c -= f;
+    d -= e;
+    2 < c && (c -= 5);
+    -2 > c && (c += 5);
+    2 < d && (d -= 5);
+    -2 > d && (d += 5);
+    b.chx = p + c;
+    b.chz = q + d;
+    b.rchx = c;
+    b.rchz = d;
+    return b;
+  }
 };
 RegionLib.prototype.testCollisions = function() {
-    var b = camera.getPos(),
-        f = Math.floor(b[0] / 16),
-        c = Math.floor(b[2] / 16),
-        d = 0;
-    (new Date).getTime();
-    var e, m;
-    for (e = f - 1; e < f + 2; e++)
-        for (m = c - 1; m < c + 2; m++)
-            if (16 * e - 2 < b[0] && 16 * e + 18 > b[0] && 16 * m - 2 < b[2] && 16 * m + 18 > b[2]) {
-                var l = 1E4 * e + m;
-                if (-1 !== this.rchunk[l] && -2 !== this.rchunk[l]) {
-                    if (void 0 === this.rchunk[l]) return !0;
-                    l = this.rchunk[l].getBuffer([Math.floor(b[0] - 16 * e), Math.floor(b[1]), Math.floor(b[2] - 16 * m)]);
-                    if (!1 !== l) var p = 0,
-                        p = p + intersection3D.shapeIntersectsShape(l, player.shape,
-                            9, 5, b),
-                        d = d + p
-                }
-            }(new Date).getTime();
-    return 0 < d ? !0 : !1
+  var d;
+  var p;
+  var b, c, d, e, f, l, m, p;
+  b = camera.getPos();
+  f = Math.floor(b[0] / 16);
+  c = Math.floor(b[2] / 16);
+  d = 0;
+  (new Date).getTime();
+  e = void 0;
+  m = void 0;
+  e = f - 1;
+  while (e < f + 2) {
+    m = c - 1;
+    while (m < c + 2) {
+      if (16 * e - 2 < b[0] && 16 * e + 18 > b[0] && 16 * m - 2 < b[2] && 16 * m + 18 > b[2]) {
+        l = 1e4 * e + m;
+        if (-1 !== this.rchunk[l] && -2 !== this.rchunk[l]) {
+          if (void 0 === this.rchunk[l]) {
+            return !0;
+          }
+          l = this.rchunk[l].getBuffer([Math.floor(b[0] - (16 * e)), Math.floor(b[1]), Math.floor(b[2] - (16 * m))]);
+          if (!1 !== l) {
+            p = 0;
+            p = p + intersection3D.shapeIntersectsShape(l, player.shape, 9, 5, b);
+            d = d + p;
+          }
+        }
+      }
+      m++;
+    }
+    e++;
+  }
+  (new Date).getTime();
+  if (0 < d) {
+    return !0;
+  } else {
+    return !1;
+  }
 };
 RegionLib.prototype.save = function() {
     var b;
     for (b in this.rchunk) void 0 !== this.rchunk[b] && -1 !== this.rchunk[b] && -2 !== this.rchunk[b] && this.rchunk[b].changed && (mcWorld.saveChunkToStorage(this.rchunk[b].xPos, this.rchunk[b].zPos), this.rchunk[b].changed = !1)
 };
 RegionLib.prototype.saveChunkToStorage = function(b, f) {
-    var c = 1E4 * b + f;
+    var c = 1e4 * b + f;
     if (void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c]) {
         var d = this.rchunk[c].getNBT(),
             d = (new Zlib.Deflate(d)).compress(),
@@ -208,7 +324,7 @@ RegionLib.prototype.loadChunkFromStorage = function(b, f, c) {
     var d = mcWorld.getChunkFromStorage(b, f);
     if (-1 === d) return -1;
     if (c) return d;
-    this.rchunk[1E4 * b + f] = d;
+    this.rchunk[1e4 * b + f] = d;
     var e = d = c = !1,
         m = !1,
         l = mcWorld.requestChunk(b + 1, f);
@@ -225,48 +341,60 @@ RegionLib.prototype.loadChunkFromStorage = function(b, f, c) {
     d || b.init2()
 };
 RegionLib.prototype.loadRegion = function(b, f) {
-    this.region[1E3 * b + f] = {};
-    this.region[1E3 * b + f].loaded = -2;
-    if (void 0 !== window.threadsCode) var c = new Blob([threadsCode.loadRegionThread], {
-            type: "application/javascript"
-        }),
-        c = new Worker(window.URL.createObjectURL(c));
-    else c = new Worker("threads/loadRegionThread.js");
-    c.regionLib = this;
-    c.region = this.region[1E3 * b + f];
-    c.onmessage = function(b) {
-        this.regionLib.regionLoaded(b)
-    };
-    c.onerror = function(b) {
-        this.region.loaded = -1
-    };
-    var d = this.gameRoot + "/" + this.worldName + "/region/r." +
-        b + "." + f + ".mca",
-        e = "";
-    if (-1 === this.gameRoot.indexOf(":")) {
-        var e = document.location.href.split(/\?|#/)[0],
-            m = e.indexOf("index"); - 1 !== m && (e = e.substring(0, m))
-    }
-    console.log(e + d);
-    c.postMessage({
-        x: b,
-        y: f,
-        name: e + d
-    })
+  var c;
+  var c, d, e, m;
+  this.region[1e3 * b + f] = {};
+  this.region[1e3 * b + f].loaded = -2;
+  if (void 0 !== window.threadsCode) {
+    c = new Blob([threadsCode.loadRegionThread], {
+      type: 'application/javascript'
+    });
+    c = new Worker(window.URL.createObjectURL(c));
+  } else {
+    c = new Worker('threads/loadRegionThread.js');
+  }
+  c.regionLib = this;
+  c.region = this.region[1e3 * b + f];
+  c.onmessage = function(b) {
+    this.regionLib.regionLoaded(b);
+  };
+  c.onerror = function(b) {
+    var e;
+    this.region.loaded = -1;
+  };
+  d = this.gameRoot + '/' + this.worldName + '/region/r.' + b + '.' + f + '.mca';
+  e = '';
+  if (-1 === this.gameRoot.indexOf(':')) {
+    e = document.location.href.split(/\?|#/)[0];
+    m = e.indexOf('index');
+    -1 !== m && (e = e.substring(0, m));
+  }
+  console.log(e + d);
+  c.postMessage({
+    x: b,
+    y: f,
+    name: e + d
+  });
 };
 RegionLib.prototype.regionLoaded = function(b) {
     var f = b.data.x,
         c = b.data.y;
-    if (1 !== b.data.loaded) f = this.region[1E3 * f + c], f.loaded = -1;
-    else if (b = new Uint8Array(b.data.data), 1E3 > b.length) f = this.region[1E3 * f + c], f.loaded = -1;
-    else {
-        f = this.region[1E3 * f + c];
-        f.regionData = b;
-        f.loaded = 0;
-        f.chunkPos = [];
-        f.chunkLen = [];
-        var d;
-        for (d = c = 0; 4096 > c; c += 4, d++) f.chunkPos[d] = 65536 * b[c] + 256 * b[c + 1] + b[c + 2], f.chunkLen[d] = b[c + 3]
+    if (1 !== b.data.loaded) {
+        f = this.region[1e3 * f + c], f.loaded = -1;
+    } else {
+        if (b = new Uint8Array(b.data.data), 1e3 > b.length) {
+            f = this.region[1e3 * f + c], f.loaded = -1;
+        } else {
+            f = this.region[1e3 * f + c];
+            f.regionData = b;
+            f.loaded = 0;
+            f.chunkPos = [];
+            f.chunkLen = [];
+            var d;
+            for (d = c = 0; 4096 > c; c += 4, d++) {
+                f.chunkPos[d] = 65536 * b[c] + 256 * b[c + 1] + b[c + 2], f.chunkLen[d] = b[c + 3]
+            }
+        }
     }
 };
 RegionLib.prototype.loadRegionFile = function(b, f) {
@@ -284,28 +412,42 @@ RegionLib.prototype.loadRegionFile = function(b, f) {
     for (e = 0, m = 0; 4096 > e; e += 4, m++) b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2], b.chunkLen[m] = c[e + 3]
 };
 RegionLib.prototype.requestChunk = function(b, f) {
-    var c = 1E4 * b + f;
-    if (void 0 !== this.rchunk[c]) return this.rchunk[c];
-    if (1 !== this.localIChunk[c]) {
-        var d = -1;
-        this.localIChunk[c] = 1;
-        if (-1 !== (d = this.loadChunkFromStorage(b, f, !0))) return this.rchunk[c] = d
+  var d;
+  var c, d, e, l, m;
+  c = 1e4 * b + f;
+  if (void 0 !== this.rchunk[c]) {
+    return this.rchunk[c];
+  }
+  if (1 !== this.localIChunk[c]) {
+    d = -1;
+    this.localIChunk[c] = 1;
+    if (-1 !== (d = this.loadChunkFromStorage(b, f, !0))) {
+      return this.rchunk[c] = d;
     }
-    var d = Math.floor(b / 32),
-        e = Math.floor(f / 32);
-    void 0 === this.region[1E3 * d + e] && this.loadRegion(d, e);
-    if (-1 === this.region[1E3 * d + e].loaded) return this.rchunk[c] = -1;
-    if (-2 === this.region[1E3 * d + e].loaded) return -2;
-    if (0 === this.region[1E3 * d + e].loaded) {
-        var m = b % 32;
-        0 > m && (m += 32);
-        var l =
-            f % 32;
-        0 > l && (l += 32);
-        m += 32 * l;
-        if (0 < this.region[1E3 * d + e].chunkPos[m]) return console.log("chunk " + c + " : " + this.region[1E3 * d + e].chunkPos[m] + " " + this.region[1E3 * d + e].chunkLen[m]), this.iChunk++, this.rchunk[c] = RegionLib.loadChunk(4096 * this.region[1E3 * d + e].chunkPos[m], this.region[1E3 * d + e].regionData, !0), this.rchunk[c];
-        this.rchunk[c] = -1
+  }
+  d = Math.floor(b / 32);
+  e = Math.floor(f / 32);
+  void 0 === this.region[1e3 * d + e] && this.loadRegion(d, e);
+  if (-1 === this.region[1e3 * d + e].loaded) {
+    return this.rchunk[c] = -1;
+  }
+  if (-2 === this.region[1e3 * d + e].loaded) {
+    return -2;
+  }
+  if (0 === this.region[1e3 * d + e].loaded) {
+    m = b % 32;
+    0 > m && (m += 32);
+    l = f % 32;
+    0 > l && (l += 32);
+    m += 32 * l;
+    if (0 < this.region[1e3 * d + e].chunkPos[m]) {
+      console.log('chunk ' + c + ' : ' + this.region[1e3 * d + e].chunkPos[m] + ' ' + this.region[1e3 * d + e].chunkLen[m]);
+      this.iChunk++;
+      this.rchunk[c] = RegionLib.loadChunk(4096 * this.region[1e3 * d + e].chunkPos[m], this.region[1e3 * d + e].regionData, !0);
+      return this.rchunk[c];
     }
+    this.rchunk[c] = -1;
+  }
 };
 RegionLib.loadChunk = function(b, f, c) {
     var d = {},
@@ -321,7 +463,7 @@ RegionLib.loadChunk = function(b, f, c) {
     } catch (l) {
         return console.log("fail"), -1
     }
-    for (f = 0; 2E3 > f && -1 !== (b = NBT.nextTag(d)); f++) {
+    for (f = 0; 2e3 > f && -1 !== (b = NBT.nextTag(d)); f++) {
         switch (b.name) {
             case "xPos":
                 e.xPos = b.value;
@@ -351,7 +493,9 @@ RegionLib.loadChunk = function(b, f, c) {
 };
 RegionLib.readSections = function(b, f, c) {
     var d, e, m;
-    for (d = {}, m = 0; m < b.length && -1 !== (e = NBT.nextTag(c));) switch (0 === e.type && (void 0 === d.add && (d.add = new Uint8Array(2048)), f.section[d.y] = d, d = {}, m++), e.name) {
+    for (d = {}, m = 0; m < b.length && -1 !== (e = NBT.nextTag(c));) {
+        0 === e.type && (void 0 === d.add && (d.add = new Uint8Array(2048)), f.section[d.y] = d, d = {}, m++)
+        switch (e.name) {
         case "Y":
             d.y = e.value;
             break;
@@ -370,5 +514,6 @@ RegionLib.readSections = function(b, f, c) {
         case "Data":
             d.data = e.data
             break;
+        }
     }
 };
