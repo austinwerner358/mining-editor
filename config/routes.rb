@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root 'game#index'
 
+  get '/:world_name' => 'game#index'
+
   get 'blocks' => 'init#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,4 +1,5 @@
 window.webGLStart = ->
+  window.settings.initSettings()
   b = undefined
   camera = undefined
   firstTime = undefined
