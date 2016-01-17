@@ -1,4 +1,12 @@
-Camera = ->
+###
+Another type of camera not used as of yet.
+
+To be used as a flying camera with collisions.
+
+Potentially to be used for taking screen shots.
+###
+
+Camera = -> # TODO: turn into class that extends CameraGod
   @name = 'Camera'
   @pos = undefined
   @oldPos = new Float32Array(3)

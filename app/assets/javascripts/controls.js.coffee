@@ -74,11 +74,7 @@ Controls::keyDown = (b) ->
           window.player.setPosRot window.camera.getEye(), window.camera.getRot()
           window.camera = window.cameraPlayer.updatePos(window.player)
         else
-          'CameraPlayer' == window.camera.name and (window.camera = window.cameraGod.updatePos(window.camera.getEye(), window.camera.getRot(), [
-            0
-            1
-            0
-          ]))
+          'CameraPlayer' == window.camera.name and (window.camera = window.cameraGod.updatePos(window.player))
         window.camera.sensitivity = 2 * window.settings.sensitivity
   return
 
