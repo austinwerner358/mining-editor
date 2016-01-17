@@ -26,6 +26,8 @@ Camera = ->
   @sensitivity = 100
   @moveR = @moveL = @moveB = @moveF = !1
   @upY = @moveY = @moveX = 0
+  @rotUp = @rotDown = @rotLeft = @rotRight = 0
+  @rotSensitivity = 30
   return
 
 window.cameraOther = new Camera
@@ -140,6 +142,10 @@ Camera::updatePosition = (b) ->
   if mcWorld.testCollisions() then (@pos[0] = @oldPos[0]) else (@oldPos[0] = @pos[0])
   @patrzX @moveX / @sensitivity
   @patrzY @moveY / @sensitivity
+  @patrzX(-1 / @rotSensitivity) if @rotRight
+  @patrzY(1 / @rotSensitivity) if @rotUp
+  @patrzX(1 / @rotSensitivity) if @rotLeft
+  @patrzY(-1 / @rotSensitivity) if @rotDown
   @moveY = @moveX = 0
   @tPos[0] = @pos[0]
   @tPos[1] = @pos[1]
@@ -166,26 +172,42 @@ Camera::keyUp = (b) ->
   switch b
     when 69
       @przesx = @przesz = 10
-    when 37, 65
+    when keyMap.moveLeft
       @moveL = !1
-    when 38, 87
+    when keyMap.moveForward
       @moveF = !1
-    when 39, 68
+    when keyMap.moveRight
       @moveR = !1
-    when 40, 83
+    when keyMap.moveBackward
       @moveB = !1
+    when keyMap.arrowLeft
+      @rotLeft = !1
+    when keyMap.arrowUp
+      @rotUp = !1
+    when keyMap.arrowRight
+      @rotRight = !1
+    when keyMap.arrowDown
+      @rotDown = !1
   return
 
 Camera::keyDown = (b, f) ->
   switch b.keyCode
-    when 37, 65
+    when keyMap.moveLeft
       @moveL = !0
-    when 38, 87
+    when keyMap.moveForward
       @moveF = !0
-    when 39, 68
+    when keyMap.moveRight
       @moveR = !0
-    when 40, 83
+    when keyMap.moveBackward
       @moveB = !0
+    when keyMap.arrowLeft
+      @rotLeft = !0
+    when keyMap.arrowUp
+      @rotUp = !0
+    when keyMap.arrowRight
+      @rotRight = !0
+    when keyMap.arrowDown
+      @rotDown = !0
     when 69
       @przesx = @przesz = 20
   return

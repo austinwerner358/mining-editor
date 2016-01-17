@@ -23,13 +23,13 @@ Controls::keyDown = (b) ->
   if @lastTarget == gluu.glCanvas
     window.camera.keyDown b, chronometer.fps
     switch b.keyCode
-      when 81
+      when keyMap.moveUp, keyMap.moveUpAlt
         0 == window.camera.upY and (window.camera.upY = 200)
-      when 90
+      when keyMap.useNextBlock
         window.useNextBlock useBlock
-      when 88
+      when keyMap.usePrevBlock
         window.usePrevBlock useBlock
-      when 67
+      when keyMap.useNextBlockData
         window.useNextBlockData useBlock
       when 49
         @selectU = 0
@@ -39,9 +39,9 @@ Controls::keyDown = (b) ->
         @selectU = 2
       when 52
         @selectU = 3
-      when 80
+      when keyMap.saveWorld
         window.mcWorld.save()
-      when 71
+      when keyMap.useCodeEditor
         b = document.getElementById('settings')
         if 'none' == b.style.display
           b.style.display = 'block'
