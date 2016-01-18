@@ -75,4 +75,3 @@ window.webGLStart = ->
 
   chronometer.tick()
   return
-

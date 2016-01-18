@@ -103,5 +103,3 @@ Intersection3D::segmentIntersectsTriangle = (b, f, c, d, e) ->
     return 1
   else
     return 0
-
-

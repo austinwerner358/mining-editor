@@ -1,32 +1,31 @@
-
 function RegionLib(b, f) {
-    this.gameRoot = b;
-    this.worldName = f;
-    this.region = [];
-    this.localIChunk = [];
-    this.rchunk = [];
-    this.iChunk = 0
+  this.gameRoot = b;
+  this.worldName = f;
+  this.region = [];
+  this.localIChunk = [];
+  this.rchunk = [];
+  this.iChunk = 0
 }
 
 RegionLib.prototype.changeChunkBlockAdd = function(b, f, c, d, e) {
-    b = 1e4 * b + f;
-    void 0 !== this.rchunk[b] && this.rchunk[b].changeAdd(c, d, e)
+  b = 1e4 * b + f;
+  void 0 !== this.rchunk[b] && this.rchunk[b].changeAdd(c, d, e)
 };
 RegionLib.prototype.updateChunks = function() {
-    var b = (new Date).getTime(),
-        f = 0,
-        c;
-    for (c in this.rchunk) void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c] && !0 === this.rchunk[c].needsUpdate && (this.rchunk[c].update(), f++);
-    c = (new Date).getTime();
-    console.log("update chunk " + (c - b) + " " + f)
+  var b = (new Date).getTime(),
+    f = 0,
+    c;
+  for (c in this.rchunk) void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c] && !0 === this.rchunk[c].needsUpdate && (this.rchunk[c].update(), f++);
+  c = (new Date).getTime();
+  console.log("update chunk " + (c - b) + " " + f)
 };
 RegionLib.prototype.deleteBuffers = function() {
-    var b = (new Date).getTime(),
-        f = 0,
-        c;
-    for (c in this.rchunk) void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c] && !0 !== this.rchunk[c].changed && (1 === this.rchunk[c].isInit || 1 === this.rchunk[c].isInit1) && this.rchunk[c].timestamp + 1e4 < b && (this.rchunk[c].deleteBuffers(), this.rchunk[c] = void 0, f++);
-    c = (new Date).getTime();
-    console.log("delete buffers " + (c - b) + " " + f)
+  var b = (new Date).getTime(),
+    f = 0,
+    c;
+  for (c in this.rchunk) void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c] && !0 !== this.rchunk[c].changed && (1 === this.rchunk[c].isInit || 1 === this.rchunk[c].isInit1) && this.rchunk[c].timestamp + 1e4 < b && (this.rchunk[c].deleteBuffers(), this.rchunk[c] = void 0, f++);
+  c = (new Date).getTime();
+  console.log("delete buffers " + (c - b) + " " + f)
 };
 RegionLib.prototype.render = function() {
   var c;
@@ -203,10 +202,8 @@ RegionLib.prototype.renderSelection = function() {
     0 > e && (e += 5);
     c -= f;
     d -= e;
-    2 < c && (c -= 5);
-    -2 > c && (c += 5);
-    2 < d && (d -= 5);
-    -2 > d && (d += 5);
+    2 < c && (c -= 5); - 2 > c && (c += 5);
+    2 < d && (d -= 5); - 2 > d && (d += 5);
     b.chx = p + c;
     b.chz = q + d;
     b.rchx = c;
@@ -215,51 +212,51 @@ RegionLib.prototype.renderSelection = function() {
   }
 };
 RegionLib.prototype.save = function() {
-    var b;
-    for (b in this.rchunk) void 0 !== this.rchunk[b] && -1 !== this.rchunk[b] && -2 !== this.rchunk[b] && this.rchunk[b].changed && (mcWorld.saveChunkToStorage(this.rchunk[b].xPos, this.rchunk[b].zPos), this.rchunk[b].changed = !1)
+  var b;
+  for (b in this.rchunk) void 0 !== this.rchunk[b] && -1 !== this.rchunk[b] && -2 !== this.rchunk[b] && this.rchunk[b].changed && (mcWorld.saveChunkToStorage(this.rchunk[b].xPos, this.rchunk[b].zPos), this.rchunk[b].changed = !1)
 };
 RegionLib.prototype.saveChunkToStorage = function(b, f) {
-    var c = 1e4 * b + f;
-    if (void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c]) {
-        var d = this.rchunk[c].getNBT(),
-            d = (new Zlib.Deflate(d)).compress(),
-            e = new Uint8Array(d.length + 5),
-            c = d.length + 1;
-        e[0] = c >> 24 & 255;
-        e[1] = c >> 16 & 255;
-        e[2] = c >> 8 & 255;
-        e[3] = c & 255;
-        e[4] = 2;
-        for (c = 0; c < d.length; c++) e[c + 5] = d[c];
-        d = ab2str(e);
-        window.localStorage.setItem(this.gameRoot + " " + this.worldName + " " + b + " " + f, d)
-    }
+  var c = 1e4 * b + f;
+  if (void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c]) {
+    var d = this.rchunk[c].getNBT(),
+      d = (new Zlib.Deflate(d)).compress(),
+      e = new Uint8Array(d.length + 5),
+      c = d.length + 1;
+    e[0] = c >> 24 & 255;
+    e[1] = c >> 16 & 255;
+    e[2] = c >> 8 & 255;
+    e[3] = c & 255;
+    e[4] = 2;
+    for (c = 0; c < d.length; c++) e[c + 5] = d[c];
+    d = ab2str(e);
+    window.localStorage.setItem(this.gameRoot + " " + this.worldName + " " + b + " " + f, d)
+  }
 };
 RegionLib.prototype.getChunkFromStorage = function(b, f) {
-    var c = window.localStorage.getItem(this.gameRoot + " " + this.worldName + " " + b + " " + f);
-    if (void 0 === c || null === c || "" === c) return -1;
-    c = new Uint8Array(str2ab(c));
-    return RegionLib.loadChunk(0, c, !0)
+  var c = window.localStorage.getItem(this.gameRoot + " " + this.worldName + " " + b + " " + f);
+  if (void 0 === c || null === c || "" === c) return -1;
+  c = new Uint8Array(str2ab(c));
+  return RegionLib.loadChunk(0, c, !0)
 };
 RegionLib.prototype.loadChunkFromStorage = function(b, f, c) {
-    var d = mcWorld.getChunkFromStorage(b, f);
-    if (-1 === d) return -1;
-    if (c) return d;
-    this.rchunk[1e4 * b + f] = d;
-    var e = d = c = !1,
-        m = !1,
-        l = mcWorld.requestChunk(b + 1, f);
-    void 0 === l && (m = !0); - 1 === l && (m = !0); - 2 === l && (m = !0);
-    var p = mcWorld.requestChunk(b - 1, f);
-    void 0 === p && (e = !0); - 1 === p && (e = !0); - 2 === p && (e = !0);
-    var q = mcWorld.requestChunk(b, f + 1);
-    void 0 === q && (c = !0); - 1 === q && (c = !0); - 2 === q && (c = !0);
-    b = mcWorld.requestChunk(b, f - 1);
-    void 0 === b && (d = !0); - 1 === b && (d = !0); - 2 === b && (d = !0);
-    m || l.init2();
-    e || p.init2();
-    c || q.init2();
-    d || b.init2()
+  var d = mcWorld.getChunkFromStorage(b, f);
+  if (-1 === d) return -1;
+  if (c) return d;
+  this.rchunk[1e4 * b + f] = d;
+  var e = d = c = !1,
+    m = !1,
+    l = mcWorld.requestChunk(b + 1, f);
+  void 0 === l && (m = !0); - 1 === l && (m = !0); - 2 === l && (m = !0);
+  var p = mcWorld.requestChunk(b - 1, f);
+  void 0 === p && (e = !0); - 1 === p && (e = !0); - 2 === p && (e = !0);
+  var q = mcWorld.requestChunk(b, f + 1);
+  void 0 === q && (c = !0); - 1 === q && (c = !0); - 2 === q && (c = !0);
+  b = mcWorld.requestChunk(b, f - 1);
+  void 0 === b && (d = !0); - 1 === b && (d = !0); - 2 === b && (d = !0);
+  m || l.init2();
+  e || p.init2();
+  c || q.init2();
+  d || b.init2()
 };
 RegionLib.prototype.loadRegion = function(b, f) {
   var c;
@@ -287,8 +284,7 @@ RegionLib.prototype.loadRegion = function(b, f) {
   e = '';
   if (-1 === this.gameRoot.indexOf(':')) {
     e = document.location.href.split(/\?|#/)[0];
-    m = e.indexOf('index');
-    -1 !== m && (e = e.substring(0, m));
+    m = e.indexOf('index'); - 1 !== m && (e = e.substring(0, m));
   }
   console.log(e + d);
   c.postMessage({
@@ -298,39 +294,39 @@ RegionLib.prototype.loadRegion = function(b, f) {
   });
 };
 RegionLib.prototype.regionLoaded = function(b) {
-    var f = b.data.x,
-        c = b.data.y;
-    if (1 !== b.data.loaded) {
-        f = this.region[1e3 * f + c], f.loaded = -1;
+  var f = b.data.x,
+    c = b.data.y;
+  if (1 !== b.data.loaded) {
+    f = this.region[1e3 * f + c], f.loaded = -1;
+  } else {
+    if (b = new Uint8Array(b.data.data), 1e3 > b.length) {
+      f = this.region[1e3 * f + c], f.loaded = -1;
     } else {
-        if (b = new Uint8Array(b.data.data), 1e3 > b.length) {
-            f = this.region[1e3 * f + c], f.loaded = -1;
-        } else {
-            f = this.region[1e3 * f + c];
-            f.regionData = b;
-            f.loaded = 0;
-            f.chunkPos = [];
-            f.chunkLen = [];
-            var d;
-            for (d = c = 0; 4096 > c; c += 4, d++) {
-                f.chunkPos[d] = 65536 * b[c] + 256 * b[c + 1] + b[c + 2], f.chunkLen[d] = b[c + 3]
-            }
-        }
+      f = this.region[1e3 * f + c];
+      f.regionData = b;
+      f.loaded = 0;
+      f.chunkPos = [];
+      f.chunkLen = [];
+      var d;
+      for (d = c = 0; 4096 > c; c += 4, d++) {
+        f.chunkPos[d] = 65536 * b[c] + 256 * b[c + 1] + b[c + 2], f.chunkLen[d] = b[c + 3]
+      }
     }
+  }
 };
 RegionLib.prototype.loadRegionFile = function(b, f) {
-    try {
-        var c = Readfile.readRAW(f)
-    } catch (d) {
-        console.log("nie ma pliku");
-        return
-    }
-    b.regionData = c;
-    b.loaded = 0;
-    b.chunkPos = [];
-    b.chunkLen = [];
-    var e, m;
-    for (e = 0, m = 0; 4096 > e; e += 4, m++) b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2], b.chunkLen[m] = c[e + 3]
+  try {
+    var c = Readfile.readRAW(f)
+  } catch (d) {
+    console.log("nie ma pliku");
+    return
+  }
+  b.regionData = c;
+  b.loaded = 0;
+  b.chunkPos = [];
+  b.chunkLen = [];
+  var e, m;
+  for (e = 0, m = 0; 4096 > e; e += 4, m++) b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2], b.chunkLen[m] = c[e + 3]
 };
 RegionLib.prototype.requestChunk = function(b, f) {
   var d;
@@ -371,70 +367,70 @@ RegionLib.prototype.requestChunk = function(b, f) {
   }
 };
 RegionLib.loadChunk = function(b, f, c) {
-    var d = {},
-        e = new Chunk;
-    d.offset = 0;
-    try {
-        if (c) {
-            var m = new Zlib.Inflate(f, {
-                index: b + 5
-            });
-            d.data = m.decompress()
-        } else d.data = f
-    } catch (l) {
-        return console.log("fail"), -1
+  var d = {},
+    e = new Chunk;
+  d.offset = 0;
+  try {
+    if (c) {
+      var m = new Zlib.Inflate(f, {
+        index: b + 5
+      });
+      d.data = m.decompress()
+    } else d.data = f
+  } catch (l) {
+    return console.log("fail"), -1
+  }
+  for (f = 0; 2e3 > f && -1 !== (b = NBT.nextTag(d)); f++) {
+    switch (b.name) {
+      case "xPos":
+        e.xPos = b.value;
+        break;
+      case "zPos":
+        e.zPos = b.value;
+        break;
+      case "HeightMap":
+        e.heightMap = b.data;
+        break;
+      case "Biomes":
+        e.biomes = b.data;
+        break;
+      case "LightPopulated":
+        e.lightPopulated = b.value;
+        break;
+      case "Sections":
+        RegionLib.readSections(b, e, d);
+        continue
+        break;
     }
-    for (f = 0; 2e3 > f && -1 !== (b = NBT.nextTag(d)); f++) {
-        switch (b.name) {
-            case "xPos":
-                e.xPos = b.value;
-                break;
-            case "zPos":
-                e.zPos = b.value;
-                break;
-            case "HeightMap":
-                e.heightMap = b.data;
-                break;
-            case "Biomes":
-                e.biomes = b.data;
-                break;
-            case "LightPopulated":
-                e.lightPopulated = b.value;
-                break;
-            case "Sections":
-                RegionLib.readSections(b, e, d);
-                continue
-                break;
-        }
-        9 ===
-            b.type && NBT.read9(b, e, d)
-    }
-    void 0 === e.heightMap && e.initHeightMap();
-    return e
+    9 ===
+      b.type && NBT.read9(b, e, d)
+  }
+  void 0 === e.heightMap && e.initHeightMap();
+  return e
 };
 RegionLib.readSections = function(b, f, c) {
-    var d, e, m;
-    for (d = {}, m = 0; m < b.length && -1 !== (e = NBT.nextTag(c));) {
-        0 === e.type && (void 0 === d.add && (d.add = new Uint8Array(2048)), f.section[d.y] = d, d = {}, m++)
-        switch (e.name) {
-        case "Y":
-            d.y = e.value;
-            break;
-        case "Blocks":
-            d.blocks = e.data;
-            break;
-        case "SkyLight":
-            d.skyLight = e.data;
-            break;
-        case "BlockLight":
-            d.blockLight = e.data;
-            break;
-        case "Add":
-            d.add = e.data;
-            break;
-        case "Data":
-            d.data = e.data
-            break;
-        }
+  var d, e, m;
+  for (d = {}, m = 0; m < b.length && -1 !== (e = NBT.nextTag(c));) {
+    0 === e.type && (void 0 === d.add && (d.add = new Uint8Array(2048)), f.section[d.y] = d, d = {}, m++)
+    switch (e.name) {
+      case "Y":
+        d.y = e.value;
+        break;
+      case "Blocks":
+        d.blocks = e.data;
+        break;
+      case "SkyLight":
+        d.skyLight = e.data;
+        break;
+      case "BlockLight":
+        d.blockLight = e.data;
+        break;
+      case "Add":
+        d.add = e.data;
+        break;
+      case "Data":
+        d.data = e.data
+        break;
     }
+  }
 };

@@ -130,4 +130,3 @@ Controls::pointerChange = (b) ->
   window.camera.moveX = 0
   window.camera.moveY = 0
   return
-

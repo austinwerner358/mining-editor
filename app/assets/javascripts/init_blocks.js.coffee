@@ -69,5 +69,3 @@ window.initBlocks = ->
   window.useBlock.data = 0
   console.log window.block
   return
-
-

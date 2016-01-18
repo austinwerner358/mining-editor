@@ -76,7 +76,3 @@ chronometer.tick = ->
   10 == chronometer.sec and chronometer.sec = 0
   window.mcWorld.deleteBuffers()
   return
-
-
-
-

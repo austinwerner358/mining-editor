@@ -219,4 +219,3 @@ Camera::keyDown = (b, f) ->
     when 69
       @przesx = @przesz = 20
   return
-
