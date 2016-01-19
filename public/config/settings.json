@@ -5,6 +5,7 @@
 },
 "worldname": {
     "value": "Reach",
+    "_value": "2",
     "url": true
 },
 "distanceLevel": {
@@ -17,6 +18,7 @@
 },
 "pos": {
     "value": "20+0+70",
+    "_value": "-172+246+264",
     "url": true
 },
 "rot": {
