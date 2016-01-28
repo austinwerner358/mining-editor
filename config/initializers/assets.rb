@@ -7,6 +7,12 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.paths << Emoji.images_path
 
 Rails.application.config.assets.precompile += %w( mca.css )
+Rails.application.config.assets.precompile += %w( ace/ace.js )
+Rails.application.config.assets.precompile += %w( jscolor/jscolor.js )
+# Rails.application.config.assets.precompile += %w( jscolor/arrow.gif )
+# Rails.application.config.assets.precompile += %w( jscolor/cross.gif )
+# Rails.application.config.assets.precompile += %w( jscolor/hs.png )
+# Rails.application.config.assets.precompile += %w( jscolor/hv.png )
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.

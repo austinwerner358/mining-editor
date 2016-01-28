@@ -5,8 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- <link rel="stylesheet" type="text/css" href="config/mca.css"> -->
     <%= stylesheet_link_tag 'mca' %>
-    <script type="text/javascript" src="assets/ace/ace.js"></script>
-    <script type="text/javascript" src="assets/jscolor/jscolor.js"></script>
+    <%= javascript_include_tag "ace/ace.js" %>
+    <%= javascript_include_tag "jscolor/jscolor.js" %>
   </head>
 
   <body oncontextmenu="return false;" onload='webGLStart();' style="margin: 0px; border: none;">
