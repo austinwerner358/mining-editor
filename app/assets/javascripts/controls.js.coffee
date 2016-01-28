@@ -66,7 +66,7 @@ Controls::keyDown = (b) ->
         if !window.settings.edit
           break
         executeJS()
-      when 77
+      when 73
         window.localStorage.clear()
       when 86
         console.log window.camera.name

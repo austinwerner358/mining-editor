@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/world/:world_name(/:pos_x/:pos_y/:pos_z)' => 'game#world_name'
   get '/color/:hex_color' => 'game#sky_color'
 
+  get 'controls' => 'init#controls'
   get 'blocks' => 'init#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

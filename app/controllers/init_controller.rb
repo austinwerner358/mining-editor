@@ -15,4 +15,7 @@ class InitController < ApplicationController
       }
     }
   end
+
+  def controls
+  end
 end

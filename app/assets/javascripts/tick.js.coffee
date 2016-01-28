@@ -10,6 +10,7 @@ chronometer.tick = ->
     h_u_d.gameStateHtml.innerHTML += '<br/>FPS: ' + Math.floor(chronometer.fps)
     h_u_d.gameStateHtml.innerHTML += '<br/>Block: ' + window.useBlock.id + '-' + window.useBlock.data + '  : ' + (window.block[window.useBlock.id][window.useBlock.data].name or window.block[window.useBlock.id].name or window.block[window.useBlock.id][window.useBlock.data].defaultTexture or '')
     h_u_d.gameStateHtml.innerHTML += '<br/>Est. Gpu Mem: ' + Math.floor(8 * gpuMem / 1048576) + ' M'
+    h_u_d.gameStateHtml.innerHTML += '<br/><a href="/controls" target="_blank">View Controls</a>'
   chronometer.newSec = !1
   chronometer.lastTime % 1e3 > b % 1e3 and chronometer.newSec = !0
   chronometer.sec++
