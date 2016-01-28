@@ -1,9 +1,9 @@
 {
-"gameroot": {
+"gameRoot": {
     "value": "/worlds/",
     "url": true
 },
-"worldname": {
+"worldName": {
     "value": "Reach",
     "_value": "2",
     "url": true
@@ -17,12 +17,13 @@
     "url": true
 },
 "pos": {
-    "value": "20+0+70",
-    "_value": "-172+246+264",
+    "Reach": "320+63+367",
+    "2": "-86+201+115",
     "url": true
 },
 "rot": {
-    "value": "-5.5+0.0",
+    "Reach": "-5.5+0.0",
+    "2": "-9.4+-0.0",
     "url": true
 },
 "camera": {

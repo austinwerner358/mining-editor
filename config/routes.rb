@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   root 'game#index'
 
-  get '/:world_name' => 'game#index'
+  get '/world/:world_name(/:pos_x/:pos_y/:pos_z)' => 'game#world_name'
+  get '/color/:hex_color' => 'game#sky_color'
 
   get 'blocks' => 'init#index'
 

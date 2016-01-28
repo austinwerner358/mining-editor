@@ -13,6 +13,7 @@
     <center>
       <canvas id="webgl" style="position:fixed; left:0px; top:0px; margin: 0px; background: white; border: none;" width="1200" height="700"></canvas>
       <input id="worldName" type="hidden" value="<%= @world_name %>"></input>
+      <input id="dbPos" type="hidden" value="<%= @db_pos %>"></input>
       <div id="settings">
         Display Settings
         <table id="settingsTable">
@@ -24,7 +25,7 @@
               <input id="setSkyColor" class="settingsInput color {valueElement:'skyColor'}"/>
             </td>
             <td>
-              <input type="hidden" id="skyColor" value="<%= User.any? ? User.first.sky_color_hex : User.default_sky_color %>" onchange="settings.setSkyColor(document.getElementById('setSkyColor').color.rgb);"/>
+              <input type="hidden" id="skyColor" value="<%= @sky_color %>" onchange="settings.setSkyColor(document.getElementById('setSkyColor').color.rgb);"/>
             </td>
           </tr>
           <tr>
@@ -43,7 +44,7 @@
               Distance Level
             </td>
             <td>
-              <input id="setDstLvl" class="settingsInputRange" type="range" min="10" max="40" value="20" step="1" onchange="settings.setDistanceLevel(this.value);"/>
+              <input id="setDstLvl" class="settingsInputRange" type="range" min="0" max="40" value="20" step="1" onchange="settings.setDistanceLevel(this.value);"/>
             </td>
             <td id="setDstLvl_val"></td>
           </tr>

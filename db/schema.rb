@@ -11,10 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160102031326) do
+ActiveRecord::Schema.define(version: 20160128021311) do
 
   create_table "users", force: :cascade do |t|
-    t.integer "sky_color", limit: 4
+    t.integer "sky_color",  limit: 4
+    t.string  "world_name", limit: 255
+    t.integer "pos_x",      limit: 4
+    t.integer "pos_y",      limit: 4
+    t.integer "pos_z",      limit: 4
   end
 
 end
