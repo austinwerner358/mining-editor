@@ -68,14 +68,14 @@ Controls::keyDown = (b) ->
         executeJS()
       when 73
         window.localStorage.clear()
-      when 86
+      when keyMap.changeCamera
         console.log window.camera.name
-        if 'CameraGod' == window.camera.name
-          window.player.setPosRot window.camera.getEye(), window.camera.getRot()
-          window.camera = window.cameraPlayer.updatePos(window.player)
-        else
-          'CameraPlayer' == window.camera.name and (window.camera = window.cameraGod.updatePos(window.player))
-        window.camera.sensitivity = 2 * window.settings.sensitivity
+        switch window.camera.name
+          when 'CameraGod'
+            window.player.setPosRot window.camera.getEye(), window.camera.getRot()
+            window.camera = window.cameraPlayer.updatePos(window.player)
+          when 'CameraPlayer', 'Camera'
+            window.camera = window.cameraGod.updatePos(window.player)
   return
 
 Controls::keyUp = (b) ->

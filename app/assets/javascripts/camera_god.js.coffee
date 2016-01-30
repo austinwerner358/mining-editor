@@ -20,6 +20,7 @@ class window.CameraGod
     @aspect = window.gluu.gl.viewportWidth / window.gluu.gl.viewportHeight
     @entity = player
     @entity.przesx = @entity.przesz = @getNormalSpeed()
+    @sensitivity = 2 * window.settings.sensitivity
     @
 
   getNormalSpeed: ->

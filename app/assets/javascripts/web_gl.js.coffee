@@ -1,17 +1,11 @@
 window.webGLStart = ->
+  #### Init Settings and WebGL ####
   window.settings.initSettings()
-  b = undefined
-  camera = undefined
-  firstTime = undefined
-  lastTime = undefined
-  mcWorld = undefined
-  gameStateHtml = undefined
   gluu.glCanvas = document.getElementById('webgl')
   gluu.glCanvas.width = window.innerWidth
   gluu.glCanvas.height = window.innerHeight
   window.onresize = windowResize
   gluu.glCanvas.onclick = canvasOn
-  gameStateHtml = document.getElementById('game-state')
   window.gluu.initGL gluu.glCanvas
   window.gluu.initStandardShader settings.worldShader
   window.gluu.initLineShader()
@@ -24,37 +18,23 @@ window.webGLStart = ->
   gluu.gl.enable gluu.gl.DEPTH_TEST
   gluu.initTextures()
   window.initBlocks()
-  if 'CameraGod' == settings.cameraType
-    camera = new CameraGod(settings.pos, settings.rot, [
-      0
-      1
-      0
-    ])
-  else if 'Camera' == settings.cameraType
-    camera = new Camera(settings.pos, settings.rot, [
-      0
-      1
-      0
-    ])
-  else
-    player.setPosRot [
-      settings.pos[0]
-      settings.pos[1]
-      settings.pos[2]
-    ], [
-      settings.rot[0]
-      settings.rot[1]
-    ]
-  camera = window.cameraPlayer.updatePos(player)
-  camera.sensitivity = 2 * settings.sensitivity
-  b = undefined
+  #### Init Camera ####
+  console.log(settings.cameraType)
+  camera = switch settings.cameraType
+    when 'CameraGod' then window.cameraGod
+    when 'Camera' then window.cameraOther
+    when 'CameraPlayer' then window.cameraPlayer
+    else undefined
+  player.setPosRot(settings.pos, settings.rot)
+  camera.updatePos(player)
   b = 0
+  #### Chunk Related Code ####
   while 4 > b
     punkty1[b] = {}
     punkty1[b].d = new Float32Array(2e6)
     punkty1[b].o = 0
     b++
-  mcWorld = new RegionLib(settings.gameRoot, settings.worldName)
+  #### Init GUI Settings
   document.getElementById('tools').style.display = 'none'
   document.getElementById('setDstLvl').value = settings.distanceLevel[0]
   document.getElementById('setDstLvl_val').innerHTML = settings.distanceLevel[0]
@@ -64,14 +44,12 @@ window.webGLStart = ->
   document.getElementById('setBrightness').value = settings.brightness
   document.getElementById('setBrightness_val').innerHTML = settings.brightness
   settings.setSkyColor document.getElementById('setSkyColor').color.rgb
-  firstTime = (new Date).getTime()
-  lastTime = (new Date).getTime()
-
+  #### Assign Globals ####
   window.camera = camera
-  window.firstTime = firstTime
-  window.lastTime = lastTime
-  window.mcWorld = mcWorld
-  h_u_d.gameStateHtml = gameStateHtml
-
+  window.firstTime = (new Date).getTime()
+  window.lastTime = (new Date).getTime()
+  window.mcWorld = new RegionLib(settings.gameRoot, settings.worldName)
+  h_u_d.gameStateHtml = document.getElementById('game-state')
+  #### Start Game ####
   chronometer.tick()
   return
