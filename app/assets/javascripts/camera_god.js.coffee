@@ -65,48 +65,39 @@ class window.CameraGod
     @entity.pos[2] += 30 / b * @entity.przesz * Math.cos(@entity.rot[0]) * Math.cos(@entity.rot[1])
     @entity.pos[0] += 30 / b * @entity.przesz * Math.sin(@entity.rot[0]) * Math.cos(@entity.rot[1])
     @entity.pos[1] += 30 / b * @entity.przesz * Math.sin(@entity.rot[1])
-    return
 
   moveBackward: (b) ->
     @entity.pos[2] -= 30 / b * @entity.przesz * Math.cos(@entity.rot[0]) * Math.cos(@entity.rot[1])
     @entity.pos[0] -= 30 / b * @entity.przesz * Math.sin(@entity.rot[0]) * Math.cos(@entity.rot[1])
     @entity.pos[1] -= 30 / b * @entity.przesz * Math.sin(@entity.rot[1])
-    return
 
   moveLeft: (b) ->
     @entity.pos[0] += 30 / b * @entity.przesz * Math.cos(@entity.rot[0])
     @entity.pos[2] -= 30 / b * @entity.przesz * Math.sin(@entity.rot[0])
-    return
 
   moveRight: (b) ->
     @entity.pos[0] -= 30 / b * @entity.przesz * Math.cos(@entity.rot[0])
     @entity.pos[2] += 30 / b * @entity.przesz * Math.sin(@entity.rot[0])
-    return
 
   mouseDown: (b) ->
     @lpm = 1
-    return
 
   mouseUp: (b) ->
     @lpm = 0
-    return
 
   mouseMove: (b, f, c) ->
     if 1 == @lpm or @autoMove
       20 > c and (c = 20)
       @patrzX(b / (3 * c))
       @patrzY(f / (3 * c))
-    return
 
   patrzX: (b) ->
     @entity.rot[0] += b
-    return
 
   patrzY: (b) ->
     @entity.rot[1] += b
     1.57 < @entity.rot[1] and (@entity.rot[1] = 1.57)
     -1.57 > @entity.rot[1] and (@entity.rot[1] = -1.57)
-    return
 
   updatePosition: (b) ->
     @moveF and (if 1 == @jestcontrol then @moveUp(b) else @moveForward(b))
@@ -120,21 +111,17 @@ class window.CameraGod
     @patrzX(1 / @rotSensitivity) if @rotLeft
     @patrzY(-1 / @rotSensitivity) if @rotDown
     @moveY = @moveX = 0
-    return
 
   previousPosition: ->
     @entity.pos[0] = @oldPos[0]
     @entity.pos[1] = @oldPos[1]
     @entity.pos[2] = @oldPos[2]
-    return
 
   moveUp: (b) ->
     @entity.pos[1] += @entity.przesy
-    return
 
   moveDown: (b) ->
     @entity.pos[1] -= @entity.przesy
-    return
 
   keyUp: (b) ->
     b = b.keyCode
@@ -160,7 +147,6 @@ class window.CameraGod
         @rotRight = !1
       when keyMap.arrowDown
         @rotDown = !1
-    return
 
   keyDown: (b, f) ->
     switch b.keyCode
@@ -184,6 +170,5 @@ class window.CameraGod
         @rotDown = !0
       when 69
         @entity.przesx = @entity.przesz = @getFastSpeed()
-    return
 
 window.cameraGod = new CameraGod

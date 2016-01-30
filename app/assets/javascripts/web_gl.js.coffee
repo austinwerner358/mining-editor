@@ -27,8 +27,8 @@ window.webGLStart = ->
     else undefined
   player.setPosRot(settings.pos, settings.rot)
   camera.updatePos(player)
-  b = 0
   #### Chunk Related Code ####
+  b = 0
   while 4 > b
     punkty1[b] = {}
     punkty1[b].d = new Float32Array(2e6)

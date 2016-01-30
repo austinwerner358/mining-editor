@@ -1,5 +1,4 @@
 chronometer.tick = ->
-  `var d`
   window.requestAnimFrame chronometer.tick
   b = (new Date).getTime()
   chronometer.fps = 1e3 / (b - chronometer.lastTime)
@@ -76,4 +75,3 @@ chronometer.tick = ->
   chronometer.newSec and window.settings.setHashURL(f, c, window.camera.name)
   10 == chronometer.sec and chronometer.sec = 0
   window.mcWorld.deleteBuffers()
-  return

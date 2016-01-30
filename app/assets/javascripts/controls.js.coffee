@@ -24,7 +24,7 @@ Controls::keyDown = (b) ->
     window.camera.keyDown b, chronometer.fps
     switch b.keyCode
       when keyMap.moveUp, keyMap.moveUpAlt
-        0 == window.camera.upY and (window.camera.upY = 200)
+        window.camera.upY = 200
       when keyMap.useNextBlock
         window.useNextBlock useBlock
       when keyMap.usePrevBlock
@@ -72,10 +72,10 @@ Controls::keyDown = (b) ->
         console.log window.camera.name
         switch window.camera.name
           when 'CameraGod'
-            window.player.setPosRot window.camera.getEye(), window.camera.getRot()
-            window.camera = window.cameraPlayer.updatePos(window.player)
+            window.camera = window.cameraPlayer
           when 'CameraPlayer', 'Camera'
-            window.camera = window.cameraGod.updatePos(window.player)
+            window.camera = window.cameraGod
+        camera.updatePos(window.player)
   return
 
 Controls::keyUp = (b) ->
