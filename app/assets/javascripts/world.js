@@ -7,10 +7,6 @@ function RegionLib(b, f) {
   this.iChunk = 0
 }
 
-RegionLib.prototype.changeChunkBlockAdd = function(b, f, c, d, e) {
-  b = 1e4 * b + f;
-  void 0 !== this.rchunk[b] && this.rchunk[b].changeAdd(c, d, e)
-};
 RegionLib.prototype.updateChunks = function() {
   var b = (new Date).getTime(),
     f = 0,
@@ -210,10 +206,6 @@ RegionLib.prototype.renderSelection = function() {
     b.rchz = d;
     return b;
   }
-};
-RegionLib.prototype.save = function() {
-  var b;
-  for (b in this.rchunk) void 0 !== this.rchunk[b] && -1 !== this.rchunk[b] && -2 !== this.rchunk[b] && this.rchunk[b].changed && (mcWorld.saveChunkToStorage(this.rchunk[b].xPos, this.rchunk[b].zPos), this.rchunk[b].changed = !1)
 };
 RegionLib.prototype.saveChunkToStorage = function(b, f) {
   var c = 1e4 * b + f;

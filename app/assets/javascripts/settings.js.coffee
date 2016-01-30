@@ -121,7 +121,6 @@ Settings::initSettings = ->
   'false' == urlParams.lightInit and (@lightInit = !1)
   @cameraType = jsonSettings.camera.value
   undefined != urlParams.camera and jsonSettings.camera.url and (@cameraType = urlParams.camera)
-  return
 
 Settings::setDistanceLevel = (b) ->
   @distanceLevel = [
@@ -131,26 +130,22 @@ Settings::setDistanceLevel = (b) ->
   ]
   document.getElementById('setDstLvl_val').innerHTML = @distanceLevel[0]
   @getSettingsURL()
-  return
 
 Settings::setSkyColor = (b) ->
   @skyColor[0] = b[0]
   @skyColor[1] = b[1]
   @skyColor[2] = b[2]
   @getSettingsURL()
-  return
 
 Settings::setSun = (b) ->
   @sun = b
   document.getElementById('setSun_val').innerHTML = @sun
   @getSettingsURL()
-  return
 
 Settings::setBrightness = (b) ->
   @brightness = b
   document.getElementById('setBrightness_val').innerHTML = @brightness
   @getSettingsURL()
-  return
 
 Settings::getSettingsURL = ->
   b = document.location.href.split(/#/)[0]
@@ -189,10 +184,8 @@ Settings::getSettingsURL = ->
   !0 != d.distancelevel and (c += '&distanceLevel=' + @distanceLevel[0])
   !0 != d.skyColor and (c += '&skyColor=' + Math.floor(255 * @skyColor[0]) + '-' + Math.floor(255 * @skyColor[1]) + '-' + Math.floor(255 * @skyColor[2]))
   document.getElementById('settingsURL').value = c + window.location.hash
-  return
 
 Settings::setHashURL = (b, f, c) ->
   window.location.hash = 'pos=' + b[0].toFixed(2) + '+' + b[1].toFixed(2) + '+' + b[2].toFixed(2) + '&rot=' + f[0].toFixed(2) + '+' + f[1].toFixed(2) + '&camera=' + c
-  return
 
 window.settings = new Settings

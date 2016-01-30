@@ -64,10 +64,10 @@ RegionLib::setBlock = (b, f, c, d, e) ->
   @rchunk[p].setBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e)
   return
 
-# RegionLib::changeChunkBlockAdd = (b, f, c, d, e) ->
-#   b = 1e4 * b + f
-#   undefined != @rchunk[b] and @rchunk[b].changeAdd(c, d, e)
-#   return
+RegionLib::changeChunkBlockAdd = (b, f, c, d, e) ->
+  b = 1e4 * b + f
+  undefined != @rchunk[b] and @rchunk[b].changeAdd(c, d, e)
+  return
 
 # RegionLib::updateChunks = ->
 #   b = (new Date).getTime()
@@ -353,12 +353,12 @@ RegionLib::testCollisions = ->
   else
     !1
 
-# RegionLib::save = ->
-#   b = undefined
-#   for b,v of @rchunk
-#     undefined != @rchunk[b] and -1 != @rchunk[b] and -2 != @rchunk[b] and @rchunk[b].changed and mcWorld.saveChunkToStorage(@rchunk[b].xPos, @rchunk[b].zPos)
-#     @rchunk[b].changed = !1
-#   return
+RegionLib::save = ->
+  for b,v of @rchunk
+    if undefined != @rchunk[b] and -1 != @rchunk[b] and -2 != @rchunk[b] and @rchunk[b].changed
+      mcWorld.saveChunkToStorage(@rchunk[b].xPos, @rchunk[b].zPos)
+      @rchunk[b].changed = !1
+  return
 
 # RegionLib::saveChunkToStorage = (b, f) ->
 #   `var c`

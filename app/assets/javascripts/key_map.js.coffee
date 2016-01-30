@@ -17,6 +17,5 @@ KeyMap = ->
   @useNextBlockData = 66
   @useCodeEditor = 71
   @changeCamera = 86
-  return
 
 window.keyMap = new KeyMap
