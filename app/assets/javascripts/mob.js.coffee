@@ -62,14 +62,14 @@ class window.Mob
     ]
     gluu.gl.uniformMatrix4fv b.pMatrixUniform, !1, gluu.pMatrix
     gluu.gl.uniformMatrix4fv b.mvMatrixUniform, !1, gluu.mvMatrix
-    undefined != @shape and (if undefined == @shapeVbo
-      @shapeVbo = gluu.gl.createBuffer()
-      gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, @shapeVbo)
-      gluu.gl.bufferData(gluu.gl.ARRAY_BUFFER, @shape, gluu.gl.STATIC_DRAW)
-    else
-      gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, @shapeVbo)
-      gluu.gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gluu.gl.FLOAT, !1, 20, 0)
-      gluu.gl.vertexAttribPointer(b.lightAttribute, 4, gluu.gl.FLOAT, !1, 20, 0)
-      gluu.gl.vertexAttribPointer(b.textureCoordAttribute, 2, gluu.gl.FLOAT, !1, 20, 12)
-      gluu.gl.drawArrays(gluu.gl.TRIANGLES, 0, 36)
-    )
+    if undefined != @shape
+      if undefined == @shapeVbo
+        @shapeVbo = gluu.gl.createBuffer()
+        gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, @shapeVbo)
+        gluu.gl.bufferData(gluu.gl.ARRAY_BUFFER, @shape, gluu.gl.STATIC_DRAW)
+      else
+        gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, @shapeVbo)
+        gluu.gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gluu.gl.FLOAT, !1, 20, 0)
+        gluu.gl.vertexAttribPointer(b.lightAttribute, 4, gluu.gl.FLOAT, !1, 20, 0)
+        gluu.gl.vertexAttribPointer(b.textureCoordAttribute, 2, gluu.gl.FLOAT, !1, 20, 12)
+        gluu.gl.drawArrays(gluu.gl.TRIANGLES, 0, 36)

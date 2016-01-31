@@ -121,6 +121,13 @@ Settings::initSettings = ->
   'false' == urlParams.lightInit and (@lightInit = !1)
   @cameraType = jsonSettings.camera.value
   undefined != urlParams.camera and jsonSettings.camera.url and (@cameraType = urlParams.camera)
+  @pointerOn = true
+
+Settings::togglePointer = ->
+  document.getElementById('togglePointer').checked = @pointerOn = !@pointerOn
+
+Settings::toggleEditMode = ->
+  document.getElementById('togglePointer').checked = document.getElementById('toggleEditMode').checked = @pointerOn = @edit = !@edit
 
 Settings::setDistanceLevel = (b) ->
   @distanceLevel = [

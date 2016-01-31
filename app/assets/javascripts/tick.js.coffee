@@ -71,7 +71,8 @@ chronometer.tick = ->
         window.mcWorld.changeChunkBlockAdd b.chx, b.chz, b.x, b.y, b.z
   window.mcWorld.render()
   window.settings.edit and window.selectBox.render(window.blockSelection)
-  window.pointer.render()
+  window.pointer.render() if settings.pointerOn
+  window.player.render() # doesn't currently work
   chronometer.newSec and window.settings.setHashURL(f, c, window.camera.name)
   10 == chronometer.sec and chronometer.sec = 0
   window.mcWorld.deleteBuffers()
