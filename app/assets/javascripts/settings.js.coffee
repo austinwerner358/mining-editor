@@ -22,7 +22,7 @@ Settings::initSettings = ->
   if !@worldName
     @worldName = jsonSettings.worldName.value
   undefined != urlParams.worldName and jsonSettings.worldName.url and (@worldName = urlParams.worldName)
-  console.log('Selected World Name:' + @worldName)
+  console.log('Selected World Name: ' + @worldName)
   #### Set Distance Level ####
   @distanceLevel = [
     10
@@ -60,7 +60,7 @@ Settings::initSettings = ->
     @pos[0] = parseInt(dbPos.split('+')[0]) or @pos[0]
     @pos[1] = parseInt(dbPos.split('+')[1]) or @pos[1]
     @pos[2] = parseInt(dbPos.split('+')[2]) or @pos[2]
-  else if undefined != jsonSettings.pos
+  else if undefined != jsonSettings.pos && !!jsonSettings.pos[@worldName]
     @pos[0] = parseFloat(jsonSettings.pos[@worldName].split('+')[0]) or @pos[0]
     @pos[1] = parseFloat(jsonSettings.pos[@worldName].split('+')[1]) or @pos[1]
     @pos[2] = parseFloat(jsonSettings.pos[@worldName].split('+')[2]) or @pos[2]
@@ -73,7 +73,7 @@ Settings::initSettings = ->
     0
     0
   ]
-  if undefined != jsonSettings.rot
+  if undefined != jsonSettings.rot && !!jsonSettings.rot[@worldName]
     @rot[0] = parseFloat(jsonSettings.rot[@worldName].split('+')[0]) or @rot[0]
     @rot[1] = parseFloat(jsonSettings.rot[@worldName].split('+')[1]) or @rot[1]
   if undefined != urlParams.rot and jsonSettings.rot.url
