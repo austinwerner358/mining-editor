@@ -1,5 +1,5 @@
 class GameController < ApplicationController
-  before_action :init_options, only: [:world_name]
+  before_action :init_options, only: [:world_name, :controls]
 
   def index
     user = User.first || User.create
@@ -39,10 +39,12 @@ class GameController < ApplicationController
   def init_options
     @worlds = []
     Dir.foreach('public/worlds') do |item|
-      next if item == '.' || item == '..'
+      next if item == '.' || item == '..' || item == '.DS_Store'
       # next unless File.directory? item
-      puts item
       @worlds << item
     end
+  end
+
+  def controls
   end
 end

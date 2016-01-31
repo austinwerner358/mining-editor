@@ -13,10 +13,13 @@
     Rendering and Scripts: G<br>
     Execute Script: H<br>
     <br>
-    World 1: go to <%= link_to '/world/Reach', '/world/Reach', :target => '_blank' %><br>
-    World 2: go to <%= link_to '/world/2', '/world/2', :target => '_blank' %><br>
-    <br>
     Going to /world/'name'/x/y/z will edit the starting location.<br>
     Going to /color/'hex color' will edit the color of the sky.<br>
+    <br>
+    Worlds:<br>
+    <% @worlds.each do |world_name| %>
+      <%= link_to "/world/#{world_name}", "/world/#{world_name}", :target => '_blank' %><br>
+    <% end %>
+    <br>
   </head>
 </html>
