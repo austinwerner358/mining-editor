@@ -200,20 +200,22 @@ Settings::setHashURL = (b, f, c) ->
 window.onload =
 getFiles = ->
   window.fileReader = new FileReader()
-  document.querySelector('input.localWorldSelector').onchange = ->
-    window.localFiles = {}
-    window.settings.local = true
-    console.log(settings.local)
-    if window.File and window.FileReader and window.FileList and window.Blob
-      # File APIs supported.
-    else
-      alert 'Local file API not supported in this browser.'
-    [].slice.call(@files).forEach (v) ->
-      console.log(v);
-      window.localFiles[v.name] = v
-      $('body').append '<div>' + v.name + '</div>'
+  fileSelector = document.querySelector('input.localWorldSelector')
+  if fileSelector
+    fileSelector.onchange = ->
+      window.localFiles = {}
+      window.settings.local = true
+      console.log(settings.local)
+      if window.File and window.FileReader and window.FileList and window.Blob
+        # File APIs supported.
+      else
+        alert 'Local file API not supported in this browser.'
+      [].slice.call(@files).forEach (v) ->
+        console.log(v);
+        window.localFiles[v.name] = v
+        $('body').append '<div>' + v.name + '</div>'
+        return
       return
     return
-  return
 
 window.settings = new Settings

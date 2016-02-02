@@ -3,7 +3,9 @@ Controls = ->
   @selectE = !1
   @selectT = 0
   @selectU = 1
+  return
 
+Controls::initControls = ->
   window.addEventListener 'keydown', ((e) => @keyDown(e)), !1
   window.addEventListener 'keyup', ((e) => @keyUp(e)), !0
   document.addEventListener 'pointerlockchange', ((e) => @pointerChange(e)), !1
@@ -13,7 +15,6 @@ Controls = ->
   window.addEventListener 'mouseup', ((e) => @mouseUp(e)), !0
   window.addEventListener 'mousewheel', ((e) => @mouseWheel(e)), !1
   window.addEventListener 'DOMMouseScroll', ((e) => @mouseWheel(e)), !1
-
   return
 
 window.controls = new Controls

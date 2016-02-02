@@ -1,6 +1,7 @@
 window.webGLStart = ->
   #### Init Settings and WebGL ####
   window.settings.initSettings()
+  window.controls.initControls()
   gluu.glCanvas = document.getElementById('webgl')
   gluu.glCanvas.width = window.innerWidth
   gluu.glCanvas.height = window.innerHeight
