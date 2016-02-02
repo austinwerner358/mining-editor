@@ -21,7 +21,7 @@ RegionLib.prototype.deleteBuffers = function() {
     c;
   for (c in this.rchunk) void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c] && !0 !== this.rchunk[c].changed && (1 === this.rchunk[c].isInit || 1 === this.rchunk[c].isInit1) && this.rchunk[c].timestamp + 1e4 < b && (this.rchunk[c].deleteBuffers(), this.rchunk[c] = void 0, f++);
   c = (new Date).getTime();
-  console.log("delete buffers " + (c - b) + " " + f)
+  console.log("delete buffers ");// + (c - b) + " " + f)
 };
 RegionLib.prototype.render = function() {
   var c;
@@ -250,40 +250,73 @@ RegionLib.prototype.loadChunkFromStorage = function(b, f, c) {
   c || q.init2();
   d || b.init2()
 };
-RegionLib.prototype.loadRegion = function(b, f) {
-  var c;
-  var c, d, e, m;
-  this.region[1e3 * b + f] = {};
-  this.region[1e3 * b + f].loaded = -2;
+RegionLib.prototype.loadFile = function(x, y) {
+  var worker, blob;
   if (void 0 !== window.threadsCode) {
-    c = new Blob([threadsCode.loadRegionThread], {
+    blob = new Blob([threadsCode.loadRegionThread], {
       type: 'application/javascript'
     });
-    c = new Worker(window.URL.createObjectURL(c));
+    worker = new Worker(window.URL.createObjectURL(blob));
   } else {
-    c = new Worker('threads/loadRegionThread.js');
+    worker = new Worker('threads/loadRegionThread.js');
   }
-  c.regionLib = this;
-  c.region = this.region[1e3 * b + f];
-  c.onmessage = function(b) {
-    this.regionLib.regionLoaded(b);
+  worker.regionLib = this;
+  worker.region = this.region[1e3 * x + y];
+  worker.onmessage = function(event) {
+    this.regionLib.regionLoaded(event);
   };
-  c.onerror = function(b) {
-    var e;
+  worker.onerror = function(event) {
     this.region.loaded = -1;
   };
-  d = this.gameRoot + '/' + this.worldName + '/region/r.' + b + '.' + f + '.mca';
+  return worker;
+};
+RegionLib.prototype.loadRegion = function(x, y) {
+  var c, d, e, m, region;
+  var worker = this.loadFile(x, y);
+  this.region[1e3 * x + y] = {};
+  this.region[1e3 * x + y].loaded = -2;
+
+  fileName = 'r.' + x + '.' + y + '.mca';
+  d = this.gameRoot + '/' + this.worldName + '/region/' + fileName;
   e = '';
   if (-1 === this.gameRoot.indexOf(':')) {
     e = document.location.href.split(/\?|#/)[0];
     m = e.indexOf('index'); - 1 !== m && (e = e.substring(0, m));
   }
   console.log(e + d);
-  c.postMessage({
-    x: b,
-    y: f,
-    name: e + d
-  });
+  console.log(settings.local);
+  if (window.settings.local) {
+    console.log(fileName);
+    console.log(localFiles[fileName]);
+    this.loadLocalFile(window.localFiles[fileName], worker, x, y, e, d);
+  } else {
+    worker.postMessage({
+      x: x,
+      y: y,
+      local: window.settings.local,
+      region: region,
+      name: e + d
+    });
+  }
+};
+RegionLib.prototype.loadLocalFile = function(file, worker, x, y, e, d) {
+  // Error handle error cases (like missing region file or null file).
+  var result;
+  var reader = new FileReader();
+  reader.onloadend = function(event) {
+    if (event.target.readyState == FileReader.DONE) {
+      console.log(event.target.result);
+      result = event.target.result;
+      worker.postMessage({
+        x: x,
+        y: y,
+        local: window.settings.local,
+        region: result,
+        name: e + d
+      });
+    }
+  }
+  reader.readAsArrayBuffer(file)
 };
 RegionLib.prototype.regionLoaded = function(b) {
   var f = b.data.x,
@@ -350,7 +383,7 @@ RegionLib.prototype.requestChunk = function(b, f) {
     0 > l && (l += 32);
     m += 32 * l;
     if (0 < this.region[1e3 * d + e].chunkPos[m]) {
-      console.log('chunk ' + c + ' : ' + this.region[1e3 * d + e].chunkPos[m] + ' ' + this.region[1e3 * d + e].chunkLen[m]);
+      // console.log('chunk ' + c + ' : ' + this.region[1e3 * d + e].chunkPos[m] + ' ' + this.region[1e3 * d + e].chunkLen[m]);
       this.iChunk++;
       this.rchunk[c] = RegionLib.loadChunk(4096 * this.region[1e3 * d + e].chunkPos[m], this.region[1e3 * d + e].regionData, !0);
       return this.rchunk[c];

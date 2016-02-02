@@ -14,6 +14,8 @@ Settings::initSettings = ->
   window.location.hash.substr(1).split('&').forEach (c) ->
     urlParams[c.split('=')[0]] = c.split('=')[1]
     return
+  #### Set File Source Status ####
+  @local = false
   #### Set Path To World ####
   @gameRoot = jsonSettings.gameRoot.value
   undefined != urlParams.gameRoot and jsonSettings.gameRoot.url and (@gameRoot = urlParams.gameRoot)
@@ -194,5 +196,24 @@ Settings::getSettingsURL = ->
 
 Settings::setHashURL = (b, f, c) ->
   window.location.hash = 'pos=' + b[0].toFixed(2) + '+' + b[1].toFixed(2) + '+' + b[2].toFixed(2) + '&rot=' + f[0].toFixed(2) + '+' + f[1].toFixed(2) + '&camera=' + c
+
+window.onload =
+getFiles = ->
+  window.fileReader = new FileReader()
+  document.querySelector('input.localWorldSelector').onchange = ->
+    window.localFiles = {}
+    window.settings.local = true
+    console.log(settings.local)
+    if window.File and window.FileReader and window.FileList and window.Blob
+      # File APIs supported.
+    else
+      alert 'Local file API not supported in this browser.'
+    [].slice.call(@files).forEach (v) ->
+      console.log(v);
+      window.localFiles[v.name] = v
+      $('body').append '<div>' + v.name + '</div>'
+      return
+    return
+  return
 
 window.settings = new Settings

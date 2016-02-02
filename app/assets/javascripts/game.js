@@ -1,5 +1,37 @@
 var threadsCode = [];
-threadsCode.loadRegionThread = "self.addEventListener('message', function(e) {        var x = e.data.x;        var y = e.data.y;        var xhr = new XMLHttpRequest();        xhr.open('GET', e.data.name, false);        xhr.responseType = 'arraybuffer';        try{            xhr.send();        } catch(e) {            self.postMessage({loaded: 0, x: x, y: y});            self.close();            return;        }        var regionData =  new Uint8Array(xhr.response);        self.postMessage({loaded: 1, x: x, y: y, data: regionData.buffer}, [regionData.buffer]);        self.close();    }, false);";
+threadsCode.loadRegionThread = "self.addEventListener('message', (function(e) {\
+  var regionData, x, xhr, y;\
+  x = e.data.x;\
+  y = e.data.y;\
+  if (!e.data.local) {\
+    xhr = new XMLHttpRequest;\
+    xhr.open('GET', e.data.name, false);\
+    xhr.responseType = 'arraybuffer';\
+    try {\
+      xhr.send();\
+    } catch (_error) {\
+      e = _error;\
+      self.postMessage({\
+        loaded: 0,\
+        x: x,\
+        y: y\
+      });\
+      self.close();\
+      return;\
+    }\
+    regionData = new Uint8Array(xhr.response);\
+  } else {\
+    regionData = new Uint8Array(e.data.region);\
+  }\
+  self.postMessage({\
+    loaded: 1,\
+    x: x,\
+    y: y,\
+    data: regionData.buffer\
+  }, [regionData.buffer]);\
+  self.close();\
+}), false);";
+
 String.prototype.equalsIgnoreCase = function(b) {
   return this.toUpperCase() === b.toUpperCase()
 };
@@ -3316,6 +3348,7 @@ var codeEditor = null,
   click = 0,
   useBlock = {},
   punkty1 = [],
+  localFiles = {},
   pointer = new Pointer,
   selectBox = new SelectionBox;
 
