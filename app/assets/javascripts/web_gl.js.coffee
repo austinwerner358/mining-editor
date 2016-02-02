@@ -22,7 +22,7 @@ window.webGLStart = ->
   #### Init Camera ####
   console.log(settings.cameraType)
   camera = switch settings.cameraType
-    when 'CameraGod' then window.cameraGod
+    when 'CameraGhost' then window.cameraGhost
     when 'Camera' then window.cameraOther
     when 'CameraPlayer' then window.cameraPlayer
     else undefined

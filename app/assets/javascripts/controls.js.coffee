@@ -72,10 +72,10 @@ Controls::keyDown = (b) ->
       when keyMap.changeCamera
         console.log window.camera.name
         switch window.camera.name
-          when 'CameraGod'
+          when 'CameraGhost'
             window.camera = window.cameraPlayer
           when 'CameraPlayer', 'Camera'
-            window.camera = window.cameraGod
+            window.camera = window.cameraGhost
         camera.updatePos(window.player)
   return
 

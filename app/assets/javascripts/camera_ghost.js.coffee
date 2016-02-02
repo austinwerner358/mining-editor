@@ -1,6 +1,6 @@
-class window.CameraGod
+class window.CameraGhost
   constructor:() ->
-    @name = 'CameraGod'
+    @name = 'CameraGhost'
     @entity = undefined
     @oldPos = new Float32Array(3)
     @control = @lpm = 0
@@ -171,4 +171,4 @@ class window.CameraGod
       when 69
         @entity.przesx = @entity.przesz = @getFastSpeed()
 
-window.cameraGod = new CameraGod
+window.cameraGhost = new CameraGhost

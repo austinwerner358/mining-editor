@@ -6,7 +6,7 @@ To be used as a flying camera with collisions.
 Potentially to be used for taking screen shots.
 ###
 
-Camera = -> # TODO: turn into class that extends CameraGod
+Camera = -> # TODO: turn into class that extends CameraGhost
   @name = 'Camera'
   @pos = undefined
   @oldPos = new Float32Array(3)

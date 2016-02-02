@@ -1,4 +1,4 @@
-class CameraPlayer extends CameraGod
+class CameraPlayer extends CameraGhost
   constructor:() ->
     super
     @name = 'CameraPlayer'
