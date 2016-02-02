@@ -124,6 +124,7 @@ Settings::initSettings = ->
   @cameraType = jsonSettings.camera.value
   undefined != urlParams.camera and jsonSettings.camera.url and (@cameraType = urlParams.camera)
   @pointerOn = true
+  @firstClick = true
 
 Settings::togglePointer = ->
   document.getElementById('togglePointer').checked = @pointerOn = !@pointerOn

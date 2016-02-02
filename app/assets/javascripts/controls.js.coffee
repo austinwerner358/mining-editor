@@ -84,12 +84,13 @@ Controls::keyUp = (b) ->
   return
 
 Controls::mouseDown = (b) ->
-  @lastTarget = b.target
-  @lastTarget == gluu.glCanvas and (window.camera.starex = b.clientX)
-  window.camera.starey = b.clientY
-  window.settings.edit and window.camera.autoMove and (@selectE = !0)
-  @selectT = if 0 == b.button then 0 else @selectU
-  window.camera.mouseDown chronometer.fps
+  if !settings.firstClick
+    @lastTarget = b.target
+    @lastTarget == gluu.glCanvas and (window.camera.starex = b.clientX)
+    window.camera.starey = b.clientY
+    window.settings.edit and window.camera.autoMove and (@selectE = !0)
+    @selectT = if 0 == b.button then 0 else @selectU
+    window.camera.mouseDown chronometer.fps
   return
 
 Controls::mouseUp = (b) ->
@@ -125,9 +126,11 @@ Controls::pointerChange = (b) ->
   b = document.getElementById('webgl')
   if document.pointerLockElement == b or document.mozPointerLockElement == b or document.webkitPointerLockElement == b
     window.addEventListener 'mousemove', @pointerMove, !1
+    window.settings.firstClick = false
   else
     b.onclick = canvasOn
     window.removeEventListener 'mousemove', @pointerMove, !1
+    window.settings.firstClick = true
   window.camera.moveX = 0
   window.camera.moveY = 0
   return

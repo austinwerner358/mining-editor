@@ -107,6 +107,10 @@
   width: 150px;
   outline: none;
 }
+.settingsInputFiles {
+  width: 150px;
+  outline: none;
+}
 .settingsInputRange {
   -webkit-appearance: none;
   width: 150px;
