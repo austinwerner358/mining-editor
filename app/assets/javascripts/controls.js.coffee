@@ -83,14 +83,14 @@ Controls::keyUp = (b) ->
   @lastTarget == gluu.glCanvas and window.camera.keyUp(b)
   return
 
-Controls::mouseDown = (b) ->
+Controls::mouseDown = (b) -> # TODO: check what else is related to first mouseDown
+  @lastTarget = b.target
+  @lastTarget == gluu.glCanvas and (window.camera.starex = b.clientX)
+  window.camera.starey = b.clientY
   if !settings.firstClick
-    @lastTarget = b.target
-    @lastTarget == gluu.glCanvas and (window.camera.starex = b.clientX)
-    window.camera.starey = b.clientY
     window.settings.edit and window.camera.autoMove and (@selectE = !0)
-    @selectT = if 0 == b.button then 0 else @selectU
-    window.camera.mouseDown chronometer.fps
+  @selectT = if 0 == b.button then 0 else @selectU
+  window.camera.mouseDown chronometer.fps
   return
 
 Controls::mouseUp = (b) ->
