@@ -16,6 +16,9 @@
     Going to /world/'name'/x/y/z will edit the starting location.<br>
     Going to /color/'hex color' will edit the color of the sky.<br>
     <br>
+    Select Local World<br>
+    <%= link_to '/local', '/local', :target => '_blank' %><br>
+    <br>
     Worlds:<br>
     <% @worlds.each do |world_name| %>
       <%= link_to "/world/#{world_name}", "/world/#{world_name}", :target => '_blank' %><br>

@@ -1,9 +1,10 @@
 class GameController < ApplicationController
-  before_action :init_options, only: [:world_name, :controls]
+  before_action :init_options, only: [:index, :world_name, :controls]
 
   def index
     user = User.first || User.create
     @world_name = user.world_name
+    user.update_attribute(:world_name, @worlds.first) unless user.world_name
     @db_pos = user.position.join('+') unless user.pos_x.nil?
     @sky_color = user.sky_color_hex ? user.sky_color_hex : User.default_sky_color
   end
@@ -43,8 +44,14 @@ class GameController < ApplicationController
       # next unless File.directory? item
       @worlds << item
     end
+    @worlds.sort!
   end
 
   def controls
+  end
+
+  def local_world
+    User.first.update_attribute(:world_name, nil)
+    redirect_to root_url
   end
 end

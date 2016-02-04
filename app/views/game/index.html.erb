@@ -9,7 +9,7 @@
     <%= javascript_include_tag "jscolor/jscolor.js" %>
   </head>
 
-  <body oncontextmenu="return false;" onload='webGLStart();' style="margin: 0px; border: none;">
+  <body oncontextmenu="return false;" onload='<%= "webGLStart();" if @world_name %>' style="margin: 0px; border: none;">
     <center>
       <canvas id="webgl" style="position:fixed; left:0px; top:0px; margin: 0px; background: white; border: none;" width="1200" height="700"></canvas>
       <input id="worldName" type="hidden" value="<%= @world_name %>"></input>
@@ -114,6 +114,11 @@
         <a id="button1" href="javascript:executeJS();">Execute</a>
       </div>
       <div id="game-state">....</div>
+      <% unless @world_name %>
+        <div id="worldSelectOverlay" class="overlay">
+          <input class="localWorldSelector" type="file" webkitdirectory><br>
+        </div>
+      <% end %>
     </center>
   </body>
 </html>

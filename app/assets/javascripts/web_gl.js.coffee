@@ -51,6 +51,9 @@ window.webGLStart = ->
   window.lastTime = (new Date).getTime()
   window.mcWorld = new RegionLib(settings.gameRoot, settings.worldName)
   h_u_d.gameStateHtml = document.getElementById('game-state')
+  #### Remove Overlay ####
+  if document.contains(document.getElementById('worldSelectOverlay'))
+    document.getElementById('worldSelectOverlay').remove()
   #### Start Game ####
   chronometer.tick()
   return
