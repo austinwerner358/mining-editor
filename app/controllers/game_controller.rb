@@ -3,8 +3,9 @@ class GameController < ApplicationController
 
   def index
     user = User.first || User.create
+    @local = user.local
+    user.update_attribute(:local, false) if @local
     @world_name = user.world_name
-    user.update_attribute(:world_name, @worlds.first) unless user.world_name
     @db_pos = user.position.join('+') unless user.pos_x.nil?
     @sky_color = user.sky_color_hex ? user.sky_color_hex : User.default_sky_color
   end
@@ -51,7 +52,7 @@ class GameController < ApplicationController
   end
 
   def local_world
-    User.first.update_attribute(:world_name, nil)
+    User.first.update_attribute(:local, true)
     redirect_to root_url
   end
 end
