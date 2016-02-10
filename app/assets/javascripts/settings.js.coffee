@@ -1,4 +1,6 @@
 Settings = ->
+  @local = false
+  return
 
 Settings::initSettings = ->
   #### Load JSON Settings ####
@@ -15,15 +17,17 @@ Settings::initSettings = ->
     urlParams[c.split('=')[0]] = c.split('=')[1]
     return
   #### Set File Source Status ####
-  @local = false
+  @local = false unless Object.keys(window.localFiles).length > 0
   #### Set Path To World ####
   @gameRoot = jsonSettings.gameRoot.value
   undefined != urlParams.gameRoot and jsonSettings.gameRoot.url and (@gameRoot = urlParams.gameRoot)
   #### Set World Name ####
-  @worldName = $('#worldName').val()
-  if !@worldName
-    @worldName = jsonSettings.worldName.value
-  undefined != urlParams.worldName and jsonSettings.worldName.url and (@worldName = urlParams.worldName)
+  @worldName = ''
+  unless @local
+    @worldName = $('#worldName').val()
+    if !@worldName
+      @worldName = jsonSettings.worldName.value
+    undefined != urlParams.worldName and jsonSettings.worldName.url and (@worldName = urlParams.worldName)
   console.log('Selected World Name: ' + @worldName)
   #### Set Distance Level ####
   @distanceLevel = [
@@ -57,15 +61,20 @@ Settings::initSettings = ->
     100
     0
   ]
-  dbPos = $('#dbPos').val()
-  if !!dbPos
-    @pos[0] = parseInt(dbPos.split('+')[0]) or @pos[0]
-    @pos[1] = parseInt(dbPos.split('+')[1]) or @pos[1]
-    @pos[2] = parseInt(dbPos.split('+')[2]) or @pos[2]
-  else if undefined != jsonSettings.pos && !!jsonSettings.pos[@worldName]
-    @pos[0] = parseFloat(jsonSettings.pos[@worldName].split('+')[0]) or @pos[0]
-    @pos[1] = parseFloat(jsonSettings.pos[@worldName].split('+')[1]) or @pos[1]
-    @pos[2] = parseFloat(jsonSettings.pos[@worldName].split('+')[2]) or @pos[2]
+  if document.contains(document.getElementById('local_x'))
+    @pos[0] = parseInt($('#local_x').val()) if $('#local_x').val()
+    @pos[1] = parseInt($('#local_y').val()) if $('#local_y').val()
+    @pos[2] = parseInt($('#local_z').val()) if $('#local_z').val()
+  else
+    dbPos = $('#dbPos').val()
+    if !!dbPos
+      @pos[0] = parseInt(dbPos.split('+')[0]) or @pos[0]
+      @pos[1] = parseInt(dbPos.split('+')[1]) or @pos[1]
+      @pos[2] = parseInt(dbPos.split('+')[2]) or @pos[2]
+    else if undefined != jsonSettings.pos && !!jsonSettings.pos[@worldName]
+      @pos[0] = parseFloat(jsonSettings.pos[@worldName].split('+')[0]) or @pos[0]
+      @pos[1] = parseFloat(jsonSettings.pos[@worldName].split('+')[1]) or @pos[1]
+      @pos[2] = parseFloat(jsonSettings.pos[@worldName].split('+')[2]) or @pos[2]
   if undefined != urlParams.pos and jsonSettings.pos.url
     @pos[0] = parseFloat(urlParams.pos.split('+')[0]) or @pos[0]
     @pos[1] = parseFloat(urlParams.pos.split('+')[1]) or @pos[1]
@@ -217,7 +226,6 @@ getFiles = ->
           window.localFiles[v.name] = v
           $('body').append '<div>' + v.name + '</div>'
           return
-        webGLStart() unless window.camera
         return
       return
 

@@ -115,9 +115,21 @@
       </div>
       <div id="game-state">....</div>
       <% unless @world_name %>
-        <div id="worldSelectOverlay" class="overlay">
-          <input class="localWorldSelector" type="file" webkitdirectory><br>
+      <div id="worldSelectOverlay" class="overlay">
+        <div class="formBackground">
+          X:
+          <input id="local_x" type="number" step="1"><br>
+          Y:
+          <input id="local_y" type="number" step="1"><br>
+          Z:
+          <input id="local_z" type="number" step="1"><br>
+          <br>
+          <button onclick="document.getElementById('fileSelector').click(); return false;">Select World</button>
+          <input id="fileSelector" class="localWorldSelector" style="visibility: hidden; display: none;" type="file" webkitdirectory><br>
+          <br>
+          <button onclick="webGLStart()">Start</button>
         </div>
+      </div>
       <% end %>
     </center>
   </body>
