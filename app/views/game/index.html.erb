@@ -15,7 +15,7 @@
       <input id="worldName" type="hidden" value="<%= @world_name %>"></input>
       <input id="dbPos" type="hidden" value="<%= @db_pos %>"></input>
       <div id="settings">
-        Display Settings
+        Display Settings - (<%= @world_name %>)
         <table id="settingsTable">
           <tr>
             <td>
@@ -84,7 +84,7 @@
           </tr>
           <tr>
             <td>
-              Local World
+              Extend World
             </td>
             <td>
               <input class="settingsInputFiles localWorldSelector" type="file" webkitdirectory><br>

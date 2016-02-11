@@ -26,6 +26,8 @@ Controls::keyDown = (b) ->
     switch b.keyCode
       when keyMap.moveUp, keyMap.moveUpAlt
         window.camera.upY = 200
+      when keyMap.moveDown, keyMap.moveDownAlt
+        window.camera.downY = 400
       when keyMap.useNextBlock
         window.useNextBlock useBlock
       when keyMap.usePrevBlock
@@ -75,6 +77,8 @@ Controls::keyDown = (b) ->
           when 'CameraGhost'
             window.camera = window.cameraPlayer
           when 'CameraPlayer', 'Camera'
+            window.camera = window.cameraAerial
+          when 'CameraAerial'
             window.camera = window.cameraGhost
         camera.updatePos(window.player)
   return

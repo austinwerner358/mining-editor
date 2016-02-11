@@ -13,4 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//
+//= require ./camera_ghost.js.coffee
+//
 //= require_tree .

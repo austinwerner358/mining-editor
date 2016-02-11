@@ -25,6 +25,7 @@ window.webGLStart = ->
     when 'CameraGhost' then window.cameraGhost
     when 'Camera' then window.cameraOther
     when 'CameraPlayer' then window.cameraPlayer
+    when 'CameraAerial' then window.cameraAerial
     else undefined
   player.setPosRot(settings.pos, settings.rot)
   camera.updatePos(player)
