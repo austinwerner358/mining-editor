@@ -1,4 +1,4 @@
-class CameraPlayer extends CameraGhost
+class window.CameraPlayer extends CameraGhost
   constructor:() ->
     super
     @name = 'CameraPlayer'
@@ -10,6 +10,7 @@ class CameraPlayer extends CameraGhost
     @tPos[1] = 0
     @tPos[2] = 0
     @upY = 0
+    @fallSpeedModifier = 1
 
   updatePos: (player) ->
     super
@@ -58,7 +59,8 @@ class CameraPlayer extends CameraGhost
     @moveL and @moveLeft(b)
     # Handle jumping.
     if 0 == @upY
-      @tPos[1] -= 10 / b
+      @tPos[1] -= (10 / b) * @fallSpeedModifier
+      @fallSpeedModifier += .03 unless @fallSpeedModifier > 5
     else
       @tPos[1] += 8 / b
     @upY -= 1e3 / b
@@ -68,6 +70,7 @@ class CameraPlayer extends CameraGhost
     # Change back to old position if there is a collision.
     if mcWorld.testCollisions()
       @failing = 0
+      @fallSpeedModifier = 1
       @entity.pos[1] = @oldPos[1]
     else
       @failing = 1

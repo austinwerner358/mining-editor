@@ -77,8 +77,8 @@ Controls::keyDown = (b) ->
           when 'CameraGhost'
             window.camera = window.cameraPlayer
           when 'CameraPlayer', 'Camera'
-            window.camera = window.cameraAerial
-          when 'CameraAerial'
+          #   window.camera = window.cameraAerial
+          # when 'CameraAerial'
             window.camera = window.cameraGhost
         camera.updatePos(window.player)
   return

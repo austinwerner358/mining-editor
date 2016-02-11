@@ -15,5 +15,6 @@
 //= require turbolinks
 //
 //= require ./camera_ghost.js.coffee
+//= require ./camera_player.js.coffee
 //
 //= require_tree .

@@ -1,50 +1,7 @@
-class CameraAerial extends CameraGhost
+class CameraAerial extends CameraPlayer
   constructor:() ->
     super
     @name = 'CameraAerial'
-    @failing = 0
-    @tPos = new Float32Array(3)
-    @nPos1 = new Float32Array(3)
-    @nPos2 = new Float32Array(3)
-    @tPos[0] = 0
-    @tPos[1] = 0
-    @tPos[2] = 0
-    @upY = 0
-    @downY = 0
-
-  updatePos: (player) ->
-    super
-    @entity.przesx = @entity.przesz = @getNormalSpeed()
-    @tPos[0] = player.pos[0]
-    @tPos[1] = player.pos[1]
-    @tPos[2] = player.pos[2]
-    @
-
-  getNormalSpeed: ->
-    14
-
-  getFastSpeed: ->
-    40
-
-  moveForward: (b) ->
-    @tPos[2] = @entity.pos[2] + @entity.przesz / b * Math.cos(@entity.rot[0])
-    @tPos[0] = @entity.pos[0] + @entity.przesz / b * Math.sin(@entity.rot[0])
-    @tPos[1] = @entity.pos[1]
-
-  moveBackward: (b) ->
-    @tPos[2] = @entity.pos[2] - (@entity.przesz / b * Math.cos(@entity.rot[0]))
-    @tPos[0] = @entity.pos[0] - (@entity.przesz / b * Math.sin(@entity.rot[0]))
-    @tPos[1] = @entity.pos[1]
-
-  moveLeft: (b) ->
-    @tPos[0] = @entity.pos[0] + @entity.przesz / b * Math.cos(@entity.rot[0])
-    @tPos[1] = @entity.pos[1]
-    @tPos[2] = @entity.pos[2] - (@entity.przesz / b * Math.sin(@entity.rot[0]))
-
-  moveRight: (b) ->
-    @tPos[0] = @entity.pos[0] - (@entity.przesz / b * Math.cos(@entity.rot[0]))
-    @tPos[1] = @entity.pos[1]
-    @tPos[2] = @entity.pos[2] + @entity.przesz / b * Math.sin(@entity.rot[0])
 
   updatePosition: (b) ->
     # Save previous position.
@@ -119,11 +76,5 @@ class CameraAerial extends CameraGhost
     # Move up if stuck.
     if mcWorld.testCollisions()
       @entity.pos[1] += .03
-
-  moveUp: (b) ->
-    @tPos[1] += @entity.przesy
-
-  moveDown: (b) ->
-    @tPos[1] -= @entity.przesy
 
 window.cameraAerial = new CameraAerial
