@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //
+//= require ./world_chunk.js
+//= require ./world_region.js
 //= require ./camera_ghost.js.coffee
 //= require ./camera_player.js.coffee
 //
