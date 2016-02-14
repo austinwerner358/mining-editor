@@ -84,42 +84,6 @@ function spiralLoop(b) {
   return d
 }
 
-WebGLUtils = function() {
-  var b = function(b, c) {
-    var d, e, m;
-    for (d = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"], e = null, m = 0; m < d.length; ++m) {
-      try {
-        e = b.getContext(d[m], c)
-      } catch (l) {}
-      if (e) break
-    }
-    return e
-  };
-  return {
-    create3DContext: b,
-    setupWebGL: function(f, c, d) {
-      function e(b) {
-        var c = f.parentNode;
-        if (c) {
-          var d = window.WebGLRenderingContext ? 'It doesn\'t appear your computer can support WebGL.<br/><a href="http://get.webgl.org/troubleshooting/">Click here for more information.</a>' : 'This page requires a browser that supports WebGL.<br/><a href="http://get.webgl.org">Click here to upgrade your browser.</a>';
-          b && (d += "<br/><br/>Status: " + b);
-          c.innerHTML = '<table style="background-color: #8CE; width: 100%; height: 100%;"><tr><td align="center"><div style="display: table-cell; vertical-align: middle;"><div style="">' + d + "</div></div></td></tr></table>"
-        }
-      }
-      d = d || e;
-      f.addEventListener && f.addEventListener("webglcontextcreationerror", function(b) {
-        d(b.statusMessage)
-      }, !1);
-      (c = b(f, c)) || window.WebGLRenderingContext || d("");
-      return c
-    }
-  }
-}();
-window.requestAnimFrame = function() {
-  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(b, f) {
-    window.setTimeout(b, 1E3 / 60)
-  }
-}();
 (function(b) {
   var f;
   "undefined" === typeof exports ? "function" == typeof define && "object" == typeof define.amd && define.amd ? (f = {}, define(function() {

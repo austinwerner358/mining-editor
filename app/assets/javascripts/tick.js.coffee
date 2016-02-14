@@ -1,3 +1,8 @@
+window.requestAnimFrame = do ->
+  window.requestAnimationFrame or window.webkitRequestAnimationFrame or window.mozRequestAnimationFrame or window.oRequestAnimationFrame or window.msRequestAnimationFrame or (b, f) ->
+    window.setTimeout b, 1e3 / 60
+    return
+
 chronometer.tick = ->
   window.requestAnimFrame chronometer.tick
   b = (new Date).getTime()
