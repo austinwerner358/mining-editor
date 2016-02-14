@@ -4052,7 +4052,7 @@ CameraPlayer.prototype.keyDown = function(b, f) {
     }
 };
 
-function RegionLib(b, f) {
+function Region(b, f) {
     this.gameRoot = b;
     this.worldName = f;
     this.region = [];
@@ -4060,14 +4060,14 @@ function RegionLib(b, f) {
     this.rchunk = [];
     this.iChunk = 0
 }
-RegionLib.prototype.getChunkBlock = function(b, f, c, d, e) {
+Region.prototype.getChunkBlock = function(b, f, c, d, e) {
     b = 1E4 * b + f;
     return void 0 !== this.rchunk[b] ? this.rchunk[b].getBlock(c, d, e) : {
         id: 0,
         data: 0
     }
 };
-RegionLib.prototype.getBlock = function(b, f, c) {
+Region.prototype.getBlock = function(b, f, c) {
     var d = Math.floor(b / 16),
         e = Math.floor(c / 16),
         m = 1E4 * d + e,
@@ -4077,27 +4077,27 @@ RegionLib.prototype.getBlock = function(b, f, c) {
         data: 0
     }
 };
-RegionLib.prototype.updateChunkBlock = function(b, f, c, d, e, m, l) {
+Region.prototype.updateChunkBlock = function(b, f, c, d, e, m, l) {
     b = 1E4 * b + f;
     void 0 !== this.rchunk[b] && this.rchunk[b].updateBlock(c, d, e, m, l)
 };
-RegionLib.prototype.updateBlock = function(b, f, c, d, e) {
+Region.prototype.updateBlock = function(b, f, c, d, e) {
     var m = Math.floor(b / 16),
         l = Math.floor(c / 16),
         p = 1E4 * m + l;
     void 0 !== this.rchunk[p] && (b -= 16 * m, 0 > b && (b += 16), c -= 16 * l, 0 > c && (c += 16), this.rchunk[p].updateBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e))
 };
-RegionLib.prototype.setBlock = function(b, f, c, d, e) {
+Region.prototype.setBlock = function(b, f, c, d, e) {
     var m = Math.floor(b / 16),
         l = Math.floor(c / 16),
         p = 1E4 * m + l;
     void 0 !== this.rchunk[p] && (b -= 16 * m, 0 > b && (b += 16), c -= 16 * l, 0 > c && (c += 16), this.rchunk[p].setBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e))
 };
-RegionLib.prototype.changeChunkBlockAdd = function(b, f, c, d, e) {
+Region.prototype.changeChunkBlockAdd = function(b, f, c, d, e) {
     b = 1E4 * b + f;
     void 0 !== this.rchunk[b] && this.rchunk[b].changeAdd(c, d, e)
 };
-RegionLib.prototype.updateChunks = function() {
+Region.prototype.updateChunks = function() {
     var b = (new Date).getTime(),
         f = 0,
         c;
@@ -4105,7 +4105,7 @@ RegionLib.prototype.updateChunks = function() {
     c = (new Date).getTime();
     console.log("update chunk " + (c - b) + " " + f)
 };
-RegionLib.prototype.deleteBuffers = function() {
+Region.prototype.deleteBuffers = function() {
     var b = (new Date).getTime(),
         f = 0,
         c;
@@ -4113,7 +4113,7 @@ RegionLib.prototype.deleteBuffers = function() {
     c = (new Date).getTime();
     console.log("delete buffers " + (c - b) + " " + f)
 };
-RegionLib.prototype.render = function() {
+Region.prototype.render = function() {
     if (initTexture) {
         var b = gluu.standardShader;
         gl.useProgram(b);
@@ -4159,7 +4159,7 @@ RegionLib.prototype.render = function() {
         }
     }
 };
-RegionLib.prototype.renderSelection = function() {
+Region.prototype.renderSelection = function() {
     if (initTexture) {
         var b = gluu.selectionShader;
         gl.useProgram(b);
@@ -4208,7 +4208,7 @@ RegionLib.prototype.renderSelection = function() {
         return b
     }
 };
-RegionLib.prototype.testCollisions = function() {
+Region.prototype.testCollisions = function() {
     var b = camera.getPos(),
         f = Math.floor(b[0] / 16),
         c = Math.floor(b[2] / 16),
@@ -4230,11 +4230,11 @@ RegionLib.prototype.testCollisions = function() {
             }(new Date).getTime();
     return 0 < d ? !0 : !1
 };
-RegionLib.prototype.save = function() {
+Region.prototype.save = function() {
     var b;
     for (b in this.rchunk) void 0 !== this.rchunk[b] && -1 !== this.rchunk[b] && -2 !== this.rchunk[b] && this.rchunk[b].changed && (mcWorld.saveChunkToStorage(this.rchunk[b].xPos, this.rchunk[b].zPos), this.rchunk[b].changed = !1)
 };
-RegionLib.prototype.saveChunkToStorage = function(b, f) {
+Region.prototype.saveChunkToStorage = function(b, f) {
     var c = 1E4 * b + f;
     if (void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c]) {
         var d = this.rchunk[c].getNBT(),
@@ -4251,13 +4251,13 @@ RegionLib.prototype.saveChunkToStorage = function(b, f) {
         window.localStorage.setItem(this.gameRoot + " " + this.worldName + " " + b + " " + f, d)
     }
 };
-RegionLib.prototype.getChunkFromStorage = function(b, f) {
+Region.prototype.getChunkFromStorage = function(b, f) {
     var c = window.localStorage.getItem(this.gameRoot + " " + this.worldName + " " + b + " " + f);
     if (void 0 === c || null === c || "" === c) return -1;
     c = new Uint8Array(str2ab(c));
-    return RegionLib.loadChunk(0, c, !0)
+    return Region.loadChunk(0, c, !0)
 };
-RegionLib.prototype.loadChunkFromStorage = function(b, f, c) {
+Region.prototype.loadChunkFromStorage = function(b, f, c) {
     var d = mcWorld.getChunkFromStorage(b, f);
     if (-1 === d) return -1;
     if (c) return d;
@@ -4277,7 +4277,7 @@ RegionLib.prototype.loadChunkFromStorage = function(b, f, c) {
     c || q.init2();
     d || b.init2()
 };
-RegionLib.prototype.loadRegion = function(b, f) {
+Region.prototype.loadRegion = function(b, f) {
     this.region[1E3 * b + f] = {};
     this.region[1E3 * b + f].loaded = -2;
     if (void 0 !== window.threadsCode) var c = new Blob([threadsCode.loadRegionThread], {
@@ -4285,10 +4285,10 @@ RegionLib.prototype.loadRegion = function(b, f) {
         }),
         c = new Worker(window.URL.createObjectURL(c));
     else c = new Worker("threads/loadRegionThread.js");
-    c.regionLib = this;
+    c.Region = this;
     c.region = this.region[1E3 * b + f];
     c.onmessage = function(b) {
-        this.regionLib.regionLoaded(b)
+        this.Region.regionLoaded(b)
     };
     c.onerror = function(b) {
         this.region.loaded = -1
@@ -4307,7 +4307,7 @@ RegionLib.prototype.loadRegion = function(b, f) {
         name: e + d
     })
 };
-RegionLib.prototype.regionLoaded = function(b) {
+Region.prototype.regionLoaded = function(b) {
     var f = b.data.x,
         c = b.data.y;
     if (1 !== b.data.loaded) f = this.region[1E3 * f + c], f.loaded = -1;
@@ -4322,7 +4322,7 @@ RegionLib.prototype.regionLoaded = function(b) {
         for (d = c = 0; 4096 > c; c += 4, d++) f.chunkPos[d] = 65536 * b[c] + 256 * b[c + 1] + b[c + 2], f.chunkLen[d] = b[c + 3]
     }
 };
-RegionLib.prototype.loadRegionFile = function(b, f) {
+Region.prototype.loadRegionFile = function(b, f) {
     try {
         var c = Readfile.readRAW(f)
     } catch (d) {
@@ -4336,7 +4336,7 @@ RegionLib.prototype.loadRegionFile = function(b, f) {
     var e, m;
     for (e = 0, m = 0; 4096 > e; e += 4, m++) b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2], b.chunkLen[m] = c[e + 3]
 };
-RegionLib.prototype.requestChunk = function(b, f) {
+Region.prototype.requestChunk = function(b, f) {
     var c = 1E4 * b + f;
     if (void 0 !== this.rchunk[c]) return this.rchunk[c];
     if (1 !== this.localIChunk[c]) {
@@ -4356,11 +4356,11 @@ RegionLib.prototype.requestChunk = function(b, f) {
             f % 32;
         0 > l && (l += 32);
         m += 32 * l;
-        if (0 < this.region[1E3 * d + e].chunkPos[m]) return console.log("chunk " + c + " : " + this.region[1E3 * d + e].chunkPos[m] + " " + this.region[1E3 * d + e].chunkLen[m]), this.iChunk++, this.rchunk[c] = RegionLib.loadChunk(4096 * this.region[1E3 * d + e].chunkPos[m], this.region[1E3 * d + e].regionData, !0), this.rchunk[c];
+        if (0 < this.region[1E3 * d + e].chunkPos[m]) return console.log("chunk " + c + " : " + this.region[1E3 * d + e].chunkPos[m] + " " + this.region[1E3 * d + e].chunkLen[m]), this.iChunk++, this.rchunk[c] = Region.loadChunk(4096 * this.region[1E3 * d + e].chunkPos[m], this.region[1E3 * d + e].regionData, !0), this.rchunk[c];
         this.rchunk[c] = -1
     }
 };
-RegionLib.loadChunk = function(b, f, c) {
+Region.loadChunk = function(b, f, c) {
     var d = {},
         e = new Chunk;
     d.offset = 0;
@@ -4392,7 +4392,7 @@ RegionLib.loadChunk = function(b, f, c) {
                 e.lightPopulated = b.value;
                 break;
             case "Sections":
-                RegionLib.readSections(b, e, d);
+                Region.readSections(b, e, d);
                 continue
                 break;
         }
@@ -4402,7 +4402,7 @@ RegionLib.loadChunk = function(b, f, c) {
     void 0 === e.heightMap && e.initHeightMap();
     return e
 };
-RegionLib.readSections = function(b, f, c) {
+Region.readSections = function(b, f, c) {
     var d, e, m;
     for (d = {}, m = 0; m < b.length && -1 !== (e = NBT.nextTag(c));) switch (0 === e.type && (void 0 === d.add && (d.add = new Uint8Array(2048)), f.section[d.y] = d, d = {}, m++), e.name) {
         case "Y":
@@ -7142,7 +7142,7 @@ function webGLStart() {
     camera.sensitivity = 2 * settings.sensitivity;
     var b;
     for (b = 0; 4 > b; b++) punkty1[b] = {}, punkty1[b].d = new Float32Array(2E6), punkty1[b].o = 0;
-    mcWorld = new RegionLib(settings.gameRoot,
+    mcWorld = new Region(settings.gameRoot,
         settings.worldName);
     document.getElementById("tools").style.display = "none";
     document.getElementById("setDstLvl").value = settings.distanceLevel[0];
