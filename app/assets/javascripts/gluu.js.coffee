@@ -37,30 +37,30 @@ Gluu::initGL = (glCanvas) ->
   @gl or alert('Could not initialise WebGL. See the help page for more information.')
   return
 
-Gluu::getShader = (b, f, c) ->
-  d = new XMLHttpRequest
+Gluu::getShader = (gl, shaderType, shaderClass) ->
+  xmlRequest = new XMLHttpRequest
   if undefined != window.shadersCode
-    f = window.shadersCode[c][f]
-    if undefined == f
+    shaderText = window.shadersCode[shaderClass][shaderType]
+    if undefined == shaderText
       return null
   else
-    d.open('GET', 'shaders/' + f + '.' + c, !1)
-    d.send(null)
-    f = d.responseText
-    if !f
+    xmlRequest.open('GET', 'shaders/' + shaderType + '.' + shaderClass, !1)
+    xmlRequest.send(null)
+    shaderText = xmlRequest.responseText
+    if !shaderText
       return null
-  if 'fs' == c
-    c = b.createShader(b.FRAGMENT_SHADER)
-  else if 'vs' == c
-    c = b.createShader(b.VERTEX_SHADER)
+  if 'fs' == shaderClass
+    newShader = gl.createShader(gl.FRAGMENT_SHADER)
+  else if 'vs' == shaderClass
+    newShader = gl.createShader(gl.VERTEX_SHADER)
   else
     return null
-  b.shaderSource c, f
-  b.compileShader c
-  if b.getShaderParameter(c, b.COMPILE_STATUS)
-    return c
+  gl.shaderSource newShader, shaderText
+  gl.compileShader newShader
+  if gl.getShaderParameter(newShader, gl.COMPILE_STATUS)
+    return newShader
   else
-    alert(b.getShaderInfoLog(c))
+    alert(gl.getShaderInfoLog(newShader))
 
 Gluu::initLineShader = ->
   fs_lineShader = @getShader(@gl, 'line', 'fs')
