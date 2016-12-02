@@ -20,10 +20,10 @@ Controls::initControls = ->
 window.controls = new Controls
 console.log(window.controls)
 
-Controls::keyDown = (b) ->
+Controls::keyDown = (event) ->
   if @lastTarget == gluu.glCanvas
-    window.camera.keyDown b, chronometer.fps
-    switch b.keyCode
+    window.camera.keyDown event, chronometer.fps
+    switch event.keyCode
       when keyMap.moveUp, keyMap.moveUpAlt
         window.camera.upY = 200
       when keyMap.moveDown, keyMap.moveDownAlt
@@ -45,20 +45,20 @@ Controls::keyDown = (b) ->
       when keyMap.saveWorld
         window.mcWorld.save()
       when keyMap.useCodeEditor
-        b = document.getElementById('settings')
-        if 'none' == b.style.display
-          b.style.display = 'block'
+        panel = document.getElementById('settings')
+        if 'none' == panel.style.display
+          panel.style.display = 'block'
         else
-          'block' == b.style.display and (b.style.display = 'none')
+          'block' == panel.style.display and (panel.style.display = 'none')
         undefined != window.ace and window.settings.edit and null == window.codeEditor and (window.codeEditor = ace.edit('editor'))
         window.codeEditor.setTheme 'ace/theme/tomorrow_night'
         window.codeEditor.getSession().setMode 'ace/mode/javascript'
         window.codeEditor.setValue 'var pos = window.camera.getXYZPos();\nvar block = { id: 17, data: 0};\n\nfor(var i = -2; i < 3; i++)\n    for(var j = -2; j < 3; j++){\n    if(i > -2 && i < 2 && j > -2 && j < 2) continue;\n    window.useNextBlockData(block);\n    mcWorld.setBlock(pos.x+i,pos.y,pos.z+j,block.id,block.data);\n}\n\nmcWorld.updateChunks();'
-        b = document.getElementById('tools')
-        if 'none' == b.style.display
-          b.style.display = 'block'
+        panel = document.getElementById('tools')
+        if 'none' == panel.style.display
+          panel.style.display = 'block'
         else
-          'block' == b.style.display and (b.style.display = 'none')
+          'block' == panel.style.display and (panel.style.display = 'none')
         document.exitPointerLock = document.exitPointerLock or document.mozExitPointerLock or document.webkitExitPointerLock
         document.exitPointerLock()
         window.camera.moveX = 0
@@ -83,56 +83,56 @@ Controls::keyDown = (b) ->
         camera.updatePos(window.player)
   return
 
-Controls::keyUp = (b) ->
-  @lastTarget == gluu.glCanvas and window.camera.keyUp(b)
+Controls::keyUp = (event) ->
+  @lastTarget == gluu.glCanvas and window.camera.keyUp(event)
   return
 
-Controls::mouseDown = (b) -> # TODO: check what else is related to first mouseDown
-  @lastTarget = b.target
-  @lastTarget == gluu.glCanvas and (window.camera.starex = b.clientX)
-  window.camera.starey = b.clientY
+Controls::mouseDown = (event) -> # TODO: check what else is related to first mouseDown
+  @lastTarget = event.target
+  @lastTarget == gluu.glCanvas and (window.camera.starex = event.clientX)
+  window.camera.starey = event.clientY
   if !settings.firstClick
     window.settings.edit and window.camera.autoMove and (@selectE = !0)
-  @selectT = if 0 == b.button then 0 else @selectU
+  @selectT = if 0 == event.button then 0 else @selectU
   window.camera.mouseDown chronometer.fps
   return
 
-Controls::mouseUp = (b) ->
+Controls::mouseUp = (event) ->
   @lastTarget == gluu.glCanvas and window.camera.mouseUp(chronometer.fps)
   return
 
-# Controls::mouseMove = (b) ->
+# Controls::mouseMove = (event) ->
 #   f = undefined
 #   if @lastTarget == gluu.glCanvas
-#     f = b.clientX
-#     b = b.clientY
-#     window.camera.mouseMove window.camera.starex - f, window.camera.starey - b, chronometer.fps
+#     f = event.clientX
+#     g = event.clientY
+#     window.camera.mouseMove window.camera.starex - f, window.camera.starey - g, chronometer.fps
 #     window.camera.starex = f
-#     window.camera.starey = b
+#     window.camera.starey = g
 #   return
 
-Controls::pointerMove = (b) ->
+Controls::pointerMove = (event) ->
   f = undefined
-  f = b.movementY or b.mozMovementY or b.webkitMovementY or 0
-  window.camera.moveX -= b.movementX or b.mozMovementX or b.webkitMovementX or 0
+  f = event.movementY or event.mozMovementY or event.webkitMovementY or 0
+  window.camera.moveX -= event.movementX or event.mozMovementX or event.webkitMovementX or 0
   window.camera.moveY -= f
   return
 
-Controls::mouseWheel = (b) ->
-  @lastTarget == gluu.glCanvas and (b = window.event or b)
-  if 0 > Math.max(-1, Math.min(1, b.wheelDelta or -b.detail))
+Controls::mouseWheel = (event) ->
+  @lastTarget == gluu.glCanvas and (event = window.event or event)
+  if 0 > Math.max(-1, Math.min(1, event.wheelDelta or -event.detail))
     window.useNextBlock useBlock
   else
     window.usePrevBlock useBlock
   return
 
-Controls::pointerChange = (b) ->
-  b = document.getElementById('webgl')
-  if document.pointerLockElement == b or document.mozPointerLockElement == b or document.webkitPointerLockElement == b
+Controls::pointerChange = (event) ->
+  canvas = document.getElementById('webgl')
+  if document.pointerLockElement == canvas or document.mozPointerLockElement == canvas or document.webkitPointerLockElement == canvas
     window.addEventListener 'mousemove', @pointerMove, !1
     window.settings.firstClick = false
   else
-    b.onclick = canvasOn
+    canvas.onclick = canvasOn
     window.removeEventListener 'mousemove', @pointerMove, !1
     window.settings.firstClick = true
   window.camera.moveX = 0
