@@ -33,6 +33,7 @@ Gluu::initGL = (glCanvas) ->
     @gl.viewportWidth = glCanvas.width
     @gl.viewportHeight = glCanvas.height
   catch e
+    console.log('Gluu error:')
     console.log(e)
   @gl or alert('Could not initialise WebGL. See the help page for more information.')
   return

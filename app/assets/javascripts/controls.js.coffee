@@ -18,6 +18,7 @@ Controls::initControls = ->
   return
 
 window.controls = new Controls
+console.log('Controls object:')
 console.log(window.controls)
 
 Controls::keyDown = (event) ->

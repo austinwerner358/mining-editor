@@ -302,6 +302,7 @@ var codeEditor = null,
   pointer = new Pointer,
   selectBox = new SelectionBox;
 
+console.log('Settings object:')
 console.log(window.settings);
 
 function useNextBlock(b) {

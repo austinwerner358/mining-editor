@@ -1,7 +1,9 @@
 window.initBlocks = ->
   window.textureConfig = JSON.parse(Readfile.readTxt('config/textures.json'))
+  console.log('Texture config:')
   console.log window.textureConfig
   window.blockConfig = JSON.parse(Readfile.readTxt('config/blocks.json'))
+  console.log('Block config:')
   console.log(window.blockConfig)
   # blocksResponse = $.ajax(
   #   type: 'GET'
@@ -17,8 +19,9 @@ window.initBlocks = ->
   # window.blockConfig = JSON.parse(blocksResponse)
   window.blockConfig.length = 300
   window.biomes = JSON.parse(Readfile.readTxt('config/biomes.json'))
-  window.shapeLib = JSON.parse(Readfile.readTxt('config/shapes.json'))
-  console.log window.shapeLib
+  window.shapeConfig = JSON.parse(Readfile.readTxt('config/shapes.json'))
+  console.log('Shape config:')
+  console.log window.shapeConfig
   window.textureConfig.invRow = 1 / window.textureConfig.row
   window.blockConfig.lightSource = new Uint8Array(window.blockConfig.length)
   window.blockConfig.lightTransmission = new Float32Array(window.blockConfig.length)
@@ -49,7 +52,7 @@ window.initBlocks = ->
       if undefined != window.blockConfig[n][attr].shapeName
         window.blockConfig[n][attr].shape = {}
         # Iterate over (config defined) sides of sub-type of block.
-        for sideName,sideVal of window.shapeLib[window.blockConfig[n][attr].shapeName]
+        for sideName,sideVal of window.shapeConfig[window.blockConfig[n][attr].shapeName]
           # Set each side of the shape to empty array for now.
           window.blockConfig[n][attr].shape[sideName] = []
           # If a texture is defined for the side, prepare the offsets.
@@ -63,17 +66,18 @@ window.initBlocks = ->
               textureIndex = window.textureConfig.texture[window.blockConfig[n][attr].defaultTexture]
               column = textureIndex % window.textureConfig.row
               row = (textureIndex - column) / window.textureConfig.row
-          window.blockConfig[n][attr].shape[sideName] = new Float32Array(window.shapeLib[window.blockConfig[n][attr].shapeName][sideName].length)
+          window.blockConfig[n][attr].shape[sideName] = new Float32Array(window.shapeConfig[window.blockConfig[n][attr].shapeName][sideName].length)
           sideShapeIndex = 0
-          while sideShapeIndex < window.shapeLib[window.blockConfig[n][attr].shapeName][sideName].length
-            window.blockConfig[n][attr].shape[sideName][sideShapeIndex] = window.shapeLib[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex]
-            window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 1] = window.shapeLib[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 1]
-            window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 2] = window.shapeLib[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 2]
-            window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 3] = window.textureConfig.invRow * (window.shapeLib[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 3] + column)
-            window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 4] = window.textureConfig.invRow * (window.shapeLib[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 4] + row)
+          while sideShapeIndex < window.shapeConfig[window.blockConfig[n][attr].shapeName][sideName].length
+            window.blockConfig[n][attr].shape[sideName][sideShapeIndex] = window.shapeConfig[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex]
+            window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 1] = window.shapeConfig[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 1]
+            window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 2] = window.shapeConfig[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 2]
+            window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 3] = window.textureConfig.invRow * (window.shapeConfig[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 3] + column)
+            window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 4] = window.textureConfig.invRow * (window.shapeConfig[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 4] + row)
             sideShapeIndex += 5
     n++
   window.useBlock.id = 1
   window.useBlock.data = 0
+  console.log('Block config (updated):')
   console.log window.blockConfig
   return
