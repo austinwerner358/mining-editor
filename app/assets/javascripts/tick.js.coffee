@@ -5,11 +5,11 @@ window.requestAnimFrame = do ->
 
 chronometer.tick = ->
   window.requestAnimFrame chronometer.tick
-  b = (new Date).getTime()
-  chronometer.fps = 1e3 / (b - chronometer.lastTime)
+  newTime = (new Date).getTime()
+  chronometer.fps = 1e3 / (newTime - chronometer.lastTime)
   pos = window.camera.getPos()
   rot = window.camera.getRot()
-  if 0 < Math.floor(b / 100) - Math.floor(chronometer.lastTime / 100)
+  if 0 < Math.floor(newTime / 100) - Math.floor(chronometer.lastTime / 100)
     h_u_d.gameStateHtml.innerHTML = 'x: ' + pos[0].toFixed(2) + '  y: ' + pos[1].toFixed(2) + '  z: ' + pos[2].toFixed(2)
     h_u_d.gameStateHtml.innerHTML += '<br/>FPS: ' + Math.floor(chronometer.fps)
     if settings.edit
@@ -17,31 +17,32 @@ chronometer.tick = ->
     h_u_d.gameStateHtml.innerHTML += '<br/>Est. Gpu Mem: ' + Math.floor(8 * gpuMem / 1048576) + ' M'
     h_u_d.gameStateHtml.innerHTML += '<br/><a href="/controls" target="_blank">View Controls</a>'
   chronometer.newSec = !1
-  chronometer.lastTime % 1e3 > b % 1e3 and chronometer.newSec = !0
+  chronometer.lastTime % 1e3 > newTime % 1e3 and chronometer.newSec = !0
   chronometer.sec++
   d = !1
-  chronometer.lastTime % 100 > b % 100 and (d = !0)
-  chronometer.lastTime = b
+  chronometer.lastTime % 100 > newTime % 100 and (d = !0)
+  chronometer.lastTime = newTime
   window.camera.updatePosition chronometer.fps
   chronometer.iLag += window.settings.loadSpeed
   chronometer.iLag > window.settings.loadLag and (chronometer.iLag = window.settings.loadLag)
+  # Update currently viewed/selected block.
   if window.settings.edit and d and (window.blockSelection = window.mcWorld.renderSelection()) and controls.selectE
-    b = window.blockSelection
+    block = window.blockSelection
     controls.selectE = !1
-    console.log('y: ' + b.y + ' z: ' + b.z + ' x: ' + b.x + ' chx: ' + b.chx + ' chz: ' + b.chz + ' side: ' + b.side)
+    console.log('y: ' + block.y + ' z: ' + block.z + ' x: ' + block.x + ' chx: ' + block.chx + ' chz: ' + block.chz + ' side: ' + block.side)
     switch controls.selectT
       when 0
-        window.mcWorld.updateChunkBlock b.chx, b.chz, b.x, b.y, b.z, 0, 0
+        window.mcWorld.updateChunkBlock block.chx, block.chz, block.x, block.y, block.z, 0, 0
       when 1
         e = 0
         m = 0
         d = 0
-        l = window.mcWorld.getChunkBlock(b.chx, b.chz, b.x, b.y, b.z)
-        console.log l.id + ' ' + l.data
+        chunkBlock = window.mcWorld.getChunkBlock(block.chx, block.chz, block.x, block.y, block.z)
+        console.log chunkBlock.id + ' ' + chunkBlock.data
         p = !1
-        undefined != window.blockConfig[l.id][l.data & window.blockConfig[l.id].mask] and (if undefined != window.blockConfig[l.id][l.data & window.blockConfig[l.id].mask].replace then (p = window.blockConfig[l.id][l.data & window.blockConfig[l.id].mask].replace) else undefined != window.blockConfig[l.id].replace and (p = window.blockConfig[l.id].replace))
+        undefined != window.blockConfig[chunkBlock.id][chunkBlock.data & window.blockConfig[chunkBlock.id].mask] and (if undefined != window.blockConfig[chunkBlock.id][chunkBlock.data & window.blockConfig[chunkBlock.id].mask].replace then (p = window.blockConfig[chunkBlock.id][chunkBlock.data & window.blockConfig[chunkBlock.id].mask].replace) else undefined != window.blockConfig[chunkBlock.id].replace and (p = window.blockConfig[chunkBlock.id].replace))
         if !p
-          switch b.side
+          switch block.side
             when 1
               e = -1
             when 2
@@ -54,27 +55,27 @@ chronometer.tick = ->
               d = -1
             when 6
               d = 1
-        b.x += e
-        15 < b.x and b.x = 0
-        b.chx++
-        0 > b.x and b.x = 15
-        b.chx--
-        b.z += m
-        15 < b.z and b.z = 0
-        b.chz++
-        0 > b.z and b.z = 15
-        b.chz--
-        0 > b.y and (b.y = 0)
-        256 < b.y and (b.y = 256)
-        e = window.useBlock.id or 1
-        m = window.useBlock.data or 0
-        window.mcWorld.updateChunkBlock b.chx, b.chz, b.x, b.y + d, b.z, e, m
+        block.x += e
+        15 < block.x and block.x = 0
+        block.chx++
+        0 > block.x and block.x = 15
+        block.chx--
+        block.z += m
+        15 < block.z and block.z = 0
+        block.chz++
+        0 > block.z and block.z = 15
+        block.chz--
+        0 > block.y and (block.y = 0)
+        256 < block.y and (block.y = 256)
+        block_id = window.useBlock.id or 1
+        block_data = window.useBlock.data or 0
+        window.mcWorld.updateChunkBlock block.chx, block.chz, block.x, block.y + d, block.z, block_id, block_data
       when 2
-        e = window.useBlock.id or 1
-        m = window.useBlock.data or 0
-        window.mcWorld.updateChunkBlock b.chx, b.chz, b.x, b.y, b.z, e, m
+        block_id = window.useBlock.id or 1
+        block_data = window.useBlock.data or 0
+        window.mcWorld.updateChunkBlock block.chx, block.chz, block.x, block.y, block.z, block_id, block_data
       when 3
-        window.mcWorld.changeChunkBlockAdd b.chx, b.chz, b.x, b.y, b.z
+        window.mcWorld.changeChunkBlockAdd block.chx, block.chz, block.x, block.y, block.z
   window.mcWorld.render()
   window.settings.edit and window.selectBox.render(window.blockSelection)
   window.pointer.render() if settings.pointerOn
