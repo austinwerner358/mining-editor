@@ -1,16 +1,16 @@
 window.requestAnimFrame = do ->
-  window.requestAnimationFrame or window.webkitRequestAnimationFrame or window.mozRequestAnimationFrame or window.oRequestAnimationFrame or window.msRequestAnimationFrame or (b, f) ->
-    window.setTimeout b, 1e3 / 60
+  window.requestAnimationFrame or window.webkitRequestAnimationFrame or window.mozRequestAnimationFrame or window.oRequestAnimationFrame or window.msRequestAnimationFrame or (tick, e) ->
+    window.setTimeout tick, 1e3 / 60
     return
 
 chronometer.tick = ->
   window.requestAnimFrame chronometer.tick
   b = (new Date).getTime()
   chronometer.fps = 1e3 / (b - chronometer.lastTime)
-  f = window.camera.getPos()
-  c = window.camera.getRot()
+  pos = window.camera.getPos()
+  rot = window.camera.getRot()
   if 0 < Math.floor(b / 100) - Math.floor(chronometer.lastTime / 100)
-    h_u_d.gameStateHtml.innerHTML = 'x: ' + f[0].toFixed(2) + '  y: ' + f[1].toFixed(2) + '  z: ' + f[2].toFixed(2)
+    h_u_d.gameStateHtml.innerHTML = 'x: ' + pos[0].toFixed(2) + '  y: ' + pos[1].toFixed(2) + '  z: ' + pos[2].toFixed(2)
     h_u_d.gameStateHtml.innerHTML += '<br/>FPS: ' + Math.floor(chronometer.fps)
     if settings.edit
       h_u_d.gameStateHtml.innerHTML += '<br/>Block: ' + window.useBlock.id + '-' + window.useBlock.data + '  : ' + (window.blockConfig[window.useBlock.id][window.useBlock.data].name or window.blockConfig[window.useBlock.id].name or window.blockConfig[window.useBlock.id][window.useBlock.data].defaultTexture or '')
@@ -79,6 +79,6 @@ chronometer.tick = ->
   window.settings.edit and window.selectBox.render(window.blockSelection)
   window.pointer.render() if settings.pointerOn
   window.player.render() # doesn't currently work
-  chronometer.newSec and window.settings.setHashURL(f, c, window.camera.name)
+  chronometer.newSec and window.settings.setHashURL(pos, rot, window.camera.name)
   10 == chronometer.sec and chronometer.sec = 0
   window.mcWorld.deleteBuffers()
