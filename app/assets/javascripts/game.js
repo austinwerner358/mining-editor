@@ -328,20 +328,20 @@ function useNextBlockData(b) {
 }
 
 function windowResize() {
-  var b = document.getElementById("webgl");
-  b.width = window.innerWidth;
-  b.height = window.innerHeight;
-  gluu.gl.viewportWidth = b.width;
-  gluu.gl.viewportHeight = b.height
+  var canvas = document.getElementById("webgl");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  gluu.gl.viewportWidth = canvas.width;
+  gluu.gl.viewportHeight = canvas.height
 }
 
 function canvasOn() {
   document.getElementById("tools").style.display = "none";
   document.getElementById("settings").style.display = "none";
-  var b = document.getElementById("webgl");
-  b.onclick = function() {};
-  b.requestPointerLock = b.requestPointerLock || b.mozRequestPointerLock || b.webkitRequestPointerLock;
-  b.requestPointerLock()
+  var canvas = document.getElementById("webgl");
+  canvas.onclick = function() {};
+  canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
+  canvas.requestPointerLock()
 }
 
 function executeJS() {

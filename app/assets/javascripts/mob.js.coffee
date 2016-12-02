@@ -21,10 +21,10 @@ class window.Mob
     ]
     @przesz = @przesy = @przesx = 0
 
-  updatePos: (b, f, c) ->
-    @pos = b
-    @rot = f
-    @up = c
+  updatePos: (pos, rot, up) ->
+    @pos = pos
+    @rot = rot
+    @up = up
 
   getEye: ->
     [
@@ -36,13 +36,13 @@ class window.Mob
   getPos: ->
     @pos
 
-  setPosRot: (b, f) ->
-    undefined != b and @pos[0] = b[0]
-    @pos[1] = b[1]
-    @pos[2] = b[2]
-    undefined != f and @rot[0] = f[0]
-    @rot[1] = f[1]
-    @rot[2] = f[2]
+  setPosRot: (pos, rot) ->
+    undefined != pos and @pos[0] = pos[0]
+    @pos[1] = pos[1]
+    @pos[2] = pos[2]
+    undefined != rot and @rot[0] = rot[0]
+    @rot[1] = rot[1]
+    @rot[2] = rot[2]
 
   getTarget: ->
     [
@@ -52,16 +52,16 @@ class window.Mob
     ]
 
   render: ->
-    b = gluu.lineShader
-    gluu.gl.useProgram b
+    lineShader = gluu.lineShader
+    gluu.gl.useProgram lineShader
     mat4.identity gluu.mvMatrix
     mat4.translate gluu.mvMatrix, gluu.mvMatrix, [
       @pos[0]
       @pos[1]
       @pos[2]
     ]
-    gluu.gl.uniformMatrix4fv b.pMatrixUniform, !1, gluu.pMatrix
-    gluu.gl.uniformMatrix4fv b.mvMatrixUniform, !1, gluu.mvMatrix
+    gluu.gl.uniformMatrix4fv lineShader.pMatrixUniform, !1, gluu.pMatrix
+    gluu.gl.uniformMatrix4fv lineShader.mvMatrixUniform, !1, gluu.mvMatrix
     if undefined != @shape
       if undefined == @shapeVbo
         @shapeVbo = gluu.gl.createBuffer()
@@ -69,7 +69,7 @@ class window.Mob
         gluu.gl.bufferData(gluu.gl.ARRAY_BUFFER, @shape, gluu.gl.STATIC_DRAW)
       else
         gluu.gl.bindBuffer(gluu.gl.ARRAY_BUFFER, @shapeVbo)
-        gluu.gl.vertexAttribPointer(b.vertexPositionAttribute, 3, gluu.gl.FLOAT, !1, 20, 0)
-        gluu.gl.vertexAttribPointer(b.lightAttribute, 4, gluu.gl.FLOAT, !1, 20, 0)
-        gluu.gl.vertexAttribPointer(b.textureCoordAttribute, 2, gluu.gl.FLOAT, !1, 20, 12)
+        gluu.gl.vertexAttribPointer(lineShader.vertexPositionAttribute, 3, gluu.gl.FLOAT, !1, 20, 0)
+        gluu.gl.vertexAttribPointer(lineShader.lightAttribute, 4, gluu.gl.FLOAT, !1, 20, 0)
+        gluu.gl.vertexAttribPointer(lineShader.textureCoordAttribute, 2, gluu.gl.FLOAT, !1, 20, 12)
         gluu.gl.drawArrays(gluu.gl.TRIANGLES, 0, 36)

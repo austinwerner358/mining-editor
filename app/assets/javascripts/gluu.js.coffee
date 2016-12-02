@@ -25,15 +25,16 @@ Gluu = ->
 
 window.gluu = new Gluu
 
-Gluu::initGL = (b) ->
+Gluu::initGL = (glCanvas) ->
   try
-    @gl = b.getContext('experimental-webgl',
+    @gl = glCanvas.getContext('experimental-webgl',
       antialias: !1
       alpha: !1)
-    @gl.viewportWidth = b.width
-    @gl.viewportHeight = b.height
-  catch f
-  @gl or alert('Could not initialise WebGL')
+    @gl.viewportWidth = glCanvas.width
+    @gl.viewportHeight = glCanvas.height
+  catch e
+    console.log(e)
+  @gl or alert('Could not initialise WebGL. See the help page for more information.')
   return
 
 Gluu::getShader = (b, f, c) ->
@@ -62,11 +63,11 @@ Gluu::getShader = (b, f, c) ->
     alert(b.getShaderInfoLog(c))
 
 Gluu::initLineShader = ->
-  b = @getShader(@gl, 'line', 'fs')
-  f = @getShader(@gl, 'line', 'vs')
+  fs_lineShader = @getShader(@gl, 'line', 'fs')
+  vs_lineShader = @getShader(@gl, 'line', 'vs')
   @lineShader = @gl.createProgram()
-  @gl.attachShader @lineShader, f
-  @gl.attachShader @lineShader, b
+  @gl.attachShader @lineShader, vs_lineShader
+  @gl.attachShader @lineShader, fs_lineShader
   @gl.linkProgram @lineShader
   @gl.getProgramParameter(@lineShader, @gl.LINK_STATUS) or alert('Could not initialise shaders')
   @gl.useProgram @lineShader
@@ -81,11 +82,11 @@ Gluu::initLineShader = ->
   return
 
 Gluu::initSelectionShader = ->
-  b = @getShader(@gl, 'selection', 'fs')
-  f = @getShader(@gl, 'selection', 'vs')
+  fs_selectionShader = @getShader(@gl, 'selection', 'fs')
+  vs_selectionShader = @getShader(@gl, 'selection', 'vs')
   @selectionShader = @gl.createProgram()
-  @gl.attachShader @selectionShader, f
-  @gl.attachShader @selectionShader, b
+  @gl.attachShader @selectionShader, vs_selectionShader
+  @gl.attachShader @selectionShader, fs_selectionShader
   @gl.linkProgram @selectionShader
   @gl.getProgramParameter(@selectionShader, @gl.LINK_STATUS) or alert('Could not initialise shaders')
   @gl.useProgram @selectionShader
@@ -101,16 +102,16 @@ Gluu::initSelectionShader = ->
   @selectionShader.samplerUniform = @gl.getUniformLocation(@selectionShader, 'uSampler')
   return
 
-Gluu::initStandardShader = (b) ->
+Gluu::initStandardShader = (shaderType) ->
   undefined != @standardShader and @gl.deleteProgram(@standardShader)
-  f = @getShader(@gl, b, 'fs')
-  c = @getShader(@gl, b, 'vs')
+  fs_shader = @getShader(@gl, shaderType, 'fs')
+  vs_shader = @getShader(@gl, shaderType, 'vs')
   @standardShader = @gl.createProgram()
-  @gl.attachShader @standardShader, c
-  @gl.attachShader @standardShader, f
+  @gl.attachShader @standardShader, vs_shader
+  @gl.attachShader @standardShader, fs_shader
   @gl.linkProgram @standardShader
   @gl.getProgramParameter(@standardShader, @gl.LINK_STATUS) or alert('Could not initialise shaders')
-  settings.worldShader = b
+  settings.worldShader = shaderType
   @gl.useProgram @standardShader
   @standardShader.vertexPositionAttribute = @gl.getAttribLocation(@standardShader, 'aVertexPosition')
   @gl.enableVertexAttribArray @standardShader.vertexPositionAttribute
@@ -135,8 +136,8 @@ Gluu::setMatrixUniforms = ->
   return
 
 Gluu::mvPushMatrix = ->
-  b = mat4.clone(@mvMatrix)
-  @mvMatrixStack.push b
+  matrix = mat4.clone(@mvMatrix)
+  @mvMatrixStack.push matrix
   return
 
 Gluu::mvPopMatrix = ->
@@ -145,21 +146,21 @@ Gluu::mvPopMatrix = ->
   @mvMatrix = @mvMatrixStack.pop()
   return
 
-Gluu::degToRad = (b) ->
-  b * Math.PI / 180
+Gluu::degToRad = (deg) ->
+  deg * Math.PI / 180
 
 Gluu::initTextures = ->
   window.blockTexture = @gl.createTexture()
-  b = new Image
-  b.onload = ->
-    gluu.handleTextureLoaded b, window.blockTexture
+  image = new Image
+  image.onload = ->
+    gluu.handleTextureLoaded image, window.blockTexture
     return
-  b.src = 'config/blocks.png'
+  image.src = 'config/blocks.png'
   return
 
-Gluu::handleTextureLoaded = (b, f) ->
-  @gl.bindTexture @gl.TEXTURE_2D, f
-  @gl.texImage2D @gl.TEXTURE_2D, 0, @gl.RGBA, @gl.RGBA, @gl.UNSIGNED_BYTE, b
+Gluu::handleTextureLoaded = (image2D, blockTexture) ->
+  @gl.bindTexture @gl.TEXTURE_2D, blockTexture
+  @gl.texImage2D @gl.TEXTURE_2D, 0, @gl.RGBA, @gl.RGBA, @gl.UNSIGNED_BYTE, image2D
   @gl.texParameteri @gl.TEXTURE_2D, @gl.TEXTURE_MAG_FILTER, @gl.NEAREST
   @gl.texParameteri @gl.TEXTURE_2D, @gl.TEXTURE_MIN_FILTER, @gl.NEAREST
   @gl.bindTexture @gl.TEXTURE_2D, null
