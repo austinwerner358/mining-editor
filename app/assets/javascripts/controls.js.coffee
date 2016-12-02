@@ -112,10 +112,8 @@ Controls::mouseUp = (event) ->
 #   return
 
 Controls::pointerMove = (event) ->
-  f = undefined
-  f = event.movementY or event.mozMovementY or event.webkitMovementY or 0
   window.camera.moveX -= event.movementX or event.mozMovementX or event.webkitMovementX or 0
-  window.camera.moveY -= f
+  window.camera.moveY -= event.movementY or event.mozMovementY or event.webkitMovementY or 0
   return
 
 Controls::mouseWheel = (event) ->

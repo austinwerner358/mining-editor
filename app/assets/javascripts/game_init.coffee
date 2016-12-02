@@ -30,12 +30,12 @@ window.webGLStart = ->
   player.setPosRot(settings.pos, settings.rot)
   camera.updatePos(player)
   #### Chunk Related Code ####
-  b = 0
-  while 4 > b
-    punkty1[b] = {}
-    punkty1[b].d = new Float32Array(2e6)
-    punkty1[b].o = 0
-    b++
+  i = 0
+  while 4 > i
+    punkty1[i] = {}
+    punkty1[i].d = new Float32Array(2e6)
+    punkty1[i].o = 0
+    i++
   #### Init GUI Settings
   document.getElementById('tools').style.display = 'none'
   document.getElementById('setDstLvl').value = settings.distanceLevel[0]

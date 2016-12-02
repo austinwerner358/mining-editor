@@ -13,7 +13,7 @@ chronometer.tick = ->
     h_u_d.gameStateHtml.innerHTML = 'x: ' + f[0].toFixed(2) + '  y: ' + f[1].toFixed(2) + '  z: ' + f[2].toFixed(2)
     h_u_d.gameStateHtml.innerHTML += '<br/>FPS: ' + Math.floor(chronometer.fps)
     if settings.edit
-      h_u_d.gameStateHtml.innerHTML += '<br/>Block: ' + window.useBlock.id + '-' + window.useBlock.data + '  : ' + (window.block[window.useBlock.id][window.useBlock.data].name or window.block[window.useBlock.id].name or window.block[window.useBlock.id][window.useBlock.data].defaultTexture or '')
+      h_u_d.gameStateHtml.innerHTML += '<br/>Block: ' + window.useBlock.id + '-' + window.useBlock.data + '  : ' + (window.blockConfig[window.useBlock.id][window.useBlock.data].name or window.blockConfig[window.useBlock.id].name or window.blockConfig[window.useBlock.id][window.useBlock.data].defaultTexture or '')
     h_u_d.gameStateHtml.innerHTML += '<br/>Est. Gpu Mem: ' + Math.floor(8 * gpuMem / 1048576) + ' M'
     h_u_d.gameStateHtml.innerHTML += '<br/><a href="/controls" target="_blank">View Controls</a>'
   chronometer.newSec = !1
@@ -39,7 +39,7 @@ chronometer.tick = ->
         l = window.mcWorld.getChunkBlock(b.chx, b.chz, b.x, b.y, b.z)
         console.log l.id + ' ' + l.data
         p = !1
-        undefined != window.block[l.id][l.data & window.block[l.id].mask] and (if undefined != window.block[l.id][l.data & window.block[l.id].mask].replace then (p = window.block[l.id][l.data & window.block[l.id].mask].replace) else undefined != window.block[l.id].replace and (p = window.block[l.id].replace))
+        undefined != window.blockConfig[l.id][l.data & window.blockConfig[l.id].mask] and (if undefined != window.blockConfig[l.id][l.data & window.blockConfig[l.id].mask].replace then (p = window.blockConfig[l.id][l.data & window.blockConfig[l.id].mask].replace) else undefined != window.blockConfig[l.id].replace and (p = window.blockConfig[l.id].replace))
         if !p
           switch b.side
             when 1
