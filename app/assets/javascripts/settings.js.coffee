@@ -110,28 +110,41 @@ Settings::initSettings = ->
   undefined != jsonSettings.sun and (@sun = parseFloat(jsonSettings.sun.value) + 0.01 or @sun)
   undefined != urlParams.sun and jsonSettings.sun.url and (@sun = parseFloat(urlParams.sun) + 0.01 or @sun)
   1 < @sun and (@sun = 1)
+  #### Set Brightness ####
   @brightness = 0.3
   undefined != jsonSettings.brightness and (@brightness = parseFloat(jsonSettings.brightness.value) + 0.01 or @brightness)
   undefined != urlParams.brightness and jsonSettings.brightness.url and (@brightness = parseFloat(urlParams.brightness) + 0.01 or @brightness)
+  #### Set Load Lag ####
   @loadLag = 3
   undefined != jsonSettings.loadLag and (@loadLag = parseFloat(jsonSettings.loadLag.value) or @loadLag)
   undefined != urlParams.loadLag and jsonSettings.loadLag.url and (@loadLag = parseFloat(urlParams.loadLag) or @loadLag)
+  #### Set Load Speed ####
   @loadSpeed = 1
   undefined != jsonSettings.loadSpeed and (@loadSpeed = parseFloat(jsonSettings.loadSpeed.value) or @loadSpeed)
   undefined != urlParams.loadSpeed and jsonSettings.loadSpeed.url and (@loadSpeed = parseFloat(urlParams.loadSpeed) or @loadSpeed)
+  #### Set World Shader ####
   @worldShader = 'standard'
   undefined != jsonSettings.worldShader and (@worldShader = jsonSettings.worldShader.value or @worldShader)
   undefined != urlParams.worldShader and jsonSettings.worldShader.url and (@worldShader = urlParams.worldShader or @worldShader)
+  #### Set Editing State ####
   @edit = !0
   undefined != jsonSettings.edit and (@edit = jsonSettings.edit.value)
   undefined != jsonSettings.edit and jsonSettings.edit.url and 'true' == urlParams.edit and (@edit = !0)
   'false' == urlParams.edit and (@edit = !1)
+  #### Set Light Init State ####
   @lightInit = !1
   undefined != jsonSettings.lightInit and (@lightInit = jsonSettings.lightInit.value)
   undefined != jsonSettings.lightInit and jsonSettings.lightInit.url and 'true' == urlParams.lightInit and (@lightInit = !0)
   'false' == urlParams.lightInit and (@lightInit = !1)
+  #### Set Camera Type ####
   @cameraType = jsonSettings.camera.value
   undefined != urlParams.camera and jsonSettings.camera.url and (@cameraType = urlParams.camera)
+  #### Set Movement Configs ####
+  @jumpHeight = 200
+  @sinkHeight = 400
+  @cameraGhostNormalSpeed = 1
+  @cameraGhostFastSpeed = 5
+  #### Set Utility Configs ####
   @pointerOn = true
   @firstClick = true
 

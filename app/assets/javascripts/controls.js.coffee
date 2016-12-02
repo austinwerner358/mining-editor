@@ -25,9 +25,9 @@ Controls::keyDown = (event) ->
     window.camera.keyDown event, chronometer.fps
     switch event.keyCode
       when keyMap.moveUp, keyMap.moveUpAlt
-        window.camera.upY = 200
+        window.camera.upY = window.settings.jumpHeight
       when keyMap.moveDown, keyMap.moveDownAlt
-        window.camera.downY = 400
+        window.camera.downY = window.settings.sinkHeight
       when keyMap.useNextBlock
         window.useNextBlock useBlock
       when keyMap.usePrevBlock
@@ -63,13 +63,13 @@ Controls::keyDown = (event) ->
         document.exitPointerLock()
         window.camera.moveX = 0
         window.camera.moveY = 0
-      when 72
+      when keyMap.executeJavaScript
         if undefined == window.ace
           break
         if !window.settings.edit
           break
         executeJS()
-      when 73
+      when keyMap.clearStorage
         window.localStorage.clear()
       when keyMap.changeCamera
         console.log window.camera.name

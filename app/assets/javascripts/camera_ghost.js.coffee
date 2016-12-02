@@ -24,10 +24,10 @@ class window.CameraGhost
     @
 
   getNormalSpeed: ->
-    1
+    window.settings.cameraGhostNormalSpeed
 
   getFastSpeed: ->
-    5
+    window.settings.cameraGhostFastSpeed
 
   getMatrix: ->
     b = mat4.create()
@@ -127,9 +127,9 @@ class window.CameraGhost
     b = b.keyCode
     @move = !1
     switch b
-      when 81
+      when keyMap.changeMovement
         @jestcontrol = 0
-      when 69
+      when keyMap.modifyPlayerSpeed
         @entity.przesx = @entity.przesz = @getNormalSpeed()
       when keyMap.moveLeft
         @moveL = !1
@@ -150,7 +150,7 @@ class window.CameraGhost
 
   keyDown: (b, f) ->
     switch b.keyCode
-      when 81
+      when keyMap.changeMovement
         @jestcontrol = 1
       when keyMap.moveLeft
         @moveL = !0
@@ -168,7 +168,7 @@ class window.CameraGhost
         @rotRight = !0
       when keyMap.arrowDown
         @rotDown = !0
-      when 69
+      when keyMap.modifyPlayerSpeed
         @entity.przesx = @entity.przesz = @getFastSpeed()
 
 window.cameraGhost = new CameraGhost
