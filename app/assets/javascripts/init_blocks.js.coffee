@@ -19,52 +19,60 @@ window.initBlocks = ->
   window.biomes = JSON.parse(Readfile.readTxt('config/biomes.json'))
   window.shapeLib = JSON.parse(Readfile.readTxt('config/shapes.json'))
   console.log window.shapeLib
-  window.textureConfig.texF = 1 / window.textureConfig.row
-  b = 0
-  f = 0
-  c = window.textureConfig.texF
-  d = 0
+  window.textureConfig.invRow = 1 / window.textureConfig.row
   window.blockConfig.lightSource = new Uint8Array(window.blockConfig.length)
   window.blockConfig.lightTransmission = new Float32Array(window.blockConfig.length)
-  e = undefined
-  m = undefined
-  l = undefined
-  e = 0
-  while e < window.blockConfig.length
-    if undefined == window.blockConfig[e]
-      window.blockConfig[e] = {}
-      window.blockConfig[e].type = 0
-    if undefined == window.blockConfig[e][0]
-      window.blockConfig[e][0] = {}
-      window.blockConfig[e][0].type = 0
-    window.blockConfig.lightSource[e] = window.blockConfig[e].lightSource or 0
-    window.blockConfig.lightTransmission[e] = if 1 == window.blockConfig[e].type then window.blockConfig[e].lightTransmission or 0 else window.blockConfig[e].lightTransmission or 1
-    for m,v of window.blockConfig[e]
-      if 'mask' == m
-        window.blockConfig[e][m] = parseInt(window.blockConfig[e][m], 16)
-      if undefined != window.blockConfig[e][m].shapeName
-        window.blockConfig[e][m].shape = {}
-        for l,x of window.shapeLib[window.blockConfig[e][m].shapeName]
-          window.blockConfig[e][m].shape[l] = []
-          if undefined != window.blockConfig[e][m][l]
-            d = window.textureConfig.texture[window.blockConfig[e][m][l]]
-            b = d % window.textureConfig.row
-            f = (d - b) / window.textureConfig.row
+  attr = undefined
+  val = undefined
+  sideName = undefined
+  sideVal = undefined
+  n = 0
+  # Iterate over block types.
+  while n < window.blockConfig.length
+    # Set empty block type if config is missing for index.
+    if undefined == window.blockConfig[n]
+      window.blockConfig[n] = {}
+      window.blockConfig[n].type = 0
+    # Set the "0" biome to empty if config is missing?
+    if undefined == window.blockConfig[n][0]
+      window.blockConfig[n][0] = {}
+      window.blockConfig[n][0].type = 0
+    # Set the light source value if present.
+    window.blockConfig.lightSource[n] = window.blockConfig[n].lightSource or 0
+    # Set the light transmission value (defaults to 0 or 1 depending on the type of block).
+    window.blockConfig.lightTransmission[n] = if 1 == window.blockConfig[n].type then window.blockConfig[n].lightTransmission or 0 else window.blockConfig[n].lightTransmission or 1
+    # Iterate over attributes and sub-types for block.
+    for attr,val of window.blockConfig[n]
+      if 'mask' == attr
+        window.blockConfig[n][attr] = parseInt(window.blockConfig[n][attr], 16)
+      # If the attribute has a shapeName, then the block type has one or more sub-types (a usual block must have at least one sub-type).
+      if undefined != window.blockConfig[n][attr].shapeName
+        window.blockConfig[n][attr].shape = {}
+        # Iterate over (config defined) sides of sub-type of block.
+        for sideName,sideVal of window.shapeLib[window.blockConfig[n][attr].shapeName]
+          # Set each side of the shape to empty array for now.
+          window.blockConfig[n][attr].shape[sideName] = []
+          # If a texture is defined for the side, prepare the offsets.
+          if undefined != window.blockConfig[n][attr][sideName]
+            textureIndex = window.textureConfig.texture[window.blockConfig[n][attr][sideName]]
+            column = textureIndex % window.textureConfig.row
+            row = (textureIndex - column) / window.textureConfig.row
           else
-            if undefined != window.blockConfig[e][m].defaultTexture
-              d = window.textureConfig.texture[window.blockConfig[e][m].defaultTexture]
-              b = d % window.textureConfig.row
-              f = (d - b) / window.textureConfig.row
-          window.blockConfig[e][m].shape[l] = new Float32Array(window.shapeLib[window.blockConfig[e][m].shapeName][l].length)
-          d = 0
-          while d < window.shapeLib[window.blockConfig[e][m].shapeName][l].length
-            window.blockConfig[e][m].shape[l][d] = window.shapeLib[window.blockConfig[e][m].shapeName][l][d]
-            window.blockConfig[e][m].shape[l][d + 1] = window.shapeLib[window.blockConfig[e][m].shapeName][l][d + 1]
-            window.blockConfig[e][m].shape[l][d + 2] = window.shapeLib[window.blockConfig[e][m].shapeName][l][d + 2]
-            window.blockConfig[e][m].shape[l][d + 3] = c * (window.shapeLib[window.blockConfig[e][m].shapeName][l][d + 3] + b)
-            window.blockConfig[e][m].shape[l][d + 4] = c * (window.shapeLib[window.blockConfig[e][m].shapeName][l][d + 4] + f)
-            d += 5
-    e++
+            # If a texture is not defined for a side, set the offsets for the default texture for the sub-type of block if it exists.
+            if undefined != window.blockConfig[n][attr].defaultTexture
+              textureIndex = window.textureConfig.texture[window.blockConfig[n][attr].defaultTexture]
+              column = textureIndex % window.textureConfig.row
+              row = (textureIndex - column) / window.textureConfig.row
+          window.blockConfig[n][attr].shape[sideName] = new Float32Array(window.shapeLib[window.blockConfig[n][attr].shapeName][sideName].length)
+          sideShapeIndex = 0
+          while sideShapeIndex < window.shapeLib[window.blockConfig[n][attr].shapeName][sideName].length
+            window.blockConfig[n][attr].shape[sideName][sideShapeIndex] = window.shapeLib[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex]
+            window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 1] = window.shapeLib[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 1]
+            window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 2] = window.shapeLib[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 2]
+            window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 3] = window.textureConfig.invRow * (window.shapeLib[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 3] + column)
+            window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 4] = window.textureConfig.invRow * (window.shapeLib[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 4] + row)
+            sideShapeIndex += 5
+    n++
   window.useBlock.id = 1
   window.useBlock.data = 0
   console.log window.blockConfig

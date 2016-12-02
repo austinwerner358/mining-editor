@@ -19,14 +19,14 @@ chronometer.tick = ->
   chronometer.newSec = !1
   chronometer.lastTime % 1e3 > newTime % 1e3 and chronometer.newSec = !0
   chronometer.sec++
-  d = !1
-  chronometer.lastTime % 100 > newTime % 100 and (d = !0)
+  timeHasPassed = !1
+  chronometer.lastTime % 100 > newTime % 100 and (timeHasPassed = !0)
   chronometer.lastTime = newTime
   window.camera.updatePosition chronometer.fps
   chronometer.iLag += window.settings.loadSpeed
   chronometer.iLag > window.settings.loadLag and (chronometer.iLag = window.settings.loadLag)
   # Update currently viewed/selected block.
-  if window.settings.edit and d and (window.blockSelection = window.mcWorld.renderSelection()) and controls.selectE
+  if window.settings.edit and timeHasPassed and (window.blockSelection = window.mcWorld.renderSelection()) and controls.selectE
     block = window.blockSelection
     controls.selectE = !1
     console.log('y: ' + block.y + ' z: ' + block.z + ' x: ' + block.x + ' chx: ' + block.chx + ' chz: ' + block.chz + ' side: ' + block.side)
