@@ -250,26 +250,6 @@ Region.prototype.loadChunkFromStorage = function(b, f, c) {
   c || q.init2();
   d || b.init2()
 };
-Region.prototype.loadFile = function(x, y) {
-  var worker, blob;
-  if (void 0 !== window.threadsCode) {
-    blob = new Blob([threadsCode.loadRegionThread], {
-      type: 'application/javascript'
-    });
-    worker = new Worker(window.URL.createObjectURL(blob));
-  } else {
-    worker = new Worker('threads/loadRegionThread.js');
-  }
-  worker.Region = this;
-  worker.region = this.region[1e3 * x + y];
-  worker.onmessage = function(event) {
-    this.Region.regionLoaded(event);
-  };
-  worker.onerror = function(event) {
-    this.region.loaded = -1;
-  };
-  return worker;
-};
 Region.prototype.regionLoaded = function(b) {
   var f = b.data.x,
     c = b.data.y;

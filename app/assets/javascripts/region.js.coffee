@@ -420,6 +420,23 @@ Region::save = ->
 #   d or b.init2()
 #   return
 
+Region::loadFile = (x, y) ->
+  worker = undefined
+  if undefined != window.threadsCode
+    blob = new Blob([ threadsCode.loadRegionThread ], type: 'application/javascript')
+    worker = new Worker(window.URL.createObjectURL(blob))
+  else
+    worker = new Worker('threads/loadRegionThread.js')
+  worker.Region = this
+  worker.region = @region[1e3 * x + y]
+  worker.onmessage = (event) ->
+    @Region.regionLoaded event
+    return
+  worker.onerror = (event) ->
+    @region.loaded = -1
+    return
+  worker
+
 Region::loadRegion = (x, y) ->
   worker = @loadFile(x, y)
   @region[1e3 * x + y] = {}
