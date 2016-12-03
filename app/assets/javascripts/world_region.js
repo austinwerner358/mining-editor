@@ -250,29 +250,6 @@ Region.prototype.loadChunkFromStorage = function(b, f, c) {
   c || q.init2();
   d || b.init2()
 };
-Region.prototype.regionLoaded = function(event) {
-  console.log('REGION LOADED');
-  var x = event.data.x,
-    y = event.data.y;
-  if (1 !== event.data.loaded) {
-    loadedRegion = this.region[1e3 * x + y], loadedRegion.loaded = -1;
-  } else {
-    var buffer
-    if (buffer = new Uint8Array(event.data.data), 1e3 > buffer.length) {
-      loadedRegion = this.region[1e3 * x + y], loadedRegion.loaded = -1;
-    } else {
-      loadedRegion = this.region[1e3 * x + y];
-      loadedRegion.regionData = buffer;
-      loadedRegion.loaded = 0;
-      loadedRegion.chunkPos = [];
-      loadedRegion.chunkLen = [];
-      var chunk_offset, buffer_offset;
-      for (chunk_offset = buffer_offset = 0; 4096 > buffer_offset; buffer_offset += 4, chunk_offset++) {
-        loadedRegion.chunkPos[chunk_offset] = 65536 * buffer[buffer_offset] + 256 * buffer[buffer_offset + 1] + buffer[buffer_offset + 2], loadedRegion.chunkLen[chunk_offset] = buffer[buffer_offset + 3]
-      }
-    }
-  }
-};
 Region.prototype.loadRegionFile = function(b, f) {
   try {
     var c = Readfile.readRAW(f)

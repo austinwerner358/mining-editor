@@ -483,31 +483,32 @@ Region::loadFileFromServer = (fileName, worker, x, y) ->
     name: baseURL + path
   return
 
-# Region::regionLoaded = (b) ->
-#   f = b.data.x
-#   c = b.data.y
-#   if 1 != b.data.loaded
-#     f = @region[1e3 * f + c]
-#     f.loaded = -1
-#   else
-#     b = new Uint8Array(b.data.data)
-#     if 1e3 > b.length
-#       f = @region[1e3 * f + c]
-#       f.loaded = -1
-#     else
-#       f = @region[1e3 * f + c]
-#       f.regionData = b
-#       f.loaded = 0
-#       f.chunkPos = []
-#       f.chunkLen = []
-#       d = undefined
-#       d = c = 0
-#       while 4096 > c
-#         f.chunkPos[d] = 65536 * b[c] + 256 * b[c + 1] + b[c + 2]
-#         f.chunkLen[d] = b[c + 3]
-#         c += 4
-#         d++
-#   return
+Region::regionLoaded = (event) ->
+  console.log 'REGION LOADED'
+  x = event.data.x
+  y = event.data.y
+  if 1 != event.data.loaded
+    loadedRegion = @region[1e3 * x + y]
+    loadedRegion.loaded = -1
+  else
+    buffer = new Uint8Array(event.data.data)
+    if 1e3 > buffer.length
+      loadedRegion = @region[1e3 * x + y]
+      loadedRegion.loaded = -1
+    else
+      loadedRegion = @region[1e3 * x + y]
+      loadedRegion.regionData = buffer
+      loadedRegion.loaded = 0
+      loadedRegion.chunkPos = []
+      loadedRegion.chunkLen = []
+      chunk_offset = 0
+      buffer_offset = 0
+      while 4096 > buffer_offset
+        loadedRegion.chunkPos[chunk_offset] = 65536 * buffer[buffer_offset] + 256 * buffer[buffer_offset + 1] + buffer[buffer_offset + 2]
+        loadedRegion.chunkLen[chunk_offset] = buffer[buffer_offset + 3]
+        buffer_offset += 4
+        chunk_offset++
+  return
 
 # Region::loadRegionFile = (b, f) ->
 #   try
