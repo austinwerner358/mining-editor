@@ -51,6 +51,9 @@ class GameController < ApplicationController
   def controls
   end
 
+  def help
+  end
+
   def local_world
     User.first.update_attribute(:local, true)
     redirect_to root_url

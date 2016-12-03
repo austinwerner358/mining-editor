@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/world/:world_name(/:pos_x/:pos_y/:pos_z)' => 'game#world_name'
   get '/color/:hex_color' => 'game#sky_color'
   get '/controls' => 'game#controls'
+  get '/help' => 'game#help'
   get '/local' => 'game#local_world'
 
   get '/blocks' => 'init#index'

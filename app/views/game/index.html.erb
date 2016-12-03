@@ -126,6 +126,9 @@
           <input id="local_z" type="number" step="1" placeholder="0"><br>
           <br>
           <button onclick="document.getElementById('fileSelector').click(); return false;">Select World</button>
+          <form action="/help" style="display: inline;" target="_blank">
+            <input type="submit" value="help" />
+          </form>
           <input id="fileSelector" class="localWorldSelector" style="visibility: hidden; display: none;" type="file" webkitdirectory><br>
           <br>
           <button onclick="webGLStart()">Start</button>
