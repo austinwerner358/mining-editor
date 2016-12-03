@@ -179,23 +179,23 @@ Settings::getSettingsURL = ->
   params.forEach (param) ->
     urlUpdated += '&'
     switch param.split(RegExp('='))[0].toLowerCase()
-    when 'sun'
-      hasParam.sun = !0
-      urlUpdated += 'sun=' + @sun
-    when 'skycolor'
-      hasParam.skyColor = !0
-      urlUpdated += 'skyColor=' + Math.floor(255 * @skyColor[0]) + '-' + Math.floor(255 * @skyColor[1]) + '-' + Math.floor(255 * @skyColor[2])
-    when'brightness'
-      hasParam.brightness = !0
-      urlUpdated += 'brightness=' + @brightness
-    when'worldshader'
-      hasParam.worldshader = !0
-      urlUpdated += 'worldShader=' + @worldShader
-    when'distancelevel'
-      hasParam.distancelevel = !0
-      urlUpdated += 'distanceLevel=' + @distanceLevel[0]
-    else
-      urlUpdated += param
+      when 'sun'
+        hasParam.sun = !0
+        urlUpdated += 'sun=' + @sun
+      when 'skycolor'
+        hasParam.skyColor = !0
+        urlUpdated += 'skyColor=' + Math.floor(255 * @skyColor[0]) + '-' + Math.floor(255 * @skyColor[1]) + '-' + Math.floor(255 * @skyColor[2])
+      when'brightness'
+        hasParam.brightness = !0
+        urlUpdated += 'brightness=' + @brightness
+      when'worldshader'
+        hasParam.worldshader = !0
+        urlUpdated += 'worldShader=' + @worldShader
+      when'distancelevel'
+        hasParam.distancelevel = !0
+        urlUpdated += 'distanceLevel=' + @distanceLevel[0]
+      else
+        urlUpdated += param
     return
   !0 != hasParam.sun and (urlUpdated += '&sun=' + @sun)
   !0 != hasParam.worldshader and (urlUpdated += '&worldShader=' + @worldShader)
