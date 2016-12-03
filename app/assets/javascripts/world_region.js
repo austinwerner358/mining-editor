@@ -250,20 +250,20 @@ Region.prototype.loadChunkFromStorage = function(b, f, c) {
   c || q.init2();
   d || b.init2()
 };
-Region.prototype.loadRegionFile = function(b, f) {
-  try {
-    var c = Readfile.readRAW(f)
-  } catch (d) {
-    console.log("nie ma pliku");
-    return
-  }
-  b.regionData = c;
-  b.loaded = 0;
-  b.chunkPos = [];
-  b.chunkLen = [];
-  var e, m;
-  for (e = 0, m = 0; 4096 > e; e += 4, m++) b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2], b.chunkLen[m] = c[e + 3]
-};
+// Region.prototype.loadRegionFile = function(b, f) { # NOTE: apparently not used
+//   try {
+//     var c = Readfile.readRAW(f)
+//   } catch (d) {
+//     console.log("nie ma pliku");
+//     return
+//   }
+//   b.regionData = c;
+//   b.loaded = 0;
+//   b.chunkPos = [];
+//   b.chunkLen = [];
+//   var e, m;
+//   for (e = 0, m = 0; 4096 > e; e += 4, m++) b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2], b.chunkLen[m] = c[e + 3]
+// };
 Region.prototype.requestChunk = function(b, f) {
   var d;
   var c, d, e, l, m;

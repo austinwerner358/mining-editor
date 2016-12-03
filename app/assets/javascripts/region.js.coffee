@@ -493,7 +493,7 @@ Region::regionLoaded = (event) ->
   else
     buffer = new Uint8Array(event.data.data)
     if 1e3 > buffer.length
-      loadedRegion = @region[1e3 * x + y]
+      loadedRegion = @region[1e3 * x + y] # TODO: find out more about how failed loading works
       loadedRegion.loaded = -1
     else
       loadedRegion = @region[1e3 * x + y]
@@ -509,27 +509,6 @@ Region::regionLoaded = (event) ->
         buffer_offset += 4
         chunk_offset++
   return
-
-# Region::loadRegionFile = (b, f) ->
-#   try
-#     c = Readfile.readRAW(f)
-#   catch d
-#     console.log 'nie ma pliku'
-#     return
-#   b.regionData = c
-#   b.loaded = 0
-#   b.chunkPos = []
-#   b.chunkLen = []
-#   e = undefined
-#   m = undefined
-#   e = 0
-#   m = 0
-#   while 4096 > e
-#     b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2]
-#     b.chunkLen[m] = c[e + 3]
-#     e += 4
-#     m++
-#   return
 
 # Region::requestChunk = (b, f) ->
 #   `var d`
