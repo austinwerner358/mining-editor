@@ -13,7 +13,7 @@ Chunk::setBlock = (b, f, c, d, e) ->
       @section[m].data[l / 2 - 0.5] = (@section[m].data[l / 2 - 0.5] & 15) + (e << 4)
       @section[m].add[l / 2 - 0.5] &= 15
     e = 0
-    if 0 == block[d].type or 2 == block[d].type or 3 == block[d].type or 4 == block[d].type
+    if 0 == blockConfig[d].type or 2 == blockConfig[d].type or 3 == blockConfig[d].type or 4 == blockConfig[d].type
       e = @getSunLightValue(b, f + 1, c)
       d = 0
       q = undefined

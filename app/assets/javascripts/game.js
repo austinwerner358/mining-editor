@@ -293,7 +293,7 @@ chronometer.firstTime = 0;
 chronometer.fps = 0;
 
 var codeEditor = null,
-  biomes, mcWorld, block, blockTexture, blockSelection, camera, initTexture = !1,
+  biomes, mcWorld, blockConfig, blockTexture, blockSelection, camera, initTexture = !1,
   gpuMem = 0,
   click = 0,
   useBlock = {},
@@ -305,15 +305,15 @@ var codeEditor = null,
 console.log(window.settings);
 
 function useNextBlock(b) {
-  b.id === block.length - 1 && (b.id = 0);
-  for (; 0 === block[++b.id].type;) b.id === block.length - 1 && (b.id = 0);
+  b.id === blockConfig.length - 1 && (b.id = 0);
+  for (; 0 === blockConfig[++b.id].type;) b.id === blockConfig.length - 1 && (b.id = 0);
   b.data = -1;
   useNextBlockData(b)
 }
 
 function usePrevBlock(b) {
-  1 === b.id && (b.id = block.length);
-  for (; 0 === block[--b.id].type;) 0 === b.id && (b.id = block.length);
+  1 === b.id && (b.id = blockConfig.length);
+  for (; 0 === blockConfig[--b.id].type;) 0 === b.id && (b.id = blockConfig.length);
   b.data = -1;
   useNextBlockData(b)
 }
@@ -321,7 +321,7 @@ function usePrevBlock(b) {
 function useNextBlockData(b) {
   var f;
   for (f = 0; 16 > f; f++) {
-    if (void 0 !== block[b.id][++b.data] && void 0 !== block[b.id][b.data].shapeType && !block[b.id][b.data].hidden) return;
+    if (void 0 !== blockConfig[b.id][++b.data] && void 0 !== blockConfig[b.id][b.data].shapeType && !blockConfig[b.id][b.data].hidden) return;
     16 === b.data && (b.data = -1)
   }
   b.data = 0

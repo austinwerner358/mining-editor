@@ -69,7 +69,7 @@ Chunk.prototype.initHeightMap = function() {
           }
         }
         b = 256 * e + 16 * f + c;
-        if (1 !== block.lightTransmission[m.blocks[b]]) {
+        if (1 !== blockConfig.lightTransmission[m.blocks[b]]) {
           this.heightMap[16 * f + c] = d + 1;
           break
         }
@@ -88,7 +88,7 @@ Chunk.prototype.refreshLight = function(b, f) {
   this.initHeightMap();
   if (!this.getCacheL9()) return !1;
   var d, A, t, a, B, v, C, u, w, F, C, r;
-  for (d = block.lightSource, A = block.lightTransmission, t = Chunk.cacheSlight9, a = Chunk.cacheBlight9, B = Chunk.cacheId9, v = 256, C = c = 0, u = 0, w = 0; 48 > w; w++)
+  for (d = blockConfig.lightSource, A = blockConfig.lightTransmission, t = Chunk.cacheSlight9, a = Chunk.cacheBlight9, B = Chunk.cacheId9, v = 256, C = c = 0, u = 0, w = 0; 48 > w; w++)
     for (F = 0; 48 > F; F++) {
       u = Chunk.cacheHeightMap9[48 * w + F];
       u > c && (c = u);
@@ -407,8 +407,8 @@ Chunk.prototype.updateBlock = function(b, f, c, d, e) {
     var p = l % 2;
     0 === p ? (this.section[m].data[l / 2] = (this.section[m].data[l / 2] & 240) + e, this.section[m].add[l / 2] &= 240) : (this.section[m].data[l / 2 - 0.5] = (this.section[m].data[l / 2 - 0.5] & 15) + (e << 4), this.section[m].add[l / 2 - 0.5] &= 15);
     var q = 0;
-    if (0 === block[d].type || 2 === block[d].type || 3 === block[d].type ||
-      4 === block[d].type) {
+    if (0 === blockConfig[d].type || 2 === blockConfig[d].type || 3 === blockConfig[d].type ||
+      4 === blockConfig[d].type) {
       var q = this.getSunLightValue(b, f + 1, c),
         x = 0;
       for (d = -1; 1 >= d; d++)
@@ -532,7 +532,7 @@ Chunk.prototype.getCache = function(b, f) {
           continue
         }
       }
-      for (w = 0; 16 > w; w++) d = 256 * n + 0 + w, e = 324 * (s + 1) + 306 + (w + 1), q[e] = L.blocks[d], c = d % 2, m[e] = L.skyLight[d / 2 - c / 2] >> 4 * c & 15, l[e] = L.blockLight[d / 2 - c / 2] >> 4 * c & 15, p[e] = L.data[d / 2 - c / 2] >> 4 * c & 15 & block[L.blocks[d]].mask
+      for (w = 0; 16 > w; w++) d = 256 * n + 0 + w, e = 324 * (s + 1) + 306 + (w + 1), q[e] = L.blocks[d], c = d % 2, m[e] = L.skyLight[d / 2 - c / 2] >> 4 * c & 15, l[e] = L.blockLight[d / 2 - c / 2] >> 4 * c & 15, p[e] = L.data[d / 2 - c / 2] >> 4 * c & 15 & blockConfig[L.blocks[d]].mask
     }
     for (n = 0; 16 > n; n++) this.cacheBiomes[306 + (n + 1)] = v.biomes[0 +
       n], this.cacheHeightMap[306 + (n + 1)] = v.heightMap[0 + n]
@@ -547,7 +547,7 @@ Chunk.prototype.getCache = function(b, f) {
         n = -1;
         continue
       }
-      for (w = 0; 16 > w; w++) d = 256 * n + 240 + w, e = 324 * (s + 1) + 0 + (w + 1), q[e] = L.blocks[d], c = d % 2, m[e] = L.skyLight[d / 2 - c / 2] >> 4 * c & 15, l[e] = L.blockLight[d / 2 - c / 2] >> 4 * c & 15, p[e] = L.data[d / 2 - c / 2] >> 4 * c & 15 & block[L.blocks[d]].mask
+      for (w = 0; 16 > w; w++) d = 256 * n + 240 + w, e = 324 * (s + 1) + 0 + (w + 1), q[e] = L.blocks[d], c = d % 2, m[e] = L.skyLight[d / 2 - c / 2] >> 4 * c & 15, l[e] = L.blockLight[d / 2 - c / 2] >> 4 * c & 15, p[e] = L.data[d / 2 - c / 2] >> 4 * c & 15 & blockConfig[L.blocks[d]].mask
     }
     for (n = 0; 16 > n; n++) this.cacheBiomes[0 + (n + 1)] = C.biomes[240 + n], this.cacheHeightMap[0 +
       (n + 1)] = C.heightMap[240 + n]
@@ -562,7 +562,7 @@ Chunk.prototype.getCache = function(b, f) {
         n = -1;
         continue
       }
-      for (u = 0; 16 > u; u++) d = 256 * n + 16 * u + 15, e = 324 * (s + 1) + 18 * (u + 1) + 0, q[e] = L.blocks[d], c = d % 2, m[e] = L.skyLight[d / 2 - c / 2] >> 4 * c & 15, l[e] = L.blockLight[d / 2 - c / 2] >> 4 * c & 15, p[e] = L.data[d / 2 - c / 2] >> 4 * c & 15 & block[L.blocks[d]].mask
+      for (u = 0; 16 > u; u++) d = 256 * n + 16 * u + 15, e = 324 * (s + 1) + 18 * (u + 1) + 0, q[e] = L.blocks[d], c = d % 2, m[e] = L.skyLight[d / 2 - c / 2] >> 4 * c & 15, l[e] = L.blockLight[d / 2 - c / 2] >> 4 * c & 15, p[e] = L.data[d / 2 - c / 2] >> 4 * c & 15 & blockConfig[L.blocks[d]].mask
     }
     for (n = 0; 16 > n; n++) this.cacheBiomes[18 * (n + 1) + 0] = B.biomes[16 * n + 15], this.cacheHeightMap[18 * (n + 1) +
       0] = B.heightMap[16 * n + 15]
@@ -577,7 +577,7 @@ Chunk.prototype.getCache = function(b, f) {
         n = -1;
         continue
       }
-      for (u = 0; 16 > u; u++) d = 256 * n + 16 * u + 0, e = 324 * (s + 1) + 18 * (u + 1) + 17, q[e] = L.blocks[d], c = d % 2, m[e] = L.skyLight[d / 2 - c / 2] >> 4 * c & 15, l[e] = L.blockLight[d / 2 - c / 2] >> 4 * c & 15, p[e] = L.data[d / 2 - c / 2] >> 4 * c & 15 & block[L.blocks[d]].mask
+      for (u = 0; 16 > u; u++) d = 256 * n + 16 * u + 0, e = 324 * (s + 1) + 18 * (u + 1) + 17, q[e] = L.blocks[d], c = d % 2, m[e] = L.skyLight[d / 2 - c / 2] >> 4 * c & 15, l[e] = L.blockLight[d / 2 - c / 2] >> 4 * c & 15, p[e] = L.data[d / 2 - c / 2] >> 4 * c & 15 & blockConfig[L.blocks[d]].mask
     }
     for (n = 0; 16 > n; n++) this.cacheBiomes[18 * (n + 1) + 17] = a.biomes[16 * n + 0], this.cacheHeightMap[18 * (n + 1) + 17] =
       a.heightMap[16 * n + 0]
@@ -593,7 +593,7 @@ Chunk.prototype.getCache = function(b, f) {
       continue
     }
     for (u = 0; 16 > u; u++)
-      for (w = 0; 16 > w; w += 2) d = 256 * n + 16 * u + w, e = 324 * (s + 1) + 18 * (u + 1) + (w + 1), q[e] = L.blocks[d], q[e + 1] = L.blocks[d + 1], x = L.data[d / 2], p[e] = x & 15 & block[L.blocks[d]].mask, p[e + 1] = x >> 4 & 15 & block[L.blocks[d + 1]].mask, x = L.skyLight[d / 2], m[e] = x & 15,
+      for (w = 0; 16 > w; w += 2) d = 256 * n + 16 * u + w, e = 324 * (s + 1) + 18 * (u + 1) + (w + 1), q[e] = L.blocks[d], q[e + 1] = L.blocks[d + 1], x = L.data[d / 2], p[e] = x & 15 & blockConfig[L.blocks[d]].mask, p[e + 1] = x >> 4 & 15 & blockConfig[L.blocks[d + 1]].mask, x = L.skyLight[d / 2], m[e] = x & 15,
         m[e + 1] = x >> 4 & 15, x = L.blockLight[d / 2], l[e] = x & 15, l[e + 1] = x >> 4 & 15
   }
   for (s = F; s < r; s++) m[324 * (s + 1) + 0] = Math.floor((m[324 * (s + 1) + 18] + m[324 * (s + 1) + 1]) / 2), m[324 * (s + 1) + 306] = Math.floor((m[324 * (s + 1) + 288] + m[324 * (s + 1) + 307]) / 2), m[324 * (s + 1) + 17] = Math.floor((m[324 * (s + 1) + 35] + m[324 * (s + 1) + 16]) / 2), m[324 * (s + 1) + 323] = Math.floor((m[324 * (s + 1) + 305] + m[324 * (s + 1) + 322]) / 2), l[324 * (s + 1) + 0] = Math.floor((l[324 * (s + 1) + 18] + l[324 * (s + 1) + 1]) / 2), l[324 * (s + 1) + 306] = Math.floor((l[324 * (s + 1) + 288] + l[324 * (s + 1) + 307]) / 2), l[324 * (s + 1) + 17] = Math.floor((l[324 * (s +
@@ -668,19 +668,19 @@ Chunk.prototype.init2 = function(b) {
     else
       for (D = 0; 16 > D; D++)
         for (E = 0; 16 > E; E++)
-          if (X = H = I = Z = J = V = !1, v = 324 * (G + 1) + 18 * (D + 1) + (E + 1), q = block[l[v]].type, 0 !== q) {
+          if (X = H = I = Z = J = V = !1, v = 324 * (G + 1) + 18 * (D + 1) + (E + 1), q = blockConfig[l[v]].type, 0 !== q) {
             var C = v + 18,
               u = v - 18,
               w = v - 1,
               F = v + 1,
               r = v + 324,
               s = v - 324,
-              nb = block[l[r]].type,
-              ob = block[l[s]].type,
-              ha = block[l[w]].type,
-              ia = block[l[F]].type,
-              ja = block[l[u]].type,
-              ka = block[l[C]].type;
+              nb = blockConfig[l[r]].type,
+              ob = blockConfig[l[s]].type,
+              ha = blockConfig[l[w]].type,
+              ia = blockConfig[l[F]].type,
+              ja = blockConfig[l[u]].type,
+              ka = blockConfig[l[C]].type;
             lb = this.xPos % 5;
             0 > lb && (lb += 5);
             mb = this.zPos % 5;
@@ -698,7 +698,7 @@ Chunk.prototype.init2 = function(b) {
               if (ia !== q || m[F] !== m[v]) R = d[F], Q = e[F], I = !0
             } else continue;
             if (Z || I || X || H || V || J)
-              if (A = l[v], x = m[v], t = void 0 === block[A][x] ? block[A][0] : block[A][x], void 0 !== t.shapeType && 0 !== t.shapeType)
+              if (A = l[v], x = m[v], t = void 0 === blockConfig[A][x] ? blockConfig[A][0] : blockConfig[A][x], void 0 !== t.shapeType && 0 !== t.shapeType)
                 if (1 === t.shapeType) {
                   p = t.drawLevel;
                   a = B[p];
@@ -709,7 +709,7 @@ Chunk.prototype.init2 = function(b) {
                   if (Z) {
                     a =
                       8 < y && 0 === p ? B[p + 1] : B[p];
-                    if (0 === block.lightSource[A]) var oa = Math.floor((y + d[w - 18] + d[w - 324 - 18] + d[w - 324]) / 4),
+                    if (0 === blockConfig.lightSource[A]) var oa = Math.floor((y + d[w - 18] + d[w - 324 - 18] + d[w - 324]) / 4),
                       Na = Math.floor((y + d[w - 324] + d[w - 324 + 18] + d[w + 18]) / 4),
                       pa = Math.floor((y + d[w + 18] + d[w + 324 + 18] + d[w + 324]) / 4),
                       Oa = Math.floor((y + d[w + 324] + d[w + 324 - 18] + d[w - 18]) / 4),
@@ -784,7 +784,7 @@ Chunk.prototype.init2 = function(b) {
                   }
                   if (I) {
                     a = 8 < R && 0 === p ? B[p + 1] : B[p];
-                    if (0 === block.lightSource[A]) var na = Math.floor((R + d[F - 18] + d[F - 324 - 18] + d[F - 324]) / 4),
+                    if (0 === blockConfig.lightSource[A]) var na = Math.floor((R + d[F - 18] + d[F - 324 - 18] + d[F - 324]) / 4),
                       Ma = Math.floor((R + d[F - 324] + d[F - 324 + 18] + d[F + 18]) / 4),
                       qa = Math.floor((R + d[F + 18] + d[F + 324 + 18] + d[F +
                         324]) / 4),
@@ -859,7 +859,7 @@ Chunk.prototype.init2 = function(b) {
                   }
                   if (X) {
                     a = 8 < K && 0 === p ? B[p + 1] : B[p];
-                    if (0 === block.lightSource[A]) var ta = Math.floor((K + d[u - 1] + d[u - 324 - 1] + d[u - 324]) / 4),
+                    if (0 === blockConfig.lightSource[A]) var ta = Math.floor((K + d[u - 1] + d[u - 324 - 1] + d[u - 324]) / 4),
                       Sa = Math.floor((K + d[u - 324] + d[u - 324 + 1] + d[u + 1]) / 4),
                       ua = Math.floor((K + d[u + 1] + d[u + 324 + 1] + d[u + 324]) / 4),
                       Ta = Math.floor((K + d[u + 324] + d[u + 324 - 1] + d[u - 1]) / 4),
@@ -933,7 +933,7 @@ Chunk.prototype.init2 = function(b) {
                   }
                   if (H) {
                     a = 8 < L && 0 === p ? B[p + 1] : B[p];
-                    if (0 === block.lightSource[A]) var Wa = Math.floor((L + d[C - 1] + d[C - 324 - 1] + d[C - 324]) / 4),
+                    if (0 === blockConfig.lightSource[A]) var Wa = Math.floor((L + d[C - 1] + d[C - 324 - 1] + d[C - 324]) / 4),
                       xa = Math.floor((L +
                         d[C - 324] + d[C - 324 + 1] + d[C + 1]) / 4),
                       Xa = Math.floor((L + d[C + 1] + d[C + 324 + 1] + d[C + 324]) / 4),
@@ -1007,7 +1007,7 @@ Chunk.prototype.init2 = function(b) {
                   }
                   if (V) {
                     a = B[p];
-                    if (0 === block.lightSource[A]) var Ba = Math.floor((T + d[s - 1] + d[s - 18 - 1] + d[s - 18]) / 4),
+                    if (0 === blockConfig.lightSource[A]) var Ba = Math.floor((T + d[s - 1] + d[s - 18 - 1] + d[s - 18]) / 4),
                       $a = Math.floor((T + d[s - 18] + d[s - 18 + 1] + d[s + 1]) / 4),
                       Ca = Math.floor((T + d[s + 1] + d[s + 18 + 1] + d[s + 18]) / 4),
                       ab = Math.floor((T + d[s + 18] + d[s + 18 - 1] + d[s - 1]) / 4),
@@ -1081,7 +1081,7 @@ Chunk.prototype.init2 = function(b) {
                   }
                   if (J) {
                     a = 8 < Y && 0 === p ? B[p + 1] : B[p];
-                    if (0 === block.lightSource[A]) var Fa = Math.floor((Y + d[r -
+                    if (0 === blockConfig.lightSource[A]) var Fa = Math.floor((Y + d[r -
                         1] + d[r - 18 - 1] + d[r - 18]) / 4),
                       db = Math.floor((Y + d[r - 18] + d[r - 18 + 1] + d[r + 1]) / 4),
                       Ga = Math.floor((Y + d[r + 1] + d[r + 18 + 1] + d[r + 18]) / 4),
@@ -1176,7 +1176,7 @@ Chunk.prototype.init2 = function(b) {
             } else if (4 === t.shapeType) {
               p = t.drawLevel;
               a = B[p];
-              78 === l[r] && (t = block[A][1]);
+              78 === l[r] && (t = blockConfig[A][1]);
               h = t.shape;
               0 < t.useBiomeColor ? (z = this.getBiomeColor(E, D, t.useBiomeColor - 1), $ = this.getBiomeColor1(E, D, t.useBiomeColor - 1), aa = this.getBiomeColor2(E, D, t.useBiomeColor - 1), W = this.getBiomeColor3(E, D, t.useBiomeColor - 1), k = this.getBiomeColor4(E, D, t.useBiomeColor - 1)) : k = W = aa = $ = z = 0;
               if (Z) {
@@ -1509,7 +1509,7 @@ Chunk.prototype.init2 = function(b) {
                 ea = q === ia ? ea + m[F] : ea + "x",
                 zb = 0,
                 Ab = Chunk.stairsData[ea];
-              void 0 !== Ab && (h = 3 < m[v] ? block[A][9].shape : block[A][8].shape,
+              void 0 !== Ab && (h = 3 < m[v] ? blockConfig[A][9].shape : blockConfig[A][8].shape,
                 zb = 1);
               if (Z)
                 for (a = 8 < y && 0 === p ? B[p + 1] : B[p], g = 0; g < h.front.length; g += 5) a.d[a.o++] = 16 * this.xPos + E + h.front[g], a.d[a.o++] = 0 + G + h.front[g + 1], a.d[a.o++] = 16 * this.zPos + D + h.front[g + 2], a.d[a.o++] = h.front[g + 3], a.d[a.o++] = h.front[g + 4], a.d[a.o++] = 100 * y + S, a.d[a.o++] = n + 1, a.d[a.o++] = 0.8, a.d[a.o++] = z;
@@ -1527,7 +1527,7 @@ Chunk.prototype.init2 = function(b) {
                 for (a = 8 < Y && 0 === p ? B[p + 1] : B[p], g = 0; g < h.top.length; g += 5) a.d[a.o++] = 16 * this.xPos + E + h.top[g], a.d[a.o++] = 0 + G + h.top[g + 1], a.d[a.o++] = 16 * this.zPos + D + h.top[g +
                   2], a.d[a.o++] = h.top[g + 3], a.d[a.o++] = h.top[g + 4], a.d[a.o++] = 100 * Y + N, a.d[a.o++] = n + 6, a.d[a.o++] = 1, a.d[a.o++] = z;
               if (1 === zb) {
-                var h = block[A][10].shape,
+                var h = blockConfig[A][10].shape,
                   hb = 0,
                   ib = 0;
                 3 < m[v] && (ib = -0.5);
@@ -1749,13 +1749,13 @@ Chunk.prototype.init2 = function(b) {
                   var tb = m[v + 1] % 8;
                   ia !== q && (tb = 7);
                   var vb = m[v + 18 - 1] % 8;
-                  block[l[v + 18 - 1]].type !== q && (vb = 7);
+                  blockConfig[l[v + 18 - 1]].type !== q && (vb = 7);
                   var wb = m[v - 18 - 1] % 8;
-                  block[l[v - 18 - 1]].type !== q && (wb = 7);
+                  blockConfig[l[v - 18 - 1]].type !== q && (wb = 7);
                   var xb = m[v + 18 + 1] % 8;
-                  block[l[v + 18 + 1]].type !== q && (xb = 7);
+                  blockConfig[l[v + 18 + 1]].type !== q && (xb = 7);
                   var yb = m[v - 18 + 1] % 8;
-                  block[l[v - 18 + 1]].type !== q && (yb = 7);
+                  blockConfig[l[v - 18 + 1]].type !== q && (yb = 7);
                   ca = 0 === sb || 0 === wb || 0 === rb ? 0.875 : ca -
                     (m[v] + sb + wb + rb) / 4 / 7;
                   fa = 0 === rb || 0 === yb || 0 === tb ? 0.875 : fa - (m[v] + rb + yb + tb) / 4 / 7;
@@ -1763,35 +1763,35 @@ Chunk.prototype.init2 = function(b) {
                   ga = 0 === qb || 0 === vb || 0 === sb ? 0.875 : ga - (m[v] + qb + vb + sb) / 4 / 7;
                   if (2.625 === ca + fa + da || 2.625 === fa + da + ga || 2.625 === da + ga + ca || 2.625 === ga + ca + fa) ga = da = fa = ca = 0.875
                 } else ga = da = fa = ca = 0.875;
-                if (block[l[r - 1]].type === q || block[l[r - 18 - 1]].type === q || block[l[r - 18]].type === q) ca = 1;
-                if (block[l[r - 18]].type === q || block[l[r - 18 + 1]].type === q || block[l[r + 1]].type === q) fa = 1;
-                if (block[l[r + 1]].type === q || block[l[r +
-                    18 + 1]].type === q || block[l[r + 18]].type === q) da = 1;
-                if (block[l[r + 18]].type === q || block[l[r + 18 - 1]].type === q || block[l[r - 1]].type === q) ga = 1
+                if (blockConfig[l[r - 1]].type === q || blockConfig[l[r - 18 - 1]].type === q || blockConfig[l[r - 18]].type === q) ca = 1;
+                if (blockConfig[l[r - 18]].type === q || blockConfig[l[r - 18 + 1]].type === q || blockConfig[l[r + 1]].type === q) fa = 1;
+                if (blockConfig[l[r + 1]].type === q || blockConfig[l[r +
+                    18 + 1]].type === q || blockConfig[l[r + 18]].type === q) da = 1;
+                if (blockConfig[l[r + 18]].type === q || blockConfig[l[r + 18 - 1]].type === q || blockConfig[l[r - 1]].type === q) ga = 1
               }
-              Z && (0 === block.lightSource[A] ? (oa = Math.floor((y + d[w - 18] + d[w - 324 - 18] + d[w - 324]) / 4), Na = Math.floor((y + d[w - 324] + d[w - 324 + 18] + d[w + 18]) / 4), pa = Math.floor((y + d[w + 18] + d[w + 324 + 18] + d[w + 324]) / 4), Oa = Math.floor((y + d[w + 324] + d[w + 324 - 18] + d[w - 18]) / 4), la = Math.floor((S + e[w - 18] + e[w - 324 - 18] + e[w - 324]) / 4), Ka = Math.floor((S + e[w - 324] + e[w - 324 + 18] + e[w + 18]) / 4), ma = Math.floor((S + e[w + 18] + e[w + 324 + 18] + e[w + 324]) /
+              Z && (0 === blockConfig.lightSource[A] ? (oa = Math.floor((y + d[w - 18] + d[w - 324 - 18] + d[w - 324]) / 4), Na = Math.floor((y + d[w - 324] + d[w - 324 + 18] + d[w + 18]) / 4), pa = Math.floor((y + d[w + 18] + d[w + 324 + 18] + d[w + 324]) / 4), Oa = Math.floor((y + d[w + 324] + d[w + 324 - 18] + d[w - 18]) / 4), la = Math.floor((S + e[w - 18] + e[w - 324 - 18] + e[w - 324]) / 4), Ka = Math.floor((S + e[w - 324] + e[w - 324 + 18] + e[w + 18]) / 4), ma = Math.floor((S + e[w + 18] + e[w + 324 + 18] + e[w + 324]) /
                   4), La = Math.floor((S + e[w + 324] + e[w + 324 - 18] + e[w - 18]) / 4)) : oa = Na = pa = Oa = la = Ka = ma = La = 15, g = 0, a.d[a.o++] = 16 * this.xPos + E + h.front[g], a.d[a.o++] = 0 + G + h.front[g + 1] * ca, a.d[a.o++] = 16 * this.zPos + D + h.front[g + 2], a.d[a.o++] = h.front[g + 3], a.d[a.o++] = h.front[g + 4], a.d[a.o++] = 100 * oa + la, a.d[a.o++] = n + 1, a.d[a.o++] = 0.8, a.d[a.o++] = z, g = 5, a.d[a.o++] = 16 * this.xPos + E + h.front[g], a.d[a.o++] = 0 + G + h.front[g + 1] * ga, a.d[a.o++] = 16 * this.zPos + D + h.front[g + 2], a.d[a.o++] = h.front[g + 3], a.d[a.o++] = h.front[g + 4], a.d[a.o++] = 100 * Na + Ka, a.d[a.o++] = n + 1, a.d[a.o++] =
                 0.8, a.d[a.o++] = z, g = 10, a.d[a.o++] = 16 * this.xPos + E + h.front[g], a.d[a.o++] = 0 + G + h.front[g + 1] * ga, a.d[a.o++] = 16 * this.zPos + D + h.front[g + 2], a.d[a.o++] = h.front[g + 3], a.d[a.o++] = h.front[g + 4], a.d[a.o++] = 100 * pa + ma, a.d[a.o++] = n + 1, a.d[a.o++] = 0.8, a.d[a.o++] = z, g = 15, a.d[a.o++] = 16 * this.xPos + E + h.front[g], a.d[a.o++] = 0 + G + h.front[g + 1] * ca, a.d[a.o++] = 16 * this.zPos + D + h.front[g + 2], a.d[a.o++] = h.front[g + 3], a.d[a.o++] = h.front[g + 4], a.d[a.o++] = 100 * oa + la, a.d[a.o++] = n + 1, a.d[a.o++] = 0.8, a.d[a.o++] = z, g = 20, a.d[a.o++] = 16 * this.xPos + E + h.front[g],
                 a.d[a.o++] = 0 + G + h.front[g + 1] * ga, a.d[a.o++] = 16 * this.zPos + D + h.front[g + 2], a.d[a.o++] = h.front[g + 3], a.d[a.o++] = h.front[g + 4], a.d[a.o++] = 100 * pa + ma, a.d[a.o++] = n + 1, a.d[a.o++] = 0.8, a.d[a.o++] = z, g = 25, a.d[a.o++] = 16 * this.xPos + E + h.front[g], a.d[a.o++] = 0 + G + h.front[g + 1] * ca, a.d[a.o++] = 16 * this.zPos + D + h.front[g + 2], a.d[a.o++] = h.front[g + 3], a.d[a.o++] = h.front[g + 4], a.d[a.o++] = 100 * Oa + La, a.d[a.o++] = n + 1, a.d[a.o++] = 0.8, a.d[a.o++] = z);
-              I && (0 === block.lightSource[A] ? (na = Math.floor((R + d[F - 18] + d[F - 324 - 18] + d[F - 324]) / 4), Ma = Math.floor((R +
+              I && (0 === blockConfig.lightSource[A] ? (na = Math.floor((R + d[F - 18] + d[F - 324 - 18] + d[F - 324]) / 4), Ma = Math.floor((R +
                   d[F - 324] + d[F - 324 + 18] + d[F + 18]) / 4), qa = Math.floor((R + d[F + 18] + d[F + 324 + 18] + d[F + 324]) / 4), Pa = Math.floor((R + d[F + 324] + d[F + 324 - 18] + d[F - 18]) / 4), ra = Math.floor((Q + e[F - 18] + e[F - 324 - 18] + e[F - 324]) / 4), Qa = Math.floor((Q + e[F - 324] + e[F - 324 + 18] + e[F + 18]) / 4), sa = Math.floor((Q + e[F + 18] + e[F + 324 + 18] + e[F + 324]) / 4), Ra = Math.floor((Q + e[F + 324] + e[F + 324 - 18] + e[F - 18]) / 4)) : na = Ma = qa = Pa = ra = Qa = sa = Ra = 15, g = 0, a.d[a.o++] = 16 * this.xPos + E + h.back[g], a.d[a.o++] = 0 + G + h.back[g + 1] * da, a.d[a.o++] = 16 * this.zPos + D + h.back[g + 2], a.d[a.o++] = h.back[g + 3], a.d[a.o++] =
                 h.back[g + 4], a.d[a.o++] = 100 * qa + sa, a.d[a.o++] = n + 2, a.d[a.o++] = 0.8, a.d[a.o++] = z, g = 5, a.d[a.o++] = 16 * this.xPos + E + h.back[g], a.d[a.o++] = 0 + G + h.back[g + 1] * fa, a.d[a.o++] = 16 * this.zPos + D + h.back[g + 2], a.d[a.o++] = h.back[g + 3], a.d[a.o++] = h.back[g + 4], a.d[a.o++] = 100 * na + ra, a.d[a.o++] = n + 2, a.d[a.o++] = 0.8, a.d[a.o++] = z, g = 10, a.d[a.o++] = 16 * this.xPos + E + h.back[g], a.d[a.o++] = 0 + G + h.back[g + 1] * fa, a.d[a.o++] = 16 * this.zPos + D + h.back[g + 2], a.d[a.o++] = h.back[g + 3], a.d[a.o++] = h.back[g + 4], a.d[a.o++] = 100 * Pa + Ra, a.d[a.o++] = n + 2, a.d[a.o++] = 0.8, a.d[a.o++] =
                 z, g = 15, a.d[a.o++] = 16 * this.xPos + E + h.back[g], a.d[a.o++] = 0 + G + h.back[g + 1] * fa, a.d[a.o++] = 16 * this.zPos + D + h.back[g + 2], a.d[a.o++] = h.back[g + 3], a.d[a.o++] = h.back[g + 4], a.d[a.o++] = 100 * na + ra, a.d[a.o++] = n + 2, a.d[a.o++] = 0.8, a.d[a.o++] = z, g = 20, a.d[a.o++] = 16 * this.xPos + E + h.back[g], a.d[a.o++] = 0 + G + h.back[g + 1] * da, a.d[a.o++] = 16 * this.zPos + D + h.back[g + 2], a.d[a.o++] = h.back[g + 3], a.d[a.o++] = h.back[g + 4], a.d[a.o++] = 100 * qa + sa, a.d[a.o++] = n + 2, a.d[a.o++] = 0.8, a.d[a.o++] = z, g = 25, a.d[a.o++] = 16 * this.xPos + E + h.back[g], a.d[a.o++] = 0 + G + h.back[g +
                   1] * da, a.d[a.o++] = 16 * this.zPos + D + h.back[g + 2], a.d[a.o++] = h.back[g + 3], a.d[a.o++] = h.back[g + 4], a.d[a.o++] = 100 * Ma + Qa, a.d[a.o++] = n + 2, a.d[a.o++] = 0.8, a.d[a.o++] = z);
-              X && (0 === block.lightSource[A] ? (ta = Math.floor((K + d[u - 1] + d[u - 324 - 1] + d[u - 324]) / 4), Sa = Math.floor((K + d[u - 324] + d[u - 324 + 1] + d[u + 1]) / 4), ua = Math.floor((K + d[u + 1] + d[u + 324 + 1] + d[u + 324]) / 4), Ta = Math.floor((K + d[u + 324] + d[u + 324 - 1] + d[u - 1]) / 4), va = Math.floor((M + e[u - 1] + e[u - 324 - 1] + e[u - 324]) / 4), Ua = Math.floor((M + e[u - 324] + e[u - 324 + 1] + e[u + 1]) / 4), wa = Math.floor((M + e[u + 1] + e[u +
+              X && (0 === blockConfig.lightSource[A] ? (ta = Math.floor((K + d[u - 1] + d[u - 324 - 1] + d[u - 324]) / 4), Sa = Math.floor((K + d[u - 324] + d[u - 324 + 1] + d[u + 1]) / 4), ua = Math.floor((K + d[u + 1] + d[u + 324 + 1] + d[u + 324]) / 4), Ta = Math.floor((K + d[u + 324] + d[u + 324 - 1] + d[u - 1]) / 4), va = Math.floor((M + e[u - 1] + e[u - 324 - 1] + e[u - 324]) / 4), Ua = Math.floor((M + e[u - 324] + e[u - 324 + 1] + e[u + 1]) / 4), wa = Math.floor((M + e[u + 1] + e[u +
                   324 + 1] + e[u + 324]) / 4), Va = Math.floor((M + e[u + 324] + e[u + 324 - 1] + e[u - 1]) / 4)) : ta = Sa = ua = Ta = va = Ua = wa = Va = 15, g = 0, a.d[a.o++] = 16 * this.xPos + E + h.right[g], a.d[a.o++] = 0 + G + h.right[g + 1] * fa, a.d[a.o++] = 16 * this.zPos + D + h.right[g + 2], a.d[a.o++] = h.right[g + 3], a.d[a.o++] = h.right[g + 4], a.d[a.o++] = 100 * ua + wa, a.d[a.o++] = n + 3, a.d[a.o++] = 0.55, a.d[a.o++] = z, g = 5, a.d[a.o++] = 16 * this.xPos + E + h.right[g], a.d[a.o++] = 0 + G + h.right[g + 1] * ca, a.d[a.o++] = 16 * this.zPos + D + h.right[g + 2], a.d[a.o++] = h.right[g + 3], a.d[a.o++] = h.right[g + 4], a.d[a.o++] = 100 * ta + va, a.d[a.o++] =
                 n + 3, a.d[a.o++] = 0.55, a.d[a.o++] = z, g = 10, a.d[a.o++] = 16 * this.xPos + E + h.right[g], a.d[a.o++] = 0 + G + h.right[g + 1] * ca, a.d[a.o++] = 16 * this.zPos + D + h.right[g + 2], a.d[a.o++] = h.right[g + 3], a.d[a.o++] = h.right[g + 4], a.d[a.o++] = 100 * Ta + Va, a.d[a.o++] = n + 3, a.d[a.o++] = 0.55, a.d[a.o++] = z, g = 15, a.d[a.o++] = 16 * this.xPos + E + h.right[g], a.d[a.o++] = 0 + G + h.right[g + 1] * fa, a.d[a.o++] = 16 * this.zPos + D + h.right[g + 2], a.d[a.o++] = h.right[g + 3], a.d[a.o++] = h.right[g + 4], a.d[a.o++] = 100 * ua + wa, a.d[a.o++] = n + 3, a.d[a.o++] = 0.55, a.d[a.o++] = z, g = 20, a.d[a.o++] = 16 *
                 this.xPos + E + h.right[g], a.d[a.o++] = 0 + G + h.right[g + 1] * fa, a.d[a.o++] = 16 * this.zPos + D + h.right[g + 2], a.d[a.o++] = h.right[g + 3], a.d[a.o++] = h.right[g + 4], a.d[a.o++] = 100 * Sa + Ua, a.d[a.o++] = n + 3, a.d[a.o++] = 0.55, a.d[a.o++] = z, g = 25, a.d[a.o++] = 16 * this.xPos + E + h.right[g], a.d[a.o++] = 0 + G + h.right[g + 1] * ca, a.d[a.o++] = 16 * this.zPos + D + h.right[g + 2], a.d[a.o++] = h.right[g + 3], a.d[a.o++] = h.right[g + 4], a.d[a.o++] = 100 * ta + va, a.d[a.o++] = n + 3, a.d[a.o++] = 0.55, a.d[a.o++] = z);
-              H && (0 === block.lightSource[A] ? (Wa = Math.floor((L + d[C - 1] + d[C - 324 - 1] + d[C -
+              H && (0 === blockConfig.lightSource[A] ? (Wa = Math.floor((L + d[C - 1] + d[C - 324 - 1] + d[C -
                   324]) / 4), xa = Math.floor((L + d[C - 324] + d[C - 324 + 1] + d[C + 1]) / 4), Xa = Math.floor((L + d[C + 1] + d[C + 324 + 1] + d[C + 324]) / 4), ya = Math.floor((L + d[C + 324] + d[C + 324 - 1] + d[C - 1]) / 4), Ya = Math.floor((U + e[C - 1] + e[C - 324 - 1] + e[C - 324]) / 4), za = Math.floor((U + e[C - 324] + e[C - 324 + 1] + e[C + 1]) / 4), Za = Math.floor((U + e[C + 1] + e[C + 324 + 1] + e[C + 324]) / 4), Aa = Math.floor((U + e[C + 324] + e[C + 324 - 1] + e[C - 1]) / 4)) : Wa = xa = Xa = ya = Ya = za = Za = Aa = 15, g = 0, a.d[a.o++] = 16 * this.xPos + E + h.left[g], a.d[a.o++] = 0 + G + h.left[g + 1] * ga, a.d[a.o++] = 16 * this.zPos + D + h.left[g + 2], a.d[a.o++] = h.left[g +
                   3], a.d[a.o++] = h.left[g + 4], a.d[a.o++] = 100 * ya + Aa, a.d[a.o++] = n + 4, a.d[a.o++] = 0.55, a.d[a.o++] = z, g = 5, a.d[a.o++] = 16 * this.xPos + E + h.left[g], a.d[a.o++] = 0 + G + h.left[g + 1] * ga, a.d[a.o++] = 16 * this.zPos + D + h.left[g + 2], a.d[a.o++] = h.left[g + 3], a.d[a.o++] = h.left[g + 4], a.d[a.o++] = 100 * Wa + Ya, a.d[a.o++] = n + 4, a.d[a.o++] = 0.55, a.d[a.o++] = z, g = 10, a.d[a.o++] = 16 * this.xPos + E + h.left[g], a.d[a.o++] = 0 + G + h.left[g + 1] * da, a.d[a.o++] = 16 * this.zPos + D + h.left[g + 2], a.d[a.o++] = h.left[g + 3], a.d[a.o++] = h.left[g + 4], a.d[a.o++] = 100 * xa + za, a.d[a.o++] = n + 4,
                 a.d[a.o++] = 0.55, a.d[a.o++] = z, g = 15, a.d[a.o++] = 16 * this.xPos + E + h.left[g], a.d[a.o++] = 0 + G + h.left[g + 1] * da, a.d[a.o++] = 16 * this.zPos + D + h.left[g + 2], a.d[a.o++] = h.left[g + 3], a.d[a.o++] = h.left[g + 4], a.d[a.o++] = 100 * Xa + Za, a.d[a.o++] = n + 4, a.d[a.o++] = 0.55, a.d[a.o++] = z, g = 20, a.d[a.o++] = 16 * this.xPos + E + h.left[g], a.d[a.o++] = 0 + G + h.left[g + 1] * ga, a.d[a.o++] = 16 * this.zPos + D + h.left[g + 2], a.d[a.o++] = h.left[g + 3], a.d[a.o++] = h.left[g + 4], a.d[a.o++] = 100 * ya + Aa, a.d[a.o++] = n + 4, a.d[a.o++] = 0.55, a.d[a.o++] = z, g = 25, a.d[a.o++] = 16 * this.xPos + E + h.left[g],
                 a.d[a.o++] = 0 + G + h.left[g + 1] * da, a.d[a.o++] = 16 * this.zPos + D + h.left[g + 2], a.d[a.o++] = h.left[g + 3], a.d[a.o++] = h.left[g + 4], a.d[a.o++] = 100 * xa + za, a.d[a.o++] = n + 4, a.d[a.o++] = 0.55, a.d[a.o++] = z);
-              V && (0 === block.lightSource[A] ? (Ba = Math.floor((T + d[s - 1] + d[s - 18 - 1] + d[s - 18]) / 4), $a = Math.floor((T + d[s - 18] + d[s - 18 + 1] + d[s + 1]) / 4), Ca = Math.floor((T + d[s + 1] + d[s + 18 + 1] + d[s + 18]) / 4), ab = Math.floor((T + d[s + 18] + d[s + 18 - 1] + d[s - 1]) / 4), Da = Math.floor((P + e[s - 1] + e[s - 18 - 1] + e[s - 18]) / 4), bb = Math.floor((P + e[s - 18] + e[s - 18 + 1] + e[s + 1]) / 4), Ea = Math.floor((P +
+              V && (0 === blockConfig.lightSource[A] ? (Ba = Math.floor((T + d[s - 1] + d[s - 18 - 1] + d[s - 18]) / 4), $a = Math.floor((T + d[s - 18] + d[s - 18 + 1] + d[s + 1]) / 4), Ca = Math.floor((T + d[s + 1] + d[s + 18 + 1] + d[s + 18]) / 4), ab = Math.floor((T + d[s + 18] + d[s + 18 - 1] + d[s - 1]) / 4), Da = Math.floor((P + e[s - 1] + e[s - 18 - 1] + e[s - 18]) / 4), bb = Math.floor((P + e[s - 18] + e[s - 18 + 1] + e[s + 1]) / 4), Ea = Math.floor((P +
                   e[s + 1] + e[s + 18 + 1] + e[s + 18]) / 4), cb = Math.floor((P + e[s + 18] + e[s + 18 - 1] + e[s - 1]) / 4)) : Ba = $a = Ca = ab = Da = bb = Ea = cb = 15, g = 0, a.d[a.o++] = 16 * this.xPos + E + h.bottom[g], a.d[a.o++] = 0 + G + h.bottom[g + 1], a.d[a.o++] = 16 * this.zPos + D + h.bottom[g + 2], a.d[a.o++] = h.bottom[g + 3], a.d[a.o++] = h.bottom[g + 4], a.d[a.o++] = 100 * Ca + Ea, a.d[a.o++] = n + 5, a.d[a.o++] = 1, a.d[a.o++] = z, g = 5, a.d[a.o++] = 16 * this.xPos + E + h.bottom[g], a.d[a.o++] = 0 + G + h.bottom[g + 1], a.d[a.o++] = 16 * this.zPos + D + h.bottom[g + 2], a.d[a.o++] = h.bottom[g + 3], a.d[a.o++] = h.bottom[g + 4], a.d[a.o++] = 100 *
                 Ba + Da, a.d[a.o++] = n + 5, a.d[a.o++] = 1, a.d[a.o++] = z, g = 10, a.d[a.o++] = 16 * this.xPos + E + h.bottom[g], a.d[a.o++] = 0 + G + h.bottom[g + 1], a.d[a.o++] = 16 * this.zPos + D + h.bottom[g + 2], a.d[a.o++] = h.bottom[g + 3], a.d[a.o++] = h.bottom[g + 4], a.d[a.o++] = 100 * $a + bb, a.d[a.o++] = n + 5, a.d[a.o++] = 1, a.d[a.o++] = z, g = 15, a.d[a.o++] = 16 * this.xPos + E + h.bottom[g], a.d[a.o++] = 0 + G + h.bottom[g + 1], a.d[a.o++] = 16 * this.zPos + D + h.bottom[g + 2], a.d[a.o++] = h.bottom[g + 3], a.d[a.o++] = h.bottom[g + 4], a.d[a.o++] = 100 * Ca + Ea, a.d[a.o++] = n + 5, a.d[a.o++] = 1, a.d[a.o++] = z, g = 20, a.d[a.o++] =
                 16 * this.xPos + E + h.bottom[g], a.d[a.o++] = 0 + G + h.bottom[g + 1], a.d[a.o++] = 16 * this.zPos + D + h.bottom[g + 2], a.d[a.o++] = h.bottom[g + 3], a.d[a.o++] = h.bottom[g + 4], a.d[a.o++] = 100 * ab + cb, a.d[a.o++] = n + 5, a.d[a.o++] = 1, a.d[a.o++] = z, g = 25, a.d[a.o++] = 16 * this.xPos + E + h.bottom[g], a.d[a.o++] = 0 + G + h.bottom[g + 1], a.d[a.o++] = 16 * this.zPos + D + h.bottom[g + 2], a.d[a.o++] = h.bottom[g + 3], a.d[a.o++] = h.bottom[g + 4], a.d[a.o++] = 100 * Ba + Da, a.d[a.o++] = n + 5, a.d[a.o++] = 1, a.d[a.o++] = z);
-              J && (0 === block.lightSource[A] ? (Fa = Math.floor((Y + d[r - 1] + d[r - 18 - 1] + d[r -
+              J && (0 === blockConfig.lightSource[A] ? (Fa = Math.floor((Y + d[r - 1] + d[r - 18 - 1] + d[r -
                   18]) / 4), db = Math.floor((Y + d[r - 18] + d[r - 18 + 1] + d[r + 1]) / 4), Ga = Math.floor((Y + d[r + 1] + d[r + 18 + 1] + d[r + 18]) / 4), eb = Math.floor((Y + d[r + 18] + d[r + 18 - 1] + d[r - 1]) / 4), Ha = Math.floor((N + e[r - 1] + e[r - 18 - 1] + e[r - 18]) / 4), fb = Math.floor((N + e[r - 18] + e[r - 18 + 1] + e[r + 1]) / 4), Ia = Math.floor((N + e[r + 1] + e[r + 18 + 1] + e[r + 18]) / 4), gb = Math.floor((N + e[r + 18] + e[r + 18 - 1] + e[r - 1]) / 4)) : Fa = db = Ga = eb = Ha = fb = Ia = gb = 15, g = 0, a.d[a.o++] = 16 * this.xPos + E + h.top[g], a.d[a.o++] = 0 + G + h.top[g + 1] * da, a.d[a.o++] = 16 * this.zPos + D + h.top[g + 2], a.d[a.o++] = h.top[g + 3], a.d[a.o++] = h.top[g +
                   4], a.d[a.o++] = 100 * Ga + Ia, a.d[a.o++] = n + 6, a.d[a.o++] = 1, a.d[a.o++] = W, g = 5, a.d[a.o++] = 16 * this.xPos + E + h.top[g], a.d[a.o++] = 0 + G + h.top[g + 1] * fa, a.d[a.o++] = 16 * this.zPos + D + h.top[g + 2], a.d[a.o++] = h.top[g + 3], a.d[a.o++] = h.top[g + 4], a.d[a.o++] = 100 * db + fb, a.d[a.o++] = n + 6, a.d[a.o++] = 1, a.d[a.o++] = aa, g = 10, a.d[a.o++] = 16 * this.xPos + E + h.top[g], a.d[a.o++] = 0 + G + h.top[g + 1] * ca, a.d[a.o++] = 16 * this.zPos + D + h.top[g + 2], a.d[a.o++] = h.top[g + 3], a.d[a.o++] = h.top[g + 4], a.d[a.o++] = 100 * Fa + Ha, a.d[a.o++] = n + 6, a.d[a.o++] = 1, a.d[a.o++] = $, g = 15, a.d[a.o++] =
                 16 * this.xPos + E + h.top[g], a.d[a.o++] = 0 + G + h.top[g + 1] * da, a.d[a.o++] = 16 * this.zPos + D + h.top[g + 2], a.d[a.o++] = h.top[g + 3], a.d[a.o++] = h.top[g + 4], a.d[a.o++] = 100 * Ga + Ia, a.d[a.o++] = n + 6, a.d[a.o++] = 1, a.d[a.o++] = W, g = 20, a.d[a.o++] = 16 * this.xPos + E + h.top[g], a.d[a.o++] = 0 + G + h.top[g + 1] * ca, a.d[a.o++] = 16 * this.zPos + D + h.top[g + 2], a.d[a.o++] = h.top[g + 3], a.d[a.o++] = h.top[g + 4], a.d[a.o++] = 100 * Fa + Ha, a.d[a.o++] = n + 6, a.d[a.o++] = 1, a.d[a.o++] = $, g = 25, a.d[a.o++] = 16 * this.xPos + E + h.top[g], a.d[a.o++] = 0 + G + h.top[g + 1] * ga, a.d[a.o++] = 16 * this.zPos +
@@ -1921,7 +1921,7 @@ Chunk.prototype.getBuffer = function(b) {
       var I, H;
       for (I = J; I < Z; I++)
         for (f = Q; f < V; f++) {
-          for (H = P; H < S; H++) d = 256 * I + 16 * f + H, e = 324 * (I + 1) + 18 * (f + 1) + (H + 1), Chunk.cacheBlock[e] = block[r.blocks[d]].type, c = d % 2, Chunk.cacheData[e] = 0 === c ? r.data[d / 2] & 15 & block[r.blocks[d]].mask : r.data[d / 2 - 0.5] >> 4 & 15 & block[r.blocks[d]].mask;
+          for (H = P; H < S; H++) d = 256 * I + 16 * f + H, e = 324 * (I + 1) + 18 * (f + 1) + (H + 1), Chunk.cacheBlock[e] = blockConfig[r.blocks[d]].type, c = d % 2, Chunk.cacheData[e] = 0 === c ? r.data[d / 2] & 15 & blockConfig[r.blocks[d]].mask : r.data[d / 2 - 0.5] >> 4 & 15 & blockConfig[r.blocks[d]].mask;
           this.cacheBiomes[18 * (I + 1) + f + 1] = this.biomes[16 * I + f]
         }
       if (n)
@@ -1930,39 +1930,39 @@ Chunk.prototype.getBuffer = function(b) {
             0; 16 > H; H++) e = 0 + 18 * (f + 1) + (H + 1), Chunk.cacheBlock[e] = 0 === w ? 1 : 0;
       else
         for (f = 0; 16 > f; f++)
-          for (H = 0; 16 > H; H++) d = 3840 + 16 * f + H, e = 0 + 18 * (f + 1) + (H + 1), Chunk.cacheBlock[e] = block[s.blocks[d]].type;
+          for (H = 0; 16 > H; H++) d = 3840 + 16 * f + H, e = 0 + 18 * (f + 1) + (H + 1), Chunk.cacheBlock[e] = blockConfig[s.blocks[d]].type;
       if (K)
         for (f = 0; 16 > f; f++)
           for (H = 0; 16 > H; H++) e = 5508 + 18 * (f + 1) + (H + 1), Chunk.cacheBlock[e] = 15 === w ? 1 : 0;
       else
         for (f = 0; 16 > f; f++)
-          for (H = 0; 16 > H; H++) d = 0 + 16 * f + H, e = 5508 + 18 * (f + 1) + (H + 1), Chunk.cacheBlock[e] = block[L.blocks[d]].type;
+          for (H = 0; 16 > H; H++) d = 0 + 16 * f + H, e = 5508 + 18 * (f + 1) + (H + 1), Chunk.cacheBlock[e] = blockConfig[L.blocks[d]].type;
       if (a)
         for (I = 0; 16 > I; I++)
           for (H = 0; 16 > H; H++) e = 324 * (I + 1) + 306 + (H + 1), Chunk.cacheBlock[e] = m ? 1 : 0;
       else
         for (I = 0; 16 > I; I++)
           for (H = 0; 16 >
-            H; H++) d = 256 * I + 0 + H, e = 324 * (I + 1) + 306 + (H + 1), Chunk.cacheBlock[e] = block[N.blocks[d]].type;
+            H; H++) d = 256 * I + 0 + H, e = 324 * (I + 1) + 306 + (H + 1), Chunk.cacheBlock[e] = blockConfig[N.blocks[d]].type;
       if (y)
         for (I = 0; 16 > I; I++)
           for (H = 0; 16 > H; H++) e = 324 * (I + 1) + 0 + (H + 1), Chunk.cacheBlock[e] = l ? 1 : 0;
       else
         for (I = 0; 16 > I; I++)
-          for (H = 0; 16 > H; H++) d = 256 * I + 240 + H, e = 324 * (I + 1) + 0 + (H + 1), Chunk.cacheBlock[e] = block[M.blocks[d]].type;
+          for (H = 0; 16 > H; H++) d = 256 * I + 240 + H, e = 324 * (I + 1) + 0 + (H + 1), Chunk.cacheBlock[e] = blockConfig[M.blocks[d]].type;
       if (Y)
         for (I = 0; 16 > I; I++)
           for (f = 0; 16 > f; f++) e = 324 * (I + 1) + 18 * (f + 1) + 0, Chunk.cacheBlock[e] = p ? 1 : 0;
       else
         for (I = 0; 16 > I; I++)
-          for (f = 0; 16 > f; f++) d = 256 * I + 16 * f + 15, e = 324 * (I + 1) + 18 * (f + 1) + 0, Chunk.cacheBlock[e] = block[R.blocks[d]].type;
+          for (f = 0; 16 > f; f++) d = 256 * I + 16 * f + 15, e = 324 * (I + 1) + 18 * (f + 1) + 0, Chunk.cacheBlock[e] = blockConfig[R.blocks[d]].type;
       if (T)
         for (I =
           0; 16 > I; I++)
           for (f = 0; 16 > f; f++) e = 324 * (I + 1) + 18 * (f + 1) + 17, Chunk.cacheBlock[e] = q ? 1 : 0;
       else
         for (I = 0; 16 > I; I++)
-          for (f = 0; 16 > f; f++) d = 256 * I + 16 * f + 0, e = 324 * (I + 1) + 18 * (f + 1) + 17, Chunk.cacheBlock[e] = block[U.blocks[d]].type;
+          for (f = 0; 16 > f; f++) d = 256 * I + 16 * f + 0, e = 324 * (I + 1) + 18 * (f + 1) + 17, Chunk.cacheBlock[e] = blockConfig[U.blocks[d]].type;
       var X = y = 0,
         z = 0,
         $ = 0,
@@ -1992,12 +1992,12 @@ Chunk.prototype.getBuffer = function(b) {
                 Chunk.cacheBlock[$] !== c && (L = !0), 1 !== Chunk.cacheBlock[aa] && Chunk.cacheBlock[aa] !== c && (K = !0);
               else continue;
               if (L || K || T || Y || s || n)
-                if (a = punkty1[0], A = r.blocks[d], c = d % 2, 0 === c ? (x = r.data[d / 2] & 15 & block[r.blocks[d]].mask, k = r.add[d / 2] & 15) : (x = r.data[d / 2 - 0.5] >> 4 & 15 & block[r.blocks[d]].mask, k = r.add[d / 2 - 0.5] >> 4 & 15), t = void 0 === block[A][x] ? block[A][0] : block[A][x], void 0 !== t.shapeType)
+                if (a = punkty1[0], A = r.blocks[d], c = d % 2, 0 === c ? (x = r.data[d / 2] & 15 & blockConfig[r.blocks[d]].mask, k = r.add[d / 2] & 15) : (x = r.data[d / 2 - 0.5] >> 4 & 15 & blockConfig[r.blocks[d]].mask, k = r.add[d / 2 - 0.5] >> 4 & 15), t = void 0 === blockConfig[A][x] ? blockConfig[A][0] : blockConfig[A][x], void 0 !== t.shapeType)
                   if (1 === t.shapeType) {
                     y = c = t.shape;
                     d = 0;
                     1 === t.useBiomeColor && (d = this.getBiomeColor(H, f, 0));
-                    0 < k && (y = block[200][k - 1].shape);
+                    0 < k && (y = blockConfig[200][k - 1].shape);
                     if (L)
                       for (k = 0; k < y.front.length; k +=
                         5) a.d[a.o++] = 16 * this.xPos + H + y.front[k], a.d[a.o++] = e + I + y.front[k + 1], a.d[a.o++] = 16 * this.zPos + f + y.front[k + 2], a.d[a.o++] = c.front[k + 3], a.d[a.o++] = c.front[k + 4], a.d[a.o++] = 0, a.d[a.o++] = J + 1, a.d[a.o++] = 0.8, a.d[a.o++] = d;
@@ -2055,7 +2055,7 @@ Chunk.prototype.getBuffer = function(b) {
                 W = Chunk.cacheBlock[y] === Chunk.cacheBlock[aa] ? W + Chunk.cacheData[aa] : W + "x";
                 z = 0;
                 X = Chunk.stairsData[W];
-                void 0 !== X && (c = 3 < Chunk.cacheData[y] ? block[A][9].shape : block[A][8].shape, z = 1);
+                void 0 !== X && (c = 3 < Chunk.cacheData[y] ? blockConfig[A][9].shape : blockConfig[A][8].shape, z = 1);
                 if (L)
                   for (k = 0; k < c.front.length; k += 5) a.d[a.o++] = 16 * this.xPos + H + c.front[k], a.d[a.o++] = e + I + c.front[k + 1], a.d[a.o++] = 16 * this.zPos + f + c.front[k +
                     2], a.d[a.o++] = c.front[k + 3], a.d[a.o++] = c.front[k + 4], a.d[a.o++] = 0, a.d[a.o++] = J + 1, a.d[a.o++] = 0.8, a.d[a.o++] = d;
@@ -2072,7 +2072,7 @@ Chunk.prototype.getBuffer = function(b) {
                 if (n)
                   for (k = 0; k < c.top.length; k += 5) a.d[a.o++] = 16 * this.xPos + H + c.top[k], a.d[a.o++] = e + I + c.top[k + 1], a.d[a.o++] = 16 * this.zPos + f + c.top[k + 2], a.d[a.o++] = c.top[k + 3], a.d[a.o++] = c.top[k + 4], a.d[a.o++] = 0, a.d[a.o++] = J + 6, a.d[a.o++] = 1, a.d[a.o++] = d;
                 if (1 === z)
-                  for (c = block[A][10].shape, $ = z = 0, 3 < Chunk.cacheData[y] && ($ = -0.5), aa = y = 0; 4 > aa; aa++)
+                  for (c = blockConfig[A][10].shape, $ = z = 0, 3 < Chunk.cacheData[y] && ($ = -0.5), aa = y = 0; 4 > aa; aa++)
                     if (0 !== X.charCodeAt(aa) - 48) {
                       z = aa % 2 / 2;
                       y = 1 < aa ? 0.5 : 0;
