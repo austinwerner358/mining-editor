@@ -428,10 +428,26 @@ Region::loadRegion = (x, y) ->
   console.log fileName
   console.log "Using local files: #{settings.local}"
   if window.settings.local
-    console.log localFiles[fileName]
-    @loadLocalFile window.localFiles[fileName], worker, x, y
+    @loadLocalFile fileName, worker, x, y
   else
     @loadFileFromServer fileName, worker, x, y
+  return
+
+Region::loadLocalFile = (fileName, worker, x, y) ->
+  # TODO: error handle error cases (like missing region file or null file)
+  reader = new FileReader
+  reader.onloadend = (event) ->
+    if event.target.readyState == FileReader.DONE
+      console.log event.target.result
+      result = event.target.result
+      worker.postMessage
+        x: x
+        y: y
+        local: window.settings.local
+        region: result
+    return
+  console.log localFiles[fileName]
+  reader.readAsArrayBuffer window.localFiles[fileName]
   return
 
 Region::loadFileFromServer = (fileName, worker, x, y) ->

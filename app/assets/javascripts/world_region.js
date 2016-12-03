@@ -270,24 +270,6 @@ Region.prototype.loadFile = function(x, y) {
   };
   return worker;
 };
-Region.prototype.loadLocalFile = function(file, worker, x, y) {
-  // Error handle error cases (like missing region file or null file).
-  var result;
-  var reader = new FileReader();
-  reader.onloadend = function(event) {
-    if (event.target.readyState == FileReader.DONE) {
-      console.log(event.target.result);
-      result = event.target.result;
-      worker.postMessage({
-        x: x,
-        y: y,
-        local: window.settings.local,
-        region: result
-      });
-    }
-  }
-  reader.readAsArrayBuffer(file)
-};
 Region.prototype.regionLoaded = function(b) {
   var f = b.data.x,
     c = b.data.y;
