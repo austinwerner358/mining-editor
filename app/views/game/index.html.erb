@@ -15,7 +15,7 @@
       <input id="worldName" type="hidden" value="<%= @world_name %>"></input>
       <input id="dbPos" type="hidden" value="<%= @db_pos %>"></input>
       <div id="settings">
-        Display Settings - (<%= @world_name %>)
+        Display Settings - (<%= @local ? 'local world' : @world_name %>)
         <table id="settingsTable">
           <tr>
             <td>
@@ -91,7 +91,7 @@
             </td>
           </tr>
         </table>
-        Get URL<br/>
+        Get URL<%= @local ? ' (will not load your local files)' : '' %><br/>
         <input type="text" id="settingsURL" class="settingsInput"/>
       </div>
       <div id="info2">
