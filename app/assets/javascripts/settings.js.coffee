@@ -220,6 +220,12 @@ Settings::getSettingsURL = ->
 Settings::setHashURL = (pos, rot, cameraType) ->
   window.location.hash = 'pos=' + pos[0].toFixed(2) + '+' + pos[1].toFixed(2) + '+' + pos[2].toFixed(2) + '&rot=' + rot[0].toFixed(2) + '+' + rot[1].toFixed(2) + '&camera=' + cameraType
 
+Settings::updateCopyURL = ->
+  pos = window.camera.getPos()
+  rot = window.camera.getRot()
+  window.settings.setHashURL(pos, rot, window.camera.name)
+  window.settings.getSettingsURL()
+
 window.onload =
 getFiles = ->
   window.fileReader = new FileReader()

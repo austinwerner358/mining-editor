@@ -46,6 +46,7 @@ Controls::keyDown = (event) ->
       when keyMap.saveWorld
         window.mcWorld.save()
       when keyMap.useCodeEditor
+        window.settings.updateCopyURL()
         panel = document.getElementById('settings')
         if 'none' == panel.style.display
           panel.style.display = 'block'
