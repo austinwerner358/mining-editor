@@ -425,6 +425,16 @@ Region::loadRegion = (x, y) ->
   @region[1e3 * x + y] = {}
   @region[1e3 * x + y].loaded = -2
   fileName = 'r.' + x + '.' + y + '.mca'
+  console.log fileName
+  console.log "Using local files: #{settings.local}"
+  if window.settings.local
+    console.log localFiles[fileName]
+    @loadLocalFile window.localFiles[fileName], worker, x, y
+  else
+    @loadFileFromServer fileName, worker, x, y
+  return
+
+Region::loadFileFromServer = (fileName, worker, x, y) ->
   path = @gameRoot + '/' + @worldName + '/region/' + fileName
   baseURL = ''
   if -1 == @gameRoot.indexOf(':')
@@ -432,17 +442,11 @@ Region::loadRegion = (x, y) ->
     i = baseURL.indexOf('index')
     -1 != i and (baseURL = baseURL.substring(0, i))
   console.log baseURL + path
-  console.log settings.local
-  if window.settings.local
-    console.log fileName
-    console.log localFiles[fileName]
-    @loadLocalFile window.localFiles[fileName], worker, x, y
-  else
-    worker.postMessage
-      x: x
-      y: y
-      local: window.settings.local
-      name: baseURL + path
+  worker.postMessage
+    x: x
+    y: y
+    local: window.settings.local
+    name: baseURL + path
   return
 
 # Region::regionLoaded = (b) ->
