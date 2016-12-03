@@ -190,24 +190,23 @@ Settings::getSettingsURL = ->
   # Use the same address
   urlUpdated = urlSplit[0] + '?'
   hasParam = {}
-  params.forEach (param) ->
-    urlUpdated += '&'
+  params.forEach (param) =>
     switch param.split(RegExp('='))[0].toLowerCase()
       when 'sun'
         hasParam.sun = !0
-        urlUpdated += 'sun=' + @sun
+        urlUpdated += '&sun=' + @sun
       when 'skycolor'
         hasParam.skyColor = !0
-        urlUpdated += 'skyColor=' + Math.floor(255 * @skyColor[0]) + '-' + Math.floor(255 * @skyColor[1]) + '-' + Math.floor(255 * @skyColor[2])
+        urlUpdated += '&skyColor=' + Math.floor(255 * @skyColor[0]) + '-' + Math.floor(255 * @skyColor[1]) + '-' + Math.floor(255 * @skyColor[2])
       when'brightness'
         hasParam.brightness = !0
-        urlUpdated += 'brightness=' + @brightness
+        urlUpdated += '&brightness=' + @brightness
       when'worldshader'
         hasParam.worldshader = !0
-        urlUpdated += 'worldShader=' + @worldShader
+        urlUpdated += '&worldShader=' + @worldShader
       when'distancelevel'
         hasParam.distancelevel = !0
-        urlUpdated += 'distanceLevel=' + @distanceLevel[0]
+        urlUpdated += '&distanceLevel=' + @distanceLevel[0]
       else
         urlUpdated += param
     return
