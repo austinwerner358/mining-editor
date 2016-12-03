@@ -250,23 +250,25 @@ Region.prototype.loadChunkFromStorage = function(b, f, c) {
   c || q.init2();
   d || b.init2()
 };
-Region.prototype.regionLoaded = function(b) {
-  var f = b.data.x,
-    c = b.data.y;
-  if (1 !== b.data.loaded) {
-    f = this.region[1e3 * f + c], f.loaded = -1;
+Region.prototype.regionLoaded = function(event) {
+  console.log('REGION LOADED');
+  var x = event.data.x,
+    y = event.data.y;
+  if (1 !== event.data.loaded) {
+    loadedRegion = this.region[1e3 * x + y], loadedRegion.loaded = -1;
   } else {
-    if (b = new Uint8Array(b.data.data), 1e3 > b.length) {
-      f = this.region[1e3 * f + c], f.loaded = -1;
+    var buffer
+    if (buffer = new Uint8Array(event.data.data), 1e3 > buffer.length) {
+      loadedRegion = this.region[1e3 * x + y], loadedRegion.loaded = -1;
     } else {
-      f = this.region[1e3 * f + c];
-      f.regionData = b;
-      f.loaded = 0;
-      f.chunkPos = [];
-      f.chunkLen = [];
-      var d;
-      for (d = c = 0; 4096 > c; c += 4, d++) {
-        f.chunkPos[d] = 65536 * b[c] + 256 * b[c + 1] + b[c + 2], f.chunkLen[d] = b[c + 3]
+      loadedRegion = this.region[1e3 * x + y];
+      loadedRegion.regionData = buffer;
+      loadedRegion.loaded = 0;
+      loadedRegion.chunkPos = [];
+      loadedRegion.chunkLen = [];
+      var chunk_offset, buffer_offset;
+      for (chunk_offset = buffer_offset = 0; 4096 > buffer_offset; buffer_offset += 4, chunk_offset++) {
+        loadedRegion.chunkPos[chunk_offset] = 65536 * buffer[buffer_offset] + 256 * buffer[buffer_offset + 1] + buffer[buffer_offset + 2], loadedRegion.chunkLen[chunk_offset] = buffer[buffer_offset + 3]
       }
     }
   }

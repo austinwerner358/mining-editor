@@ -432,7 +432,8 @@ Region::loadFile = (x, y) ->
   worker.onmessage = (event) ->
     @Region.regionLoaded event
     return
-  worker.onerror = (event) ->
+  worker.onerror = (event) -> # TODO: this method is not being called; thread either crashes before reaching this point or the success message is called anyway
+    alert('REGION LOAD FAILED')
     @region.loaded = -1
     return
   worker
