@@ -270,36 +270,7 @@ Region.prototype.loadFile = function(x, y) {
   };
   return worker;
 };
-Region.prototype.loadRegion = function(x, y) {
-  var c, d, e, m, region;
-  var worker = this.loadFile(x, y);
-  this.region[1e3 * x + y] = {};
-  this.region[1e3 * x + y].loaded = -2;
-
-  fileName = 'r.' + x + '.' + y + '.mca';
-  d = this.gameRoot + '/' + this.worldName + '/region/' + fileName;
-  e = '';
-  if (-1 === this.gameRoot.indexOf(':')) {
-    e = document.location.href.split(/\?|#/)[0];
-    m = e.indexOf('index'); - 1 !== m && (e = e.substring(0, m));
-  }
-  console.log(e + d);
-  console.log(settings.local);
-  if (window.settings.local) {
-    console.log(fileName);
-    console.log(localFiles[fileName]);
-    this.loadLocalFile(window.localFiles[fileName], worker, x, y, e, d);
-  } else {
-    worker.postMessage({
-      x: x,
-      y: y,
-      local: window.settings.local,
-      region: region,
-      name: e + d
-    });
-  }
-};
-Region.prototype.loadLocalFile = function(file, worker, x, y, e, d) {
+Region.prototype.loadLocalFile = function(file, worker, x, y) {
   // Error handle error cases (like missing region file or null file).
   var result;
   var reader = new FileReader();
@@ -311,8 +282,7 @@ Region.prototype.loadLocalFile = function(file, worker, x, y, e, d) {
         x: x,
         y: y,
         local: window.settings.local,
-        region: result,
-        name: e + d
+        region: result
       });
     }
   }

@@ -420,45 +420,30 @@ Region::save = ->
 #   d or b.init2()
 #   return
 
-# Region::loadRegion = (b, f) ->
-#   `var c`
-#   c = undefined
-#   c = undefined
-#   d = undefined
-#   e = undefined
-#   m = undefined
-#   @region[1e3 * b + f] = {}
-#   @region[1e3 * b + f].loaded = -2
-#   if undefined != window.threadsCode
-#     c = new Blob([ threadsCode.loadRegionThread ], type: 'application/javascript')
-#     c = new Worker(window.URL.createObjectURL(c))
-#   else
-#     c = new Worker('threads/loadRegionThread.js')
-#   c.Region = this
-#   c.region = @region[1e3 * b + f]
-
-#   c.onmessage = (b) ->
-#     @Region.regionLoaded b
-#     return
-
-#   c.onerror = (b) ->
-#     `var e`
-#     e = undefined
-#     @region.loaded = -1
-#     return
-
-#   d = @gameRoot + '/' + @worldName + '/region/r.' + b + '.' + f + '.mca'
-#   e = ''
-#   if -1 == @gameRoot.indexOf(':')
-#     e = document.location.href.split(/\?|#/)[0]
-#     m = e.indexOf('index')
-#     -1 != m and (e = e.substring(0, m))
-#   console.log e + d
-#   c.postMessage
-#     x: b
-#     y: f
-#     name: e + d
-#   return
+Region::loadRegion = (x, y) ->
+  worker = @loadFile(x, y)
+  @region[1e3 * x + y] = {}
+  @region[1e3 * x + y].loaded = -2
+  fileName = 'r.' + x + '.' + y + '.mca'
+  path = @gameRoot + '/' + @worldName + '/region/' + fileName
+  baseURL = ''
+  if -1 == @gameRoot.indexOf(':')
+    baseURL = document.location.href.split(/\?|#/)[0]
+    i = baseURL.indexOf('index')
+    -1 != i and (baseURL = baseURL.substring(0, i))
+  console.log baseURL + path
+  console.log settings.local
+  if window.settings.local
+    console.log fileName
+    console.log localFiles[fileName]
+    @loadLocalFile window.localFiles[fileName], worker, x, y
+  else
+    worker.postMessage
+      x: x
+      y: y
+      local: window.settings.local
+      name: baseURL + path
+  return
 
 # Region::regionLoaded = (b) ->
 #   f = b.data.x

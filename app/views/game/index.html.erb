@@ -117,17 +117,20 @@
       <% if @local %>
       <div id="worldSelectOverlay" class="overlay">
         <div class="formBackground">
+          <p></p>
           X:
-          <input id="local_x" type="number" step="1"><br>
+          <input id="local_x" type="number" step="1" placeholder="0"><br>
           Y:
-          <input id="local_y" type="number" step="1"><br>
+          <input id="local_y" type="number" step="1" placeholder="100"><br>
           Z:
-          <input id="local_z" type="number" step="1"><br>
+          <input id="local_z" type="number" step="1" placeholder="0"><br>
           <br>
           <button onclick="document.getElementById('fileSelector').click(); return false;">Select World</button>
           <input id="fileSelector" class="localWorldSelector" style="visibility: hidden; display: none;" type="file" webkitdirectory><br>
           <br>
           <button onclick="webGLStart()">Start</button>
+          <ul id="selectedFiles">
+          </ul>
         </div>
       </div>
       <% end %>

@@ -244,10 +244,13 @@ getFiles = ->
           # File APIs supported.
         else
           alert 'Local file API not supported in this browser.'
-        [].slice.call(@files).forEach (v) ->
-          console.log(v);
-          window.localFiles[v.name] = v
-          $('body').append '<div>' + v.name + '</div>'
+        ul = document.getElementById("selectedFiles")
+        [].slice.call(@files).forEach (file) ->
+          console.log(file)
+          window.localFiles[file.name] = file
+          li = document.createElement("li")
+          li.appendChild(document.createTextNode(file.name))
+          ul.appendChild(li)
           return
         return
       return
