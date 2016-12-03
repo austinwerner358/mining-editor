@@ -103,6 +103,7 @@ Settings::initSettings = ->
     @skyColor[1] = parseFloat(jsonSettings.skyColor.value.split('-')[1]) / 255 or @skyColor[1]
     @skyColor[2] = parseFloat(jsonSettings.skyColor.value.split('-')[2]) / 255 or @skyColor[2]
   if undefined != urlParams.skyColor and jsonSettings.skyColor.url
+    @skyColorByURL = true
     @skyColor[0] = parseFloat(urlParams.skyColor.split('-')[0]) / 255 or @skyColor[0]
     @skyColor[1] = parseFloat(urlParams.skyColor.split('-')[1]) / 255 or @skyColor[1]
     @skyColor[2] = parseFloat(urlParams.skyColor.split('-')[2]) / 255 or @skyColor[2]
@@ -165,9 +166,12 @@ Settings::setDistanceLevel = (value) ->
   @getSettingsURL()
 
 Settings::setSkyColor = (rgb) ->
-  @skyColor[0] = rgb[0]
-  @skyColor[1] = rgb[1]
-  @skyColor[2] = rgb[2]
+  if @skyColorByURL
+    @skyColorByURL = false
+  else
+    @skyColor[0] = rgb[0]
+    @skyColor[1] = rgb[1]
+    @skyColor[2] = rgb[2]
   @getSettingsURL()
 
 Settings::setSun = (value) ->
