@@ -5,6 +5,7 @@ window.initBlocks = ->
   window.blockConfig = JSON.parse(Readfile.readTxt('config/blocks.json'))
   console.log('Block config:')
   console.log(window.blockConfig)
+  # TODO: have block source be based on url param
   # blocksResponse = $.ajax(
   #   type: 'GET'
   #   url: '/blocks.json'
@@ -69,6 +70,7 @@ window.initBlocks = ->
           window.blockConfig[n][attr].shape[sideName] = new Float32Array(window.shapeConfig[window.blockConfig[n][attr].shapeName][sideName].length)
           sideShapeIndex = 0
           while sideShapeIndex < window.shapeConfig[window.blockConfig[n][attr].shapeName][sideName].length
+            # TODO: figure out what the 5 indices are used for (espeically the last two)
             window.blockConfig[n][attr].shape[sideName][sideShapeIndex] = window.shapeConfig[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex]
             window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 1] = window.shapeConfig[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 1]
             window.blockConfig[n][attr].shape[sideName][sideShapeIndex + 2] = window.shapeConfig[window.blockConfig[n][attr].shapeName][sideName][sideShapeIndex + 2]

@@ -1,5 +1,7 @@
 WebGLUtils = do ->
 
+  # TODO: check if WebGLUtils is being called and improve it
+
   b = (b, c) ->
     d = undefined
     e = undefined

@@ -1,4 +1,4 @@
-var threadsCode = [];
+var threadsCode = []; // TODO: potentially change threadsCode to explicit method instead of string
 threadsCode.loadRegionThread = "self.addEventListener('message', (function(e) {\
   var regionData, x, xhr, y;\
   x = e.data.x;\

@@ -421,20 +421,20 @@ Region::save = ->
 #   return
 
 Region::loadFile = (x, y) ->
-  worker = undefined
+  worker = undefined # TODO: make sure .close() is called in worker else terminate worker after messages are posted
   if undefined != window.threadsCode
     blob = new Blob([ threadsCode.loadRegionThread ], type: 'application/javascript')
     worker = new Worker(window.URL.createObjectURL(blob))
   else
-    worker = new Worker('threads/loadRegionThread.js')
+    worker = new Worker('threads/loadRegionThread.js') # TODO: figure out the difference in these methods
   worker.Region = this
   worker.region = @region[1e3 * x + y]
   worker.onmessage = (event) ->
     @Region.regionLoaded event
     return
   worker.onerror = (event) -> # TODO: this method is not being called; thread either crashes before reaching this point or the success message is called anyway
-    alert('REGION LOAD FAILED')
-    @region.loaded = -1
+    alert('REGION LOADING WORKER ERROR')
+    @region.loaded = -1 # TODO: create method for unloaded region
     return
   worker
 
@@ -487,7 +487,7 @@ Region::regionLoaded = (event) ->
   console.log 'REGION LOADED'
   x = event.data.x
   y = event.data.y
-  if 1 != event.data.loaded
+  if 1 != event.data.loaded # TODO: check if this code is reached and what error is shown in the console
     loadedRegion = @region[1e3 * x + y]
     loadedRegion.loaded = -1
   else

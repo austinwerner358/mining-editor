@@ -4,7 +4,6 @@ Settings = ->
 
 Settings::initSettings = ->
   #### Load JSON Settings ####
-  jsonSettings = undefined
   jsonSettings = JSON.parse(Readfile.readTxt('config/settings.json'))
   console.log('Settings raw:')
   console.log jsonSettings
