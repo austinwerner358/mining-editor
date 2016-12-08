@@ -1,4 +1,6 @@
 window.initBlocks = ->
+  # TODO: stop loading static assets in production
+  # NOTE: but keep the old way for when there is no server
   window.textureConfig = JSON.parse(Readfile.readTxt('config/textures.json'))
   console.log('Texture config:')
   console.log window.textureConfig
@@ -6,6 +8,9 @@ window.initBlocks = ->
   console.log('Block config:')
   console.log(window.blockConfig)
   # TODO: have block source be based on url param
+  # TODO: have the most common blocks loaded straight into the html
+  # Get base block types from the html.
+  # TODO: load the rest of the block types from the server (Rails will decide whether to send dynamic or static JSON)
   # blocksResponse = $.ajax(
   #   type: 'GET'
   #   url: '/blocks.json'
@@ -18,7 +23,7 @@ window.initBlocks = ->
   #     data
   # ).responseText
   # window.blockConfig = JSON.parse(blocksResponse)
-  window.blockConfig.length = 300
+  window.blockConfig.length = 300 # TODO: figure out if this is necessary
   window.biomes = JSON.parse(Readfile.readTxt('config/biomes.json'))
   window.shapeConfig = JSON.parse(Readfile.readTxt('config/shapes.json'))
   console.log('Shape config:')
