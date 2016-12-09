@@ -37,6 +37,8 @@ window.initBlocks = ->
   sideVal = undefined
   n = 0
   # Iterate over block types.
+  # TODO: use flag to determine whether the config should be overwritten
+  # TODO: continue to next iteration if blockConfig[n] is not present (after zeroing config)
   while n < window.blockConfig.length
     # Set empty block type if config is missing for index.
     if undefined == window.blockConfig[n]

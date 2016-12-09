@@ -1,10 +1,11 @@
+<!-- TODO: test what happens when DOCTYPE is missing on yielded page (particularly without the layout file or Rails) -->
 <!DOCTYPE html>
-<html>
+<html><!-- may not need html and head -->
   <head>
-    <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- <link rel="stylesheet" type="text/css" href="config/mca.css"> -->
     <%= stylesheet_link_tag 'mca' %>
+    <!-- TODO: test what happens when these two lines are missing -->
     <%= javascript_include_tag "ace/ace.js" %>
     <%= javascript_include_tag "jscolor/jscolor.js" %>
   </head>

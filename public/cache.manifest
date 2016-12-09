@@ -1,0 +1,39 @@
+CACHE MANIFEST
+# v1
+
+CACHE:
+# TODO: see if dynamic pages can be cached (those outside of /public)
+
+# config
+biomes.json
+blocks.json
+blocks.png
+settings.json
+shapes.json
+textures.json
+
+# jscolor
+arrow.gif
+cross.gif
+demo.html
+hs.png
+hv.png
+
+# shaders
+bloom.fs
+bloom.vs
+line.fs
+line.vs
+selection.fs
+selection.vs
+standard.fs
+standard.vs
+
+NETWORK:
+*
+
+FALLBACK:
+# TODO: add offline.html
+# / /offline.html
+
+# TODO: check whether *.manifest name format is necessary

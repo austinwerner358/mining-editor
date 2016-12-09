@@ -6,6 +6,7 @@ Rails.application.config.assets.version = '1.0'
 # Add additional assets to the asset load path
 # Rails.application.config.assets.paths << Emoji.images_path
 
+# TODO: precompile other assets and make sure they are loaded properly when javascript needs them
 Rails.application.config.assets.precompile += %w( mca.css )
 Rails.application.config.assets.precompile += %w( ace/ace.js )
 Rails.application.config.assets.precompile += %w( jscolor/jscolor.js )
