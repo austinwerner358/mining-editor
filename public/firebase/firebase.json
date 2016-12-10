@@ -1,0 +1,18 @@
+{
+  "hosting": {
+    "public": "public",
+    "redirects": [
+      {
+        "source": "/firebase/*",
+        "destination": "https://firebase.google.com",
+        "type": 302
+      }
+    ],
+    "rewrites" : [ {
+      "source": "/control",
+      "destination": "/controls.html"
+    } ],
+    "cleanUrls": true,
+    "trailingSlash": false
+  }
+}
