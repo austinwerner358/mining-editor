@@ -39,7 +39,7 @@ Rails.application.configure do
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
 
-  config.assets.compile = true # TODO: do not allow asset compilation in production
+  config.assets.compile = true # TODO: do not allow asset compilation in production (if going forward with app caching in heroku production)
   config.assets.precompile += %w[*.png *.jpg *.jpeg *.gif]
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 

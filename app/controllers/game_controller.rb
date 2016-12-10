@@ -1,4 +1,7 @@
 class GameController < ApplicationController
+  layout false
+  # layout 'application', :except => :view
+
   before_action :init_options, only: [:index, :world_name, :controls]
 
   def index

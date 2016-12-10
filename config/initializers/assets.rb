@@ -7,9 +7,14 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.paths << Emoji.images_path
 
 # TODO: precompile other assets and make sure they are loaded properly when javascript needs them
-Rails.application.config.assets.precompile += %w( mca.css )
-Rails.application.config.assets.precompile += %w( ace/ace.js )
+# NOTE: this area is for all environments
 Rails.application.config.assets.precompile += %w( jscolor/jscolor.js )
+Rails.application.config.assets.precompile += %w( ace_editor.js )
+Rails.application.config.assets.precompile += %w( game.js )
+# Rails.application.config.assets.precompile += %w( gluu_util_setup.js world_chunk.js world_region.js camera_ghost.js.coffee camera_player.js.coffee app/* )
+# Rails.application.config.assets.precompile += %w( mca.css )
+# Rails.application.config.assets.precompile += %w( ace/* )
+# Rails.application.config.assets.precompile += %w( jscolor/* )
 # Rails.application.config.assets.precompile += %w( jscolor/arrow.gif )
 # Rails.application.config.assets.precompile += %w( jscolor/cross.gif )
 # Rails.application.config.assets.precompile += %w( jscolor/hs.png )
