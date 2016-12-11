@@ -26,7 +26,7 @@ Settings::initSettings = ->
   # @local = false unless Object.keys(window.localFiles).length > 0
   document.getElementById('getUrlStatus').innerHTML = '' unless @local
   #### Load JSON Settings ####
-  jsonSettings = JSON.parse(Readfile.readTxt('config/settings.json'))
+  jsonSettings = JSON.parse(Readfile.readTxt('game/config/settings.json'))
   console.log('Settings raw:')
   console.log jsonSettings
   #### Set Path To World ####

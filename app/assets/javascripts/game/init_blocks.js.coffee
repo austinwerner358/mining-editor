@@ -1,10 +1,10 @@
 window.initBlocks = ->
   # TODO: stop loading static assets in production
   # NOTE: but keep the old way for when there is no server
-  window.textureConfig = JSON.parse(Readfile.readTxt('config/textures.json'))
+  window.textureConfig = JSON.parse(Readfile.readTxt('game/config/textures.json'))
   console.log('Texture config:')
   console.log window.textureConfig
-  window.blockConfig = JSON.parse(Readfile.readTxt('config/blocks.json'))
+  window.blockConfig = JSON.parse(Readfile.readTxt('game/config/blocks.json'))
   console.log('Block config:')
   console.log(window.blockConfig)
   # TODO: have block source be based on url param
@@ -24,8 +24,8 @@ window.initBlocks = ->
   # ).responseText
   # window.blockConfig = JSON.parse(blocksResponse)
   window.blockConfig.length = 300 # TODO: figure out if this is necessary
-  window.biomes = JSON.parse(Readfile.readTxt('config/biomes.json'))
-  window.shapeConfig = JSON.parse(Readfile.readTxt('config/shapes.json'))
+  window.biomes = JSON.parse(Readfile.readTxt('game/config/biomes.json'))
+  window.shapeConfig = JSON.parse(Readfile.readTxt('game/config/shapes.json'))
   console.log('Shape config:')
   console.log window.shapeConfig
   window.textureConfig.invRow = 1 / window.textureConfig.row

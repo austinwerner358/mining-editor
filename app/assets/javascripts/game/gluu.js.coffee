@@ -45,7 +45,7 @@ Gluu::getShader = (gl, shaderType, shaderClass) ->
     if undefined == shaderText
       return null
   else
-    xmlRequest.open('GET', 'shaders/' + shaderType + '.' + shaderClass, !1)
+    xmlRequest.open('GET', 'game/shaders/' + shaderType + '.' + shaderClass, !1)
     xmlRequest.send(null)
     shaderText = xmlRequest.responseText
     if !shaderText
@@ -156,7 +156,7 @@ Gluu::initTextures = ->
   image.onload = ->
     gluu.handleTextureLoaded image, window.blockTexture
     return
-  image.src = 'config/blocks.png'
+  image.src = 'game/config/blocks.png'
   return
 
 Gluu::handleTextureLoaded = (image2D, blockTexture) ->

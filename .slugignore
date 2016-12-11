@@ -3,4 +3,5 @@
 /public/worlds/Sand
 /public/worlds/2
 /firebase
+/lib/tasks/compile_firebase.rake
 /public/html_snippets

@@ -24,7 +24,7 @@ Rails.application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Compress JavaScripts and CSS.
-  # config.assets.js_compressor = :uglifier
+  # config.assets.js_compressor = :uglifier # TODO: potentially find compressor that doesn't uglify
   # config.assets.css_compressor = :sass
 
   # If false, do not fallback to assets pipeline if a precompiled asset is missed.
