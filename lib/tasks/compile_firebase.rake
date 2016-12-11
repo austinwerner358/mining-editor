@@ -66,6 +66,22 @@ namespace :firebase do
     File.open(path_to_file, 'w') do |io|
       io.write content.gsub('<!-- static linking placeholder -->', tags.join("\n    "))
     end # closes file
+
+    appcache_path = "#{Rails.root}/firebase/public/manifest.appcache"
+    File.delete(appcache_path) if File.exist?(appcache_path)
+    assets = Dir.glob(File.join(Rails.root, 'firebase/public/**/*'))
+    File.open(appcache_path, 'w') do |f|
+      f.write("CACHE MANIFEST\n")
+      f.write("Version ##{Time.now.to_i}\n\n")
+      f.write("CACHE:\n\n")
+      assets.each do |asset|
+        next if File.extname(asset) == ''
+        filename_path = /#{Rails.root.to_s}\/firebase\/public\/(.*)/.match(File.absolute_path(asset))[1].to_s
+        f.write(filename_path.concat("\n"))
+      end
+      f.write("\nNETWORK:\n")
+      f.write("*\n")
+    end # closes file
   end
 
   desc 'Create appcache manifest file for Firebase'
