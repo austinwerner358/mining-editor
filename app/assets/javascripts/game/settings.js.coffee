@@ -1,12 +1,9 @@
 Settings = ->
   @local = false
+  @ready = true
   return
 
 Settings::initSettings = ->
-  #### Load JSON Settings ####
-  jsonSettings = JSON.parse(Readfile.readTxt('config/settings.json'))
-  console.log('Settings raw:')
-  console.log jsonSettings
   #### Get URL Parameters ####
   urlParams = {}
   # urlParams = {distanceLevel: '10-10-10', pos: '20+80+70', rot: '-5.5+0.0', skyColor: '230-248-255'}
@@ -16,8 +13,22 @@ Settings::initSettings = ->
   window.location.hash.substr(1).split('&').forEach (c) ->
     urlParams[c.split('=')[0]] = c.split('=')[1]
     return
+  if urlParams.local and !@local
+    # Bring up overlay, set states and return.
+    console.log('Local World Setup')
+    @local = true
+    @ready = false
+    document.getElementById('worldSelectOverlay').style.visibility = 'visible';
+    return
+  else
+    @ready = true
   #### Set File Source Status ####
-  @local = false unless Object.keys(window.localFiles).length > 0
+  # @local = false unless Object.keys(window.localFiles).length > 0
+  document.getElementById('getUrlStatus').innerHTML = '' unless @local
+  #### Load JSON Settings ####
+  jsonSettings = JSON.parse(Readfile.readTxt('config/settings.json'))
+  console.log('Settings raw:')
+  console.log jsonSettings
   #### Set Path To World ####
   @gameRoot = jsonSettings.gameRoot.value
   undefined != urlParams.gameRoot and jsonSettings.gameRoot.url and (@gameRoot = urlParams.gameRoot)
@@ -29,6 +40,7 @@ Settings::initSettings = ->
       @worldName = jsonSettings.worldName.value
     undefined != urlParams.worldName and jsonSettings.worldName.url and (@worldName = urlParams.worldName)
   console.log('Selected World Name: ' + @worldName)
+  document.getElementById('world_name').innerHTML = @worldName unless @local
   #### Set Distance Level ####
   @distanceLevel = [
     10
@@ -61,13 +73,14 @@ Settings::initSettings = ->
     100
     0
   ]
-  if document.contains(document.getElementById('local_x'))
+  if document.contains(document.getElementById('local_x')) and @local
     @pos[0] = parseInt($('#local_x').val()) if $('#local_x').val()
     @pos[1] = parseInt($('#local_y').val()) if $('#local_y').val()
     @pos[2] = parseInt($('#local_z').val()) if $('#local_z').val()
   else
     dbPos = $('#dbPos').val()
     if !!dbPos
+      # NOTE: currently unused
       @pos[0] = parseInt(dbPos.split('+')[0]) or @pos[0]
       @pos[1] = parseInt(dbPos.split('+')[1]) or @pos[1]
       @pos[2] = parseInt(dbPos.split('+')[2]) or @pos[2]
@@ -188,9 +201,9 @@ Settings::getSettingsURL = ->
   urlCurrent = document.location.href.split(/#/)[0]
   # Split url into address and params.
   urlSplit = urlCurrent.split(/\?/)
-  # Get array or params or empty array
+  # Get array or params or empty array.
   params = if undefined == urlSplit[1] then [] else urlSplit[1].split(/&/)
-  # Use the same address
+  # Use the same address.
   urlUpdated = urlSplit[0] + '?'
   hasParam = {}
   params.forEach (param) =>

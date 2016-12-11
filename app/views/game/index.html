@@ -1,25 +1,19 @@
-<!-- TODO: test what happens when DOCTYPE is missing on yielded page (particularly without the layout file or Rails) -->
 <!DOCTYPE html>
-<html><!-- may not need html and head -->
+<html>
   <head>
     <title>MiningEditor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- <link rel="stylesheet" type="text/css" href="config/mca.css"> -->
-    <%= stylesheet_link_tag 'application' %>
-    <!-- TODO: test whether other ace/*.js files are being loaded -->
-    <%= javascript_include_tag "game.js" %>
-    <!-- TODO: test what happens when these two lines are missing -->
-    <%= javascript_include_tag "ace_editor.js" %>
-    <%= javascript_include_tag "jscolor/jscolor.js" %>
   </head>
 
-  <body oncontextmenu="return false;" onload='<%= "webGLStart();" unless @local %>' style="margin: 0px; border: none;">
+  <body oncontextmenu="return false;" onload="webGLStart();" style="margin: 0px; border: none;">
     <center>
       <canvas id="webgl" style="position:fixed; left:0px; top:0px; margin: 0px; background: white; border: none;" width="1200" height="700"></canvas>
-      <input id="worldName" type="hidden" value="<%= @world_name %>"></input>
-      <input id="dbPos" type="hidden" value="<%= @db_pos %>"></input>
+      <!-- TODO: figure out if these fields are necessary -->
+      <input id="worldName" type="hidden" value=""></input>
+      <input id="dbPos" type="hidden" value=""></input>
       <div id="settings">
-        Display Settings - (<%= @local ? 'local world' : @world_name %>)
+        Display Settings - (<span id="world_name">local world</span>)
         <table id="settingsTable">
           <tr>
             <td>
@@ -29,7 +23,7 @@
               <input id="setSkyColor" class="settingsInput color {valueElement:'skyColor'}"/>
             </td>
             <td>
-              <input type="hidden" id="skyColor" value="<%= @sky_color %>" onchange="settings.setSkyColor(document.getElementById('setSkyColor').color.rgb);"/>
+              <input type="hidden" id="skyColor" value="2385E6" onchange="settings.setSkyColor(document.getElementById('setSkyColor').color.rgb);"/>
             </td>
           </tr>
           <tr>
@@ -95,7 +89,7 @@
             </td>
           </tr>
         </table>
-        Get URL<%= @local ? ' (will not load your local files)' : '' %><br/>
+        Get URL<span id="getUrlStatus"> (will not load your local files)</span><br/>
         <input type="text" id="settingsURL" class="settingsInput"/>
       </div>
       <div id="info2">
@@ -118,7 +112,6 @@
         <a id="button1" href="javascript:executeJS();">Execute</a>
       </div>
       <div id="game-state">....</div>
-      <% if @local %>
       <div id="worldSelectOverlay" class="overlay">
         <div class="formBackground">
           <p></p>
@@ -140,7 +133,6 @@
           </ul>
         </div>
       </div>
-      <% end %>
     </center>
   </body>
 </html>

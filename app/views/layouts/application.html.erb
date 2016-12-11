@@ -2,8 +2,18 @@
 <html>
 <head>
   <title>MiningEditor</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %><!-- TODO: don't load application.js on every page -->
+  <% if %w(index).include?(params[:action]) %>
+    <%= stylesheet_link_tag 'application' %>
+    <%= javascript_include_tag "game.js" %>
+    <!-- TODO: test whether other ace/*.js files are being loaded -->
+    <!-- TODO: test what happens when these two lines are missing -->
+    <%= javascript_include_tag "ace_editor.js" %>
+    <%= javascript_include_tag "jscolor/jscolor.js" %>
+    <!-- , :cache => 'myfiles' --><!-- TODO: figure out if this would help -->
+  <% else %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %><!-- TODO: don't load application.js on every page -->
+  <% end %>
   <%= csrf_meta_tags %>
 </head>
 <body>

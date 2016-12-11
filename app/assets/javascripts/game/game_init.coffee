@@ -1,6 +1,8 @@
 window.webGLStart = ->
   #### Init Settings and WebGL ####
   window.settings.initSettings()
+  # TODO: instead of cancelling all computions, load elements that don't need world file source
+  return unless window.settings.ready
   window.controls.initControls()
   gluu.glCanvas = document.getElementById('webgl')
   gluu.glCanvas.width = window.innerWidth
@@ -53,8 +55,7 @@ window.webGLStart = ->
   window.mcWorld = new Region(settings.gameRoot, settings.worldName)
   h_u_d.gameStateHtml = document.getElementById('game-state')
   #### Remove Overlay ####
-  if document.contains(document.getElementById('worldSelectOverlay'))
-    document.getElementById('worldSelectOverlay').remove()
+  document.getElementById('worldSelectOverlay').style.visibility = 'hidden';
   #### Start Game ####
   chronometer.tick()
   return
