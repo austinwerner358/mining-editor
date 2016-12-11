@@ -13,6 +13,15 @@ capybara-*.html
 rerun.txt
 pickle-email-*.html
 
+# Ignore assets compiled for Firebase
+/firebase/public/app
+/firebase/public/config
+/firebase/public/javascripts
+/firebase/public/jscolor
+/firebase/public/shaders
+/firebase/public/stylesheets
+/firebase/public/index.html
+
 # TODO Comment out these rules if you are OK with secrets being uploaded to the repo
 config/initializers/secret_token.rb
 config/secrets.yml

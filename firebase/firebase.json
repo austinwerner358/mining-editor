@@ -6,6 +6,11 @@
         "source": "/firebase/*",
         "destination": "https://firebase.google.com",
         "type": 302
+      },
+      {
+        "source": "/local",
+        "destination": "/?local=true",
+        "type": 301
       }
     ],
     "rewrites" : [ {
