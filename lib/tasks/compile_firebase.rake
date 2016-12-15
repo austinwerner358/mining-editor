@@ -67,6 +67,7 @@ namespace :firebase do
       io.write content.gsub('<!-- static linking placeholder -->', tags.join("\n    "))
     end # closes file
 
+    # Create manifest.appcache to make the static app available offline.
     appcache_path = "#{Rails.root}/firebase/public/manifest.appcache"
     File.delete(appcache_path) if File.exist?(appcache_path)
     assets = Dir.glob(File.join(Rails.root, 'firebase/public/**/*'))
@@ -81,6 +82,7 @@ namespace :firebase do
       end
       f.write("\nNETWORK:\n")
       f.write("*\n")
+      # TODO: add offline fallback (partially to see if manifest.appcache is working at all)
     end # closes file
   end
 

@@ -104,6 +104,7 @@ Settings::initSettings = ->
     @rot[0] = parseFloat(urlParams.rot.split('+')[0]) or @rot[0]
     @rot[1] = parseFloat(urlParams.rot.split('+')[1]) or @rot[1]
   #### Set Sky Color ####
+  # TODO: set sky color based on config file (eventually per world) instead of the static value (and update the static value when it is updated in the settings object)
   @skyColor = new Float32Array([
     1
     1
@@ -206,6 +207,7 @@ Settings::getSettingsURL = ->
   # Use the same address.
   urlUpdated = urlSplit[0] + '?'
   hasParam = {}
+  # TODO: test what errors when using ->
   params.forEach (param) =>
     switch param.split(RegExp('='))[0].toLowerCase()
       when 'sun'
@@ -242,6 +244,7 @@ Settings::updateCopyURL = ->
   window.settings.setHashURL(pos, rot, window.camera.name)
   window.settings.getSettingsURL()
 
+# NOTE: getFiles is not referenced anywhere
 window.onload =
 getFiles = ->
   window.fileReader = new FileReader()
