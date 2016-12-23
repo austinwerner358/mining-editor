@@ -44,7 +44,7 @@ role :db,  %w(ubuntu@54.213.249.175)
 # Global options
 # --------------
 set :ssh_options, {
-  keys: %w(~/.ssh/mining-editor.pem),
+  keys: %w(~/.ssh/mining-editor.pem ~/.ssh/id_rsa),
   forward_agent: true # ,
   # auth_methods: %w(password)
 }
