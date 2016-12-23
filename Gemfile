@@ -45,6 +45,7 @@ end
 
 # TODO: turn this into :production_heroku
 group :production do
+  gem 'pg'
   gem 'rails_12factor'
 end
 
