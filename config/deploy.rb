@@ -13,7 +13,7 @@ set :deploy_to, "/var/www/mining-editor"
 # NOTE: added these lines
 set :use_sudo, true
 set :branch, 'master'
-
+set :bundle_without, %w{development test production_heroku firebase}.join(' ') 
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh

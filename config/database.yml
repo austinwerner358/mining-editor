@@ -20,7 +20,7 @@ test:
   <<: *default
   database: db/test.mysql2
 
-production:
+production_heroku:
   <<: *default
   database: db/production.mysql2
 

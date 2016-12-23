@@ -43,8 +43,7 @@ group :firebase do
 
 end
 
-# TODO: turn this into :production_heroku
-group :production do
+group :production_heroku do
   gem 'pg'
   gem 'rails_12factor'
 end
