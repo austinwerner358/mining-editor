@@ -35,6 +35,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :production_ec2 do
   gem 'capistrano'
   gem 'capistrano-rails'
+  gem 'capistrano-rvm'
   gem 'capistrano-bundler'
 end
 
