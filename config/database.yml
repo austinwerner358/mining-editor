@@ -26,7 +26,7 @@ production:
 
 production_ec2:
   <<: *default
-  database: db/production.mysql2
+  database: production_ec2
   username: root
   password: root
 
