@@ -27,3 +27,7 @@ production:
 production_ec2:
   <<: *default
   database: db/production.mysql2
+  username: root
+  password: root
+
+# TODO: change values and move to environment variables
