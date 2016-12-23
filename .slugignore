@@ -1,7 +1,20 @@
 *.dat
+
+# Static files
 /public/worlds/Test2
 /public/worlds/Sand
 /public/worlds/2
+
+# Firebase
 /firebase
 /lib/tasks/compile_firebase.rake
+/config/environments/firebase.rb
+
+# EC2
+/Capfile
+/config/deploy.rb
+/config/deploy/production_ec2.rb
+/config/environments/production_ec2.rb
+
+# Misc
 /public/html_snippets

@@ -23,3 +23,7 @@ test:
 production:
   <<: *default
   database: db/production.mysql2
+
+production_ec2:
+  <<: *default
+  database: db/production.mysql2
