@@ -428,7 +428,6 @@ Region::loadFile = (x, y) ->
   worker.onmessage = (event) =>
     @regionLoaded event
     return
-  # TODO: this method is not being called; thread either crashes before reaching this point or the success message is called anyway
   worker.onerror = (event) =>
     alert('REGION LOADING WORKER ERROR')
     console.error(event)
@@ -495,7 +494,7 @@ Region::regionLoadFailure = (x, y, message) ->
 Region::regionLoaded = (event) ->
   x = event.data.x
   y = event.data.y
-  if 1 != event.data.loaded # TODO: check if this code is reached and what error is shown in the console
+  if 1 != event.data.loaded
     @regionLoadFailure(x, y, event.data.error)
   else
     buffer = new Uint8Array(event.data.data)

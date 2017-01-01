@@ -26,7 +26,7 @@ Settings::initSettings = ->
   # @local = false unless Object.keys(window.localFiles).length > 0
   document.getElementById('getUrlStatus').innerHTML = '' unless @local
   #### Load JSON Settings ####
-  jsonSettings = JSON.parse(Readfile.readTxt('game/config/settings.json'))
+  jsonSettings = JSON.parse(window.settings.readTxt('game/config/settings.json'))
   console.log('Settings raw:')
   console.log jsonSettings
   #### Set Path To World ####
@@ -244,10 +244,28 @@ Settings::updateCopyURL = ->
   window.settings.setHashURL(pos, rot, window.camera.name)
   window.settings.getSettingsURL()
 
-# NOTE: getFiles is not referenced anywhere
+# NOTE: currently unused
+Settings::readRAW = (path) ->
+  xhr = new XMLHttpRequest
+  xhr.open 'GET', path, false
+  xhr.responseType = 'arraybuffer'
+  xhr.send()
+  if xhr.status == 200
+    return new Uint8Array(xhr.response)
+  return
+
+Settings::readTxt = (path) ->
+  xhr = new XMLHttpRequest
+  xhr.open 'GET', path, false
+  xhr.responseType = 'application/json'
+  xhr.send()
+  if xhr.status == 200
+    return xhr.response
+  return
+
+# NOTE: getFiles is not referenced anywhere yet
 window.onload =
 getFiles = ->
-  window.fileReader = new FileReader()
   fileSelectors = document.querySelectorAll('input.localWorldSelector')
   if fileSelectors
     [].forEach.call fileSelectors, (fileSelector) ->
@@ -259,6 +277,7 @@ getFiles = ->
           # File APIs supported.
         else
           alert 'Local file API not supported in this browser.'
+          return
         ul = document.getElementById("selectedFiles")
         [].slice.call(@files).forEach (file) ->
           console.log(file)

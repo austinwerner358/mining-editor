@@ -50,48 +50,6 @@ function spiralLoop(b) {
   return d
 }
 
-Readfile = {
-  readKuju: function(b, f, c) {
-    var d = !1;
-    void 0 === c && (d = !0);
-    var e = new XMLHttpRequest;
-    e.open("GET", b.toLowerCase(), d);
-    e.responseType = "arraybuffer";
-    d && (e.onload = function(b) {
-      b = new Uint8Array(e.response);
-      b = 70 === b[7] ? (new Zlib.Inflate(b, {
-        index: 16
-      })).decompress() : b.subarray(16, b.length - 16);
-      f.load(b)
-    });
-    try {
-      e.send()
-    } catch (m) {
-      return -1
-    }
-    if (!d) return b = new Uint8Array(e.response), 70 === b[7] ? (new Zlib.Inflate(b, {
-      index: 16
-    })).decompress() : new Uint8Array(b.buffer.slice(16))
-  },
-  readRAW: function(b, f, c) {
-    f = new XMLHttpRequest;
-    f.open("GET", b, !1);
-    f.responseType = "arraybuffer";
-    try {
-      f.send()
-    } catch (d) {
-      return -1
-    }
-    return new Uint8Array(f.response)
-  },
-  readTxt: function(b, f, c) {
-    f = new XMLHttpRequest;
-    f.open("GET", b, !1);
-    f.responseType = "application/json";
-    f.send();
-    return f.response
-  }
-};
 NBT = {
   nextTag: function(b) {
     var f = {};
