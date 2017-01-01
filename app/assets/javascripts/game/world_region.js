@@ -14,19 +14,19 @@ function Region(gameRoot, worldName) {
       xhr = new XMLHttpRequest;\
       xhr.open('GET', e.data.name, false);\
       xhr.responseType = 'arraybuffer';\
-      try {\
-        xhr.send();\
-      } catch (_error) {\
-        e = _error;\
+      xhr.send();\
+      if (xhr.status === 200) {\
+        regionData = new Uint8Array(xhr.response);\
+      } else {\
         self.postMessage({\
           loaded: 0,\
           x: x,\
-          y: y\
+          y: y,\
+          error: xhr.statusText\
         });\
         self.close();\
         return;\
       }\
-      regionData = new Uint8Array(xhr.response);\
     } else {\
       regionData = new Uint8Array(e.data.region);\
     }\

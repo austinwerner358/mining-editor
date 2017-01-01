@@ -74,7 +74,6 @@ Controls::keyDown = (event) ->
       when keyMap.clearStorage
         window.localStorage.clear()
       when keyMap.changeCamera
-        console.log window.camera.name
         switch window.camera.name
           when 'CameraGhost'
             window.camera = window.cameraPlayer
@@ -82,6 +81,7 @@ Controls::keyDown = (event) ->
           #   window.camera = window.cameraAerial
           # when 'CameraAerial'
             window.camera = window.cameraGhost
+        console.log window.camera.name
         camera.updatePos(window.player)
   return
 

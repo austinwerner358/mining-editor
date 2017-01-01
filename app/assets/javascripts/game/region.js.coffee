@@ -422,18 +422,17 @@ Region::save = ->
 
 Region::loadFile = (x, y) ->
   alert('Web workers are undefined in this browser; can not load region files.') unless typeof(Worker)
-  # Create new worker with url of shared Blob code (or file reference)
+  # Create new worker with url of shared Blob code (or file reference).
   worker = new Worker(@loadFileLoadingThreadCodeUrl)
-  # Set the current context as a reference in the worker
-  worker.Region = this
-  # Give the worker a reference to the relevant region for callback methods
-  worker.region = @region[1e3 * x + y]
-  worker.onmessage = (event) -> # TODO: test if => works better
-    @Region.regionLoaded event
+  # Instead of manually assigning references to the current context and relevant region, use => to give these callbacks the current context.
+  worker.onmessage = (event) =>
+    @regionLoaded event
     return
-  worker.onerror = (event) -> # TODO: this method is not being called; thread either crashes before reaching this point or the success message is called anyway
+  # TODO: this method is not being called; thread either crashes before reaching this point or the success message is called anyway
+  worker.onerror = (event) =>
     alert('REGION LOADING WORKER ERROR')
-    @region.loaded = -1 # TODO: create method for unloaded region
+    console.error(event)
+    @regionLoadFailure(x, y, message)
     return
   worker
 
@@ -441,7 +440,7 @@ Region::loadRegion = (x, y) ->
   worker = @loadFile(x, y)
   @region[1e3 * x + y] = {}
   @region[1e3 * x + y].loaded = -2
-  fileName = 'r.' + x + '.' + y + '.mca'
+  fileName = "r.#{x}.#{y}.mca"
   console.log fileName
   console.log "Using local files: #{settings.local}"
   if window.settings.local
@@ -482,19 +481,23 @@ Region::loadFileFromServer = (fileName, worker, x, y) ->
     name: baseURL + path
   return
 
+Region::regionLoadFailure = (x, y, message) ->
+  # TODO: find more aspects that need to be handled if any
+  console.log "REGION r.#{x}.#{y}.mca FAILED TO LOAD: #{message}"
+  @region[1e3 * x + y].loaded = -1
+  return
+
 Region::regionLoaded = (event) ->
-  console.log 'REGION LOADED'
   x = event.data.x
   y = event.data.y
   if 1 != event.data.loaded # TODO: check if this code is reached and what error is shown in the console
-    loadedRegion = @region[1e3 * x + y]
-    loadedRegion.loaded = -1
+    @regionLoadFailure(x, y, event.data.error)
   else
     buffer = new Uint8Array(event.data.data)
     if 1e3 > buffer.length
-      loadedRegion = @region[1e3 * x + y] # TODO: find out more about how failed loading works
-      loadedRegion.loaded = -1
+      @regionLoadFailure(x, y, "buffer too short (BUFFER length #{buffer.length})")
     else
+      console.log "REGION r.#{x}.#{y}.mca LOADED"
       loadedRegion = @region[1e3 * x + y]
       loadedRegion.regionData = buffer
       loadedRegion.loaded = 0
