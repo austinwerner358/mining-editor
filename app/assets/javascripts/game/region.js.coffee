@@ -421,15 +421,14 @@ Region::save = ->
 #   return
 
 Region::loadFile = (x, y) ->
-  worker = undefined # TODO: make sure .close() is called in worker else terminate worker after messages are posted
-  if undefined != window.threadsCode
-    blob = new Blob([ threadsCode.loadRegionThread ], type: 'application/javascript')
-    worker = new Worker(window.URL.createObjectURL(blob))
-  else
-    worker = new Worker('threads/loadRegionThread.js') # TODO: figure out the difference in these methods
+  alert('Web workers are undefined in this browser; can not load region files.') unless typeof(Worker)
+  # Create new worker with url of shared Blob code (or file reference)
+  worker = new Worker(@loadFileLoadingThreadCodeUrl)
+  # Set the current context as a reference in the worker
   worker.Region = this
+  # Give the worker a reference to the relevant region for callback methods
   worker.region = @region[1e3 * x + y]
-  worker.onmessage = (event) ->
+  worker.onmessage = (event) -> # TODO: test if => works better
     @Region.regionLoaded event
     return
   worker.onerror = (event) -> # TODO: this method is not being called; thread either crashes before reaching this point or the success message is called anyway

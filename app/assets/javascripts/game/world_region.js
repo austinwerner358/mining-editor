@@ -1,10 +1,45 @@
-function Region(b, f) {
-  this.gameRoot = b;
-  this.worldName = f;
+function Region(gameRoot, worldName) {
+  this.gameRoot = gameRoot;
+  this.worldName = worldName;
   this.region = [];
   this.localIChunk = [];
   this.rchunk = [];
-  this.iChunk = 0
+  this.iChunk = 0;
+  // TODO: potentially turn this into multiple steps and add error handling (such as setting assigning a file url instead)
+  this.loadFileLoadingThreadCodeUrl = window.URL.createObjectURL(new Blob([ "self.addEventListener('message', (function(e) {\
+    var regionData, x, y, xhr;\
+    x = e.data.x;\
+    y = e.data.y;\
+    if (!e.data.local) {\
+      xhr = new XMLHttpRequest;\
+      xhr.open('GET', e.data.name, false);\
+      xhr.responseType = 'arraybuffer';\
+      try {\
+        xhr.send();\
+      } catch (_error) {\
+        e = _error;\
+        self.postMessage({\
+          loaded: 0,\
+          x: x,\
+          y: y\
+        });\
+        self.close();\
+        return;\
+      }\
+      regionData = new Uint8Array(xhr.response);\
+    } else {\
+      regionData = new Uint8Array(e.data.region);\
+    }\
+    self.postMessage({\
+      loaded: 1,\
+      x: x,\
+      y: y,\
+      data: regionData.buffer\
+    }, [regionData.buffer]);\
+    self.close();\
+  }), false);"], { type: 'application/javascript' } ));
+  // NOTE: if a deconstructor is made for the Region object, move this blob to a global context or deallocate with the following
+  // window.URL.revokeObjectURL(loadFileLoadingThreadCodeUrl);
 }
 
 Region.prototype.updateChunks = function() {

@@ -1,37 +1,3 @@
-var threadsCode = []; // TODO: potentially change threadsCode to explicit method instead of string
-threadsCode.loadRegionThread = "self.addEventListener('message', (function(e) {\
-  var regionData, x, xhr, y;\
-  x = e.data.x;\
-  y = e.data.y;\
-  if (!e.data.local) {\
-    xhr = new XMLHttpRequest;\
-    xhr.open('GET', e.data.name, false);\
-    xhr.responseType = 'arraybuffer';\
-    try {\
-      xhr.send();\
-    } catch (_error) {\
-      e = _error;\
-      self.postMessage({\
-        loaded: 0,\
-        x: x,\
-        y: y\
-      });\
-      self.close();\
-      return;\
-    }\
-    regionData = new Uint8Array(xhr.response);\
-  } else {\
-    regionData = new Uint8Array(e.data.region);\
-  }\
-  self.postMessage({\
-    loaded: 1,\
-    x: x,\
-    y: y,\
-    data: regionData.buffer\
-  }, [regionData.buffer]);\
-  self.close();\
-}), false);";
-
 String.prototype.equalsIgnoreCase = function(b) {
   return this.toUpperCase() === b.toUpperCase()
 };
