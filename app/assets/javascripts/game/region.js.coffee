@@ -450,12 +450,17 @@ Region::loadRegion = (x, y) ->
   return
 
 Region::loadLocalFile = (fileName, worker, x, y) ->
-  # TODO: error handle error cases (like missing region file or null file)
+  unless window.localFiles[fileName]
+    worker.terminate()
+    @regionLoadFailure(x, y, 'local file not found')
+    return
+  # NOTE: currently, reading the file is not done asynchronously, but triggering the regionLoaded method is
+  # TODO: make sure the file reader is properly deallocated
   reader = new FileReader
   reader.onloadend = (event) ->
     if event.target.readyState == FileReader.DONE
-      console.log event.target.result
       result = event.target.result
+      console.log result
       worker.postMessage
         x: x
         y: y
