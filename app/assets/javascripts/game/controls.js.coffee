@@ -73,6 +73,9 @@ Controls::keyDown = (event) ->
         executeJS()
       when keyMap.clearStorage
         window.localStorage.clear()
+      when keyMap.reloadBlockConfig
+        window.initBlocks()
+        window.mcWorld.updateChunks()
       when keyMap.changeCamera
         switch window.camera.name
           when 'CameraGhost'

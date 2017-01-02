@@ -21,5 +21,6 @@ KeyMap = ->
   @executeJavaScript = 72
   @clearStorage = 73
   @changeCamera = 86
+  @reloadBlockConfig = 75
 
 window.keyMap = new KeyMap

@@ -20,6 +20,7 @@ window.webGLStart = ->
   gluu.gl.blendFunc gluu.gl.SRC_ALPHA, gluu.gl.ONE_MINUS_SRC_ALPHA
   gluu.gl.enable gluu.gl.DEPTH_TEST
   gluu.initTextures()
+  window.blockConfigLoaded = false
   window.initBlocks()
   #### Init Camera ####
   console.log(settings.cameraType)

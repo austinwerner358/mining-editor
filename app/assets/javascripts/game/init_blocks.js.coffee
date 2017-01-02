@@ -4,7 +4,62 @@ window.initBlocks = ->
   window.textureConfig = JSON.parse(window.settings.readTxt('game/config/textures.json'))
   console.log('Texture config:')
   console.log window.textureConfig
-  window.blockConfig = JSON.parse(window.settings.readTxt('game/config/blocks.json'))
+  if window.blockConfigLoaded
+    window.blockConfig = JSON.parse(window.settings.readTxt('game/config/blocks.json'))
+  else
+    window.blockConfig = {
+      "0": {
+          "mask": "0x00",
+          "type": 0,
+          "0": {
+              "shapeType": 0,
+              "drawLevel": 0,
+              "useBiomeColor": 0
+          }
+      },
+      "1": {
+          "mask": "0x00",
+          "type": 1,
+          "0": {
+              "name": "Stone",
+              "drawLevel": 0,
+              "shapeType": 1,
+              "useBiomeColor": 0,
+              "shapeName": "simpleBlock",
+              "defaultTexture": "stone.png"
+          }
+      },
+      "2": {
+          "mask": "0x00",
+          "type": 1,
+          "0": {
+              "name": "Grass",
+              "drawLevel": 0,
+              "shapeType": 4,
+              "useBiomeColor": 1,
+              "shapeName": "dirtBlock",
+              "defaultTexture": "grass_side.png",
+              "top": "grass_top.png",
+              "front2": "grass_side_overlay.png",
+              "back2": "grass_side_overlay.png",
+              "left2": "grass_side_overlay.png",
+              "right2": "grass_side_overlay.png",
+              "bottom": "dirt.png"
+          },
+          "1": {
+              "hidden": true,
+              "name": "Snow Grass",
+              "drawLevel": 0,
+              "shapeType": 1,
+              "useBiomeColor": 0,
+              "shapeName": "simpleBlock",
+              "defaultTexture": "grass_side_snowed.png",
+              "bottom": "dirt.png",
+              "top": "snow.png"
+          }
+      }
+    }
+  window.blockConfigLoaded = true
   console.log('Block config:')
   console.log(window.blockConfig)
   # TODO: have block source be based on url param
