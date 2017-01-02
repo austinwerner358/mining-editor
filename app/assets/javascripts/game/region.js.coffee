@@ -420,7 +420,7 @@ WorldRegion::save = ->
 #   d or b.init2()
 #   return
 
-WorldRegion::loadFile = (x, y) ->
+WorldRegion::loadFile = (region_x, region_y) ->
   alert('Web workers are undefined in this browser; can not load region files.') unless typeof(Worker)
   # Create new worker with url of shared Blob code (or file reference).
   worker = new Worker(@loadFileLoadingThreadCodeUrl)
@@ -431,27 +431,27 @@ WorldRegion::loadFile = (x, y) ->
   worker.onerror = (event) =>
     alert('REGION LOADING WORKER ERROR')
     console.error(event)
-    @regionLoadFailure(x, y, message)
+    @regionLoadFailure(region_x, region_y, message)
     return
   worker
 
-WorldRegion::loadRegion = (x, y) ->
-  worker = @loadFile(x, y)
-  @worldRegionData[1e3 * x + y] = {}
-  @worldRegionData[1e3 * x + y].loaded = -2
-  fileName = "r.#{x}.#{y}.mca"
+WorldRegion::loadRegion = (region_x, region_y) ->
+  worker = @loadFile(region_x, region_y)
+  @worldRegionData[1e3 * region_x + region_y] = {}
+  @worldRegionData[1e3 * region_x + region_y].loaded = -2
+  fileName = "r.#{region_x}.#{region_y}.mca"
   console.log fileName
   console.log "Using local files: #{settings.local}"
   if window.settings.local
-    @loadLocalFile fileName, worker, x, y
+    @loadLocalFile fileName, worker, region_x, region_y
   else
-    @loadFileFromServer fileName, worker, x, y
+    @loadFileFromServer fileName, worker, region_x, region_y
   return
 
-WorldRegion::loadLocalFile = (fileName, worker, x, y) ->
+WorldRegion::loadLocalFile = (fileName, worker, region_x, region_y) ->
   unless window.localFiles[fileName]
     worker.terminate()
-    @regionLoadFailure(x, y, 'local file not found')
+    @regionLoadFailure(region_x, region_y, 'local file not found')
     return
   # NOTE: currently, reading the file is not done asynchronously, but triggering the regionLoaded method is
   # TODO: make sure the file reader is properly deallocated
@@ -461,8 +461,8 @@ WorldRegion::loadLocalFile = (fileName, worker, x, y) ->
       result = event.target.result
       console.log result
       worker.postMessage
-        x: x
-        y: y
+        x: region_x
+        y: region_y
         local: window.settings.local
         region: result
     return
@@ -470,7 +470,7 @@ WorldRegion::loadLocalFile = (fileName, worker, x, y) ->
   reader.readAsArrayBuffer window.localFiles[fileName]
   return
 
-WorldRegion::loadFileFromServer = (fileName, worker, x, y) ->
+WorldRegion::loadFileFromServer = (fileName, worker, region_x, region_y) ->
   path = @gameRoot + '/' + @worldName + '/region/' + fileName
   baseURL = ''
   if -1 == @gameRoot.indexOf(':')
@@ -479,79 +479,80 @@ WorldRegion::loadFileFromServer = (fileName, worker, x, y) ->
     -1 != i and (baseURL = baseURL.substring(0, i))
   console.log baseURL + path
   worker.postMessage
-    x: x
-    y: y
+    x: region_x
+    y: region_y
     local: window.settings.local
     name: baseURL + path
   return
 
-WorldRegion::regionLoadFailure = (x, y, message) ->
+WorldRegion::regionLoadFailure = (region_x, region_y, message) ->
   # TODO: find more aspects that need to be handled if any
-  console.log "REGION r.#{x}.#{y}.mca FAILED TO LOAD: #{message}"
-  @worldRegionData[1e3 * x + y].loaded = -1
+  console.log "REGION r.#{region_x}.#{region_y}.mca FAILED TO LOAD: #{message}"
+  @worldRegionData[1e3 * region_x + region_y].loaded = -1
   return
 
 WorldRegion::regionLoaded = (event) ->
-  x = event.data.x
-  y = event.data.y
+  region_x = event.data.x
+  region_y = event.data.y
   if 1 != event.data.loaded
-    @regionLoadFailure(x, y, event.data.error)
+    @regionLoadFailure(region_x, region_y, event.data.error)
   else
     buffer = new Uint8Array(event.data.data)
     if 1e3 > buffer.length
-      @regionLoadFailure(x, y, "buffer too short (BUFFER length #{buffer.length})")
+      @regionLoadFailure(region_x, region_y, "buffer too short (BUFFER length #{buffer.length})")
     else
-      console.log "REGION r.#{x}.#{y}.mca LOADED"
-      loadedRegion = @worldRegionData[1e3 * x + y]
+      console.log "REGION r.#{region_x}.#{region_y}.mca LOADED"
+      loadedRegion = @worldRegionData[1e3 * region_x + region_y]
       loadedRegion.regionData = buffer
       loadedRegion.loaded = 0
+      # Only the chunk data (and size/length of chunk) is loaded in this method; the header (chunk offset data and timestamps) is kept in the raw buffer.
       loadedRegion.chunkPos = []
       loadedRegion.chunkLen = []
+      # There are up to 4096 chunks in a region file.
       chunk_offset = 0
+      # The buffer_offset is 4 times the chunk_offset because each chunk has 4 bytes of data in the first half of the header.
       buffer_offset = 0
       while 4096 > buffer_offset
+        # Retrieve a chunk by finding its offset (stored in 3 bytes with big-endian format).
         loadedRegion.chunkPos[chunk_offset] = 65536 * buffer[buffer_offset] + 256 * buffer[buffer_offset + 1] + buffer[buffer_offset + 2]
+        # The fourth byte at this chunk_offset holds the length of the chunk (chunk length always less than 1MiB).
         loadedRegion.chunkLen[chunk_offset] = buffer[buffer_offset + 3]
         buffer_offset += 4
         chunk_offset++
   return
 
-# WorldRegion::requestChunk = (b, f) ->
-#   `var d`
-#   d = undefined
-#   c = undefined
-#   d = undefined
-#   e = undefined
-#   l = undefined
-#   m = undefined
-#   c = 1e4 * b + f
-#   if undefined != @rchunk[c]
-#     return @rchunk[c]
-#   if 1 != @localIChunk[c]
-#     d = -1
-#     @localIChunk[c] = 1
-#     if -1 != (d = @loadChunkFromStorage(b, f, !0))
-#       return @rchunk[c] = d
-#   d = Math.floor(b / 32)
-#   e = Math.floor(f / 32)
-#   undefined == @worldRegionData[1e3 * d + e] and @loadRegion(d, e)
-#   if -1 == @worldRegionData[1e3 * d + e].loaded
-#     return @rchunk[c] = -1
-#   if -2 == @worldRegionData[1e3 * d + e].loaded
-#     return -2
-#   if 0 == @worldRegionData[1e3 * d + e].loaded
-#     m = b % 32
-#     0 > m and (m += 32)
-#     l = f % 32
-#     0 > l and (l += 32)
-#     m += 32 * l
-#     if 0 < @worldRegionData[1e3 * d + e].chunkPos[m]
-#       console.log 'chunk ' + c + ' : ' + @worldRegionData[1e3 * d + e].chunkPos[m] + ' ' + @worldRegionData[1e3 * d + e].chunkLen[m]
-#       @iChunk++
-#       @rchunk[c] = @loadChunk(4096 * @worldRegionData[1e3 * d + e].chunkPos[m], @worldRegionData[1e3 * d + e].regionData, !0)
-#       return @rchunk[c]
-#     @rchunk[c] = -1
-#   return
+WorldRegion::requestChunk = (player_x, player_y) ->
+  # Input player coordinates (as opposed to region or chunk coordinates).
+  chunk_index = 1e4 * player_x + player_y
+  if undefined != @rchunk[chunk_index]
+    return @rchunk[chunk_index]
+  if 1 != @localIChunk[chunk_index]
+    # TODO: refactor this section
+    chunk_state = -1
+    @localIChunk[chunk_index] = 1
+    if -1 != (chunk_state = @loadChunkFromStorage(player_x, player_y, !0))
+      return @rchunk[chunk_index] = chunk_state
+  region_x = Math.floor(player_x / 32)
+  region_y = Math.floor(player_y / 32)
+  undefined == @worldRegionData[1e3 * region_x + region_y] and @loadRegion(region_x, region_y)
+  if -1 == @worldRegionData[1e3 * region_x + region_y].loaded
+    return @rchunk[chunk_index] = -1
+  if -2 == @worldRegionData[1e3 * region_x + region_y].loaded
+    return -2
+  if 0 == @worldRegionData[1e3 * region_x + region_y].loaded
+    chunk_x = player_x % 32
+    0 > chunk_x and (chunk_x += 32)
+    chunk_y = player_y % 32
+    0 > chunk_y and (chunk_y += 32)
+    # The chunk_offset is the position (out of 4096) of the chunk in the region file.
+    chunk_offset = chunk_x + 32 * chunk_y
+    if 0 < @worldRegionData[1e3 * region_x + region_y].chunkPos[chunk_offset]
+      # console.log('chunk #: ' + chunk_index + ' : ' + this.worldRegionData[1e3 * region_x + region_y].chunkPos[chunk_offset] + ' ' + this.worldRegionData[1e3 * region_x + region_y].chunkLen[chunk_offset]);
+      @iChunk++
+      @rchunk[chunk_index] = WorldRegion.loadChunk(4096 * @worldRegionData[1e3 * region_x + region_y].chunkPos[chunk_offset], @worldRegionData[1e3 * region_x + region_y].regionData, !0)
+      return @rchunk[chunk_index]
+    @rchunk[chunk_index] = -1
+  return
 
 # WorldRegion::loadChunk = (b, f, c) ->
 #   d = {}

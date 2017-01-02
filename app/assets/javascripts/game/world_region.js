@@ -299,44 +299,6 @@ WorldRegion.prototype.loadChunkFromStorage = function(b, f, c) {
 //   var e, m;
 //   for (e = 0, m = 0; 4096 > e; e += 4, m++) b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2], b.chunkLen[m] = c[e + 3]
 // };
-WorldRegion.prototype.requestChunk = function(b, f) {
-  var d;
-  var c, d, e, l, m;
-  c = 1e4 * b + f;
-  if (void 0 !== this.rchunk[c]) {
-    return this.rchunk[c];
-  }
-  if (1 !== this.localIChunk[c]) {
-    d = -1;
-    this.localIChunk[c] = 1;
-    if (-1 !== (d = this.loadChunkFromStorage(b, f, !0))) {
-      return this.rchunk[c] = d;
-    }
-  }
-  d = Math.floor(b / 32);
-  e = Math.floor(f / 32);
-  void 0 === this.worldRegionData[1e3 * d + e] && this.loadRegion(d, e);
-  if (-1 === this.worldRegionData[1e3 * d + e].loaded) {
-    return this.rchunk[c] = -1;
-  }
-  if (-2 === this.worldRegionData[1e3 * d + e].loaded) {
-    return -2;
-  }
-  if (0 === this.worldRegionData[1e3 * d + e].loaded) {
-    m = b % 32;
-    0 > m && (m += 32);
-    l = f % 32;
-    0 > l && (l += 32);
-    m += 32 * l;
-    if (0 < this.worldRegionData[1e3 * d + e].chunkPos[m]) {
-      // console.log('chunk ' + c + ' : ' + this.worldRegionData[1e3 * d + e].chunkPos[m] + ' ' + this.worldRegionData[1e3 * d + e].chunkLen[m]);
-      this.iChunk++;
-      this.rchunk[c] = WorldRegion.loadChunk(4096 * this.worldRegionData[1e3 * d + e].chunkPos[m], this.worldRegionData[1e3 * d + e].regionData, !0);
-      return this.rchunk[c];
-    }
-    this.rchunk[c] = -1;
-  }
-};
 WorldRegion.loadChunk = function(b, f, c) {
   var d = {},
     e = new Chunk;

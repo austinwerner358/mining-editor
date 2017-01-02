@@ -4,7 +4,7 @@ window.initBlocks = ->
   window.textureConfig = JSON.parse(window.settings.readTxt('game/config/textures.json'))
   console.log('Texture config:')
   console.log window.textureConfig
-  if window.blockConfigLoaded
+  if true # window.blockConfigLoaded
     window.blockConfig = JSON.parse(window.settings.readTxt('game/config/blocks.json'))
   else
     window.blockConfig = {
