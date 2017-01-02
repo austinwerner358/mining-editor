@@ -53,7 +53,7 @@ window.webGLStart = ->
   window.camera = camera
   window.firstTime = (new Date).getTime()
   window.lastTime = (new Date).getTime()
-  window.mcWorld = new Region(settings.gameRoot, settings.worldName)
+  window.mcWorld = new WorldRegion(settings.gameRoot, settings.worldName)
   h_u_d.gameStateHtml = document.getElementById('game-state')
   #### Remove Overlay ####
   document.getElementById('worldSelectOverlay').style.visibility = 'hidden';

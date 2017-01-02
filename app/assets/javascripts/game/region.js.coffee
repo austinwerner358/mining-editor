@@ -1,20 +1,20 @@
-# Region = ->
+# WorldRegion = ->
 #   @gameRoot = undefined
 #   @worldName = undefined
-#   @region = []
+#   @worldRegionData = []
 #   @localIChunk = []
 #   @rchunk = []
 #   @iChunk = 0
 #   return
 
-# window.mcWorld = new Region
+# window.mcWorld = new WorldRegion
 
-# Region::initRegion = (b,f) ->
+# WorldRegion::initRegion = (b,f) ->
 #   @gameRoot = b
 #   @worldName = f
 #   return
 
-Region::getChunkBlock = (b, f, c, d, e) ->
+WorldRegion::getChunkBlock = (b, f, c, d, e) ->
   b = 1e4 * b + f
   if undefined != @rchunk[b]
     @rchunk[b].getBlock(c, d, e)
@@ -22,7 +22,7 @@ Region::getChunkBlock = (b, f, c, d, e) ->
     id: 0
     data: 0
 
-Region::getBlock = (b, f, c) ->
+WorldRegion::getBlock = (b, f, c) ->
   d = Math.floor(b / 16)
   e = Math.floor(c / 16)
   m = 1e4 * d + e
@@ -36,13 +36,13 @@ Region::getBlock = (b, f, c) ->
     id: 0
     data: 0
 
-Region::updateChunkBlock = (b, f, c, d, e, m, l) ->
+WorldRegion::updateChunkBlock = (b, f, c, d, e, m, l) ->
   b = 1e4 * b + f
   if undefined != @rchunk[b]
     @rchunk[b].updateBlock c, d, e, m, l
   return
 
-Region::updateBlock = (b, f, c, d, e) ->
+WorldRegion::updateBlock = (b, f, c, d, e) ->
   m = Math.floor(b / 16)
   l = Math.floor(c / 16)
   p = 1e4 * m + l
@@ -53,7 +53,7 @@ Region::updateBlock = (b, f, c, d, e) ->
   @rchunk[p].updateBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e)
   return
 
-Region::setBlock = (b, f, c, d, e) ->
+WorldRegion::setBlock = (b, f, c, d, e) ->
   m = Math.floor(b / 16)
   l = Math.floor(c / 16)
   p = 1e4 * m + l
@@ -64,12 +64,12 @@ Region::setBlock = (b, f, c, d, e) ->
   @rchunk[p].setBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e)
   return
 
-Region::changeChunkBlockAdd = (b, f, c, d, e) ->
+WorldRegion::changeChunkBlockAdd = (b, f, c, d, e) ->
   b = 1e4 * b + f
   undefined != @rchunk[b] and @rchunk[b].changeAdd(c, d, e)
   return
 
-# Region::updateChunks = ->
+# WorldRegion::updateChunks = ->
 #   b = (new Date).getTime()
 #   f = 0
 #   c = undefined
@@ -80,7 +80,7 @@ Region::changeChunkBlockAdd = (b, f, c, d, e) ->
 #   console.log 'update chunk ' + c - b + ' ' + f
 #   return
 
-# Region::deleteBuffers = ->
+# WorldRegion::deleteBuffers = ->
 #   b = (new Date).getTime()
 #   f = 0
 #   c = undefined
@@ -92,7 +92,7 @@ Region::changeChunkBlockAdd = (b, f, c, d, e) ->
 #   console.log 'delete buffers ' + c - b + ' ' + f
 #   return
 
-# Region::render = ->
+# WorldRegion::render = ->
 #   `var v`
 #   `var f`
 #   `var d`
@@ -217,7 +217,7 @@ Region::changeChunkBlockAdd = (b, f, c, d, e) ->
 #       A++
 #   return
 
-# Region::renderSelection = ->
+# WorldRegion::renderSelection = ->
 #   `var f`
 #   f = undefined
 #   b = undefined
@@ -307,7 +307,7 @@ Region::changeChunkBlockAdd = (b, f, c, d, e) ->
 #     return b
 #   return
 
-Region::testCollisions = ->
+WorldRegion::testCollisions = ->
   `var p`
   `var d`
   d = undefined
@@ -353,14 +353,14 @@ Region::testCollisions = ->
   else
     !1
 
-Region::save = ->
+WorldRegion::save = ->
   for b,v of @rchunk
     if undefined != @rchunk[b] and -1 != @rchunk[b] and -2 != @rchunk[b] and @rchunk[b].changed
       mcWorld.saveChunkToStorage(@rchunk[b].xPos, @rchunk[b].zPos)
       @rchunk[b].changed = !1
   return
 
-# Region::saveChunkToStorage = (b, f) ->
+# WorldRegion::saveChunkToStorage = (b, f) ->
 #   `var c`
 #   `var d`
 #   c = 1e4 * b + f
@@ -382,14 +382,14 @@ Region::save = ->
 #     window.localStorage.setItem @gameRoot + ' ' + @worldName + ' ' + b + ' ' + f, d
 #   return
 
-# Region::getChunkFromStorage = (b, f) ->
+# WorldRegion::getChunkFromStorage = (b, f) ->
 #   c = window.localStorage.getItem(@gameRoot + ' ' + @worldName + ' ' + b + ' ' + f)
 #   if undefined == c or null == c or '' == c
 #     return -1
 #   c = new Uint8Array(str2ab(c))
 #   @loadChunk 0, c, !0
 
-# Region::loadChunkFromStorage = (b, f, c) ->
+# WorldRegion::loadChunkFromStorage = (b, f, c) ->
 #   d = mcWorld.getChunkFromStorage(b, f)
 #   if -1 == d
 #     return -1
@@ -420,7 +420,7 @@ Region::save = ->
 #   d or b.init2()
 #   return
 
-Region::loadFile = (x, y) ->
+WorldRegion::loadFile = (x, y) ->
   alert('Web workers are undefined in this browser; can not load region files.') unless typeof(Worker)
   # Create new worker with url of shared Blob code (or file reference).
   worker = new Worker(@loadFileLoadingThreadCodeUrl)
@@ -435,10 +435,10 @@ Region::loadFile = (x, y) ->
     return
   worker
 
-Region::loadRegion = (x, y) ->
+WorldRegion::loadRegion = (x, y) ->
   worker = @loadFile(x, y)
-  @region[1e3 * x + y] = {}
-  @region[1e3 * x + y].loaded = -2
+  @worldRegionData[1e3 * x + y] = {}
+  @worldRegionData[1e3 * x + y].loaded = -2
   fileName = "r.#{x}.#{y}.mca"
   console.log fileName
   console.log "Using local files: #{settings.local}"
@@ -448,7 +448,7 @@ Region::loadRegion = (x, y) ->
     @loadFileFromServer fileName, worker, x, y
   return
 
-Region::loadLocalFile = (fileName, worker, x, y) ->
+WorldRegion::loadLocalFile = (fileName, worker, x, y) ->
   unless window.localFiles[fileName]
     worker.terminate()
     @regionLoadFailure(x, y, 'local file not found')
@@ -470,7 +470,7 @@ Region::loadLocalFile = (fileName, worker, x, y) ->
   reader.readAsArrayBuffer window.localFiles[fileName]
   return
 
-Region::loadFileFromServer = (fileName, worker, x, y) ->
+WorldRegion::loadFileFromServer = (fileName, worker, x, y) ->
   path = @gameRoot + '/' + @worldName + '/region/' + fileName
   baseURL = ''
   if -1 == @gameRoot.indexOf(':')
@@ -485,13 +485,13 @@ Region::loadFileFromServer = (fileName, worker, x, y) ->
     name: baseURL + path
   return
 
-Region::regionLoadFailure = (x, y, message) ->
+WorldRegion::regionLoadFailure = (x, y, message) ->
   # TODO: find more aspects that need to be handled if any
   console.log "REGION r.#{x}.#{y}.mca FAILED TO LOAD: #{message}"
-  @region[1e3 * x + y].loaded = -1
+  @worldRegionData[1e3 * x + y].loaded = -1
   return
 
-Region::regionLoaded = (event) ->
+WorldRegion::regionLoaded = (event) ->
   x = event.data.x
   y = event.data.y
   if 1 != event.data.loaded
@@ -502,7 +502,7 @@ Region::regionLoaded = (event) ->
       @regionLoadFailure(x, y, "buffer too short (BUFFER length #{buffer.length})")
     else
       console.log "REGION r.#{x}.#{y}.mca LOADED"
-      loadedRegion = @region[1e3 * x + y]
+      loadedRegion = @worldRegionData[1e3 * x + y]
       loadedRegion.regionData = buffer
       loadedRegion.loaded = 0
       loadedRegion.chunkPos = []
@@ -516,7 +516,7 @@ Region::regionLoaded = (event) ->
         chunk_offset++
   return
 
-# Region::requestChunk = (b, f) ->
+# WorldRegion::requestChunk = (b, f) ->
 #   `var d`
 #   d = undefined
 #   c = undefined
@@ -534,26 +534,26 @@ Region::regionLoaded = (event) ->
 #       return @rchunk[c] = d
 #   d = Math.floor(b / 32)
 #   e = Math.floor(f / 32)
-#   undefined == @region[1e3 * d + e] and @loadRegion(d, e)
-#   if -1 == @region[1e3 * d + e].loaded
+#   undefined == @worldRegionData[1e3 * d + e] and @loadRegion(d, e)
+#   if -1 == @worldRegionData[1e3 * d + e].loaded
 #     return @rchunk[c] = -1
-#   if -2 == @region[1e3 * d + e].loaded
+#   if -2 == @worldRegionData[1e3 * d + e].loaded
 #     return -2
-#   if 0 == @region[1e3 * d + e].loaded
+#   if 0 == @worldRegionData[1e3 * d + e].loaded
 #     m = b % 32
 #     0 > m and (m += 32)
 #     l = f % 32
 #     0 > l and (l += 32)
 #     m += 32 * l
-#     if 0 < @region[1e3 * d + e].chunkPos[m]
-#       console.log 'chunk ' + c + ' : ' + @region[1e3 * d + e].chunkPos[m] + ' ' + @region[1e3 * d + e].chunkLen[m]
+#     if 0 < @worldRegionData[1e3 * d + e].chunkPos[m]
+#       console.log 'chunk ' + c + ' : ' + @worldRegionData[1e3 * d + e].chunkPos[m] + ' ' + @worldRegionData[1e3 * d + e].chunkLen[m]
 #       @iChunk++
-#       @rchunk[c] = @loadChunk(4096 * @region[1e3 * d + e].chunkPos[m], @region[1e3 * d + e].regionData, !0)
+#       @rchunk[c] = @loadChunk(4096 * @worldRegionData[1e3 * d + e].chunkPos[m], @worldRegionData[1e3 * d + e].regionData, !0)
 #       return @rchunk[c]
 #     @rchunk[c] = -1
 #   return
 
-# Region::loadChunk = (b, f, c) ->
+# WorldRegion::loadChunk = (b, f, c) ->
 #   d = {}
 #   e = new Chunk
 #   d.offset = 0
@@ -588,7 +588,7 @@ Region::regionLoaded = (event) ->
 #   undefined == e.heightMap and e.initHeightMap()
 #   e
 
-# Region::readSections = (b, f, c) ->
+# WorldRegion::readSections = (b, f, c) ->
 #   d = undefined
 #   e = undefined
 #   m = undefined
