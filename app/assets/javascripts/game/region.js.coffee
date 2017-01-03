@@ -513,7 +513,7 @@ WorldRegion::regionLoaded = (event) ->
       # The buffer_offset is 4 times the chunk_offset because each chunk has 4 bytes of data in the first half of the header.
       buffer_offset = 0
       while 4096 > buffer_offset
-        # Retrieve a chunk by finding its offset (stored in 3 bytes with big-endian format).
+        # Retrieve the position of the first byte of the chunk by finding its offset (stored in 3 bytes with big-endian format).
         loadedRegion.chunkPos[chunk_offset] = 65536 * buffer[buffer_offset] + 256 * buffer[buffer_offset + 1] + buffer[buffer_offset + 2]
         # The fourth byte at this chunk_offset holds the length of the chunk (chunk length always less than 1MiB).
         loadedRegion.chunkLen[chunk_offset] = buffer[buffer_offset + 3]
@@ -554,40 +554,40 @@ WorldRegion::requestChunk = (player_x, player_y) ->
     @rchunk[chunk_index] = -1
   return
 
-# WorldRegion::loadChunk = (b, f, c) ->
-#   d = {}
-#   e = new Chunk
-#   d.offset = 0
-#   try
-#     if c
-#       m = new (Zlib.Inflate)(f, index: b + 5)
-#       d.data = m.decompress()
-#     else
-#       d.data = f
-#   catch l
-#     console.log('fail')
-#     return -1
-#   f = 0
-#   while 2e3 > f and -1 != (b = window.NBT.nextTag(d))
-#     switch b.name
-#       when 'xPos'
-#         e.xPos = b.value
-#       when 'zPos'
-#         e.zPos = b.value
-#       when 'HeightMap'
-#         e.heightMap = b.data
-#       when 'Biomes'
-#         e.biomes = b.data
-#       when 'LightPopulated'
-#         e.lightPopulated = b.value
-#       when 'Sections'
-#         @readSections b, e, d
-#         f++
-#         continue
-#     9 == b.type and window.NBT.read9(b, e, d)
-#     f++
-#   undefined == e.heightMap and e.initHeightMap()
-#   e
+WorldRegion.loadChunk = (chunk_pos, regionData, compressed) ->
+  chunk_data = {}
+  new_chunk = new Chunk
+  chunk_data.offset = 0
+  try
+    if compressed
+      m = new (Zlib.Inflate)(regionData, index: chunk_pos + 5)
+      chunk_data.data = m.decompress()
+    else
+      chunk_data.data = regionData
+  catch l
+    console.error('Zlib failed to decompress chunk_data')
+    return -1
+  i = 0
+  while 2e3 > i and -1 != (key_pair = NBT.nextTag(chunk_data))
+    switch key_pair.name
+      when 'xPos'
+        new_chunk.xPos = key_pair.value
+      when 'zPos'
+        new_chunk.zPos = key_pair.value
+      when 'HeightMap'
+        new_chunk.heightMap = key_pair.data
+      when 'Biomes'
+        new_chunk.biomes = key_pair.data
+      when 'LightPopulated'
+        new_chunk.lightPopulated = key_pair.value
+      when 'Sections'
+        WorldRegion.readSections key_pair, new_chunk, chunk_data
+        i++
+        continue
+    NBT.read9(key_pair, new_chunk, chunk_data) if 9 == key_pair.type
+    i++
+    new_chunk.initHeightMap() if new_chunk.heightMap
+  new_chunk
 
 # WorldRegion::readSections = (b, f, c) ->
 #   d = undefined

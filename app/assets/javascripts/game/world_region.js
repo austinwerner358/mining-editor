@@ -299,48 +299,6 @@ WorldRegion.prototype.loadChunkFromStorage = function(b, f, c) {
 //   var e, m;
 //   for (e = 0, m = 0; 4096 > e; e += 4, m++) b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2], b.chunkLen[m] = c[e + 3]
 // };
-WorldRegion.loadChunk = function(b, f, c) {
-  var d = {},
-    e = new Chunk;
-  d.offset = 0;
-  try {
-    if (c) {
-      var m = new Zlib.Inflate(f, {
-        index: b + 5
-      });
-      d.data = m.decompress()
-    } else d.data = f
-  } catch (l) {
-    return console.log("fail"), -1
-  }
-  for (f = 0; 2e3 > f && -1 !== (b = NBT.nextTag(d)); f++) {
-    switch (b.name) {
-      case "xPos":
-        e.xPos = b.value;
-        break;
-      case "zPos":
-        e.zPos = b.value;
-        break;
-      case "HeightMap":
-        e.heightMap = b.data;
-        break;
-      case "Biomes":
-        e.biomes = b.data;
-        break;
-      case "LightPopulated":
-        e.lightPopulated = b.value;
-        break;
-      case "Sections":
-        WorldRegion.readSections(b, e, d);
-        continue
-        break;
-    }
-    9 ===
-      b.type && NBT.read9(b, e, d)
-  }
-  void 0 === e.heightMap && e.initHeightMap();
-  return e
-};
 WorldRegion.readSections = function(b, f, c) {
   var d, e, m;
   for (d = {}, m = 0; m < b.length && -1 !== (e = NBT.nextTag(c));) {
