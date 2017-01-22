@@ -5,7 +5,7 @@ function WorldRegion(gameRoot, worldName) {
   this.localIChunk = [];
   this.rchunk = [];
   this.iChunk = 0;
-  // TODO: potentially turn these thread code objects into multiple steps and add error handling (such as setting assigning a file url instead)
+  // TODO: potentially turn the thread code object into multiple steps and add error handling (such as setting assigning a file url instead)
   this.threadCodeBlobUrlForServerFile = window.URL.createObjectURL(new Blob([ "self.addEventListener('message', (function(e) {\
     var regionData, xhr;\
     xhr = new XMLHttpRequest;\
@@ -32,17 +32,7 @@ function WorldRegion(gameRoot, worldName) {
     }, [regionData.buffer]);\
     self.close();\
   }), false);"], { type: 'application/javascript' } ));
-  this.threadCodeBlobUrlForLocalFile = window.URL.createObjectURL(new Blob([ "self.addEventListener('message', (function(e) {\
-    var regionData = new Uint8Array(e.data.region);\
-    self.postMessage({\
-      loaded: 1,\
-      x: e.data.x,\
-      y: e.data.y,\
-      data: regionData.buffer\
-    }, [regionData.buffer]);\
-    self.close();\
-  }), false);"], { type: 'application/javascript' } ));
-  // NOTE: if a deconstructor is made for the WorldRegion object, move the blob objects to a global context or deallocate with the following
+  // NOTE: if a deconstructor is made for the WorldRegion object, move the blob object to a global context or deallocate with the following
   // window.URL.revokeObjectURL(loadFileLoadingThreadCodeUrl);
 }
 

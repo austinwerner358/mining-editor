@@ -442,27 +442,30 @@ WorldRegion::loadRegion = (region_x, region_y) ->
   console.log fileName
   console.log "Using local files: #{settings.local}"
   if window.settings.local
-    @loadRegionFromLocal fileName, region_x, region_y, @loadFile(region_x, region_y, @threadCodeBlobUrlForLocalFile)
+    @loadRegionFromLocal fileName, region_x, region_y
   else
     @loadRegionFromServer fileName, region_x, region_y, @loadFile(region_x, region_y, @threadCodeBlobUrlForServerFile)
   return
 
-WorldRegion::loadRegionFromLocal = (fileName, region_x, region_y, worker) ->
+WorldRegion::loadRegionFromLocal = (fileName, region_x, region_y) ->
   unless window.localFiles[fileName]
-    worker.terminate()
     @regionLoadFailure(region_x, region_y, 'local file not found')
     return
-  # NOTE: currently, reading the file is not done asynchronously, but triggering the regionLoaded method is
   # TODO: make sure the file reader is properly deallocated
+  # TODO: implement file loading fail callback
   reader = new FileReader
-  reader.onloadend = (event) ->
+  reader.onloadend = (event) =>
     if event.target.readyState == FileReader.DONE
       result = event.target.result
       console.log result
-      worker.postMessage
-        x: region_x
-        y: region_y
-        region: result
+      data = new Uint8Array(result).buffer
+      @regionLoaded({
+        data:
+          loaded: 1
+          x: region_x
+          y: region_y
+          data: data
+      })
     return
   console.log localFiles[fileName]
   reader.readAsArrayBuffer window.localFiles[fileName]
