@@ -67,11 +67,11 @@
     "url": true
 },
 "sun": {
-    "value": "1.0",
+    "value": "0.85",
     "url": true
 },
 "brightness": {
-    "value": "0.45",
+    "value": "0.35",
     "url": true
 },
 "worldShader": {

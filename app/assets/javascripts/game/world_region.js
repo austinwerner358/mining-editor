@@ -5,40 +5,44 @@ function WorldRegion(gameRoot, worldName) {
   this.localIChunk = [];
   this.rchunk = [];
   this.iChunk = 0;
-  // TODO: potentially turn this into multiple steps and add error handling (such as setting assigning a file url instead)
-  this.loadFileLoadingThreadCodeUrl = window.URL.createObjectURL(new Blob([ "self.addEventListener('message', (function(e) {\
-    var regionData, x, y, xhr;\
-    x = e.data.x;\
-    y = e.data.y;\
-    if (!e.data.local) {\
-      xhr = new XMLHttpRequest;\
-      xhr.open('GET', e.data.name, false);\
-      xhr.responseType = 'arraybuffer';\
-      xhr.send();\
-      if (xhr.status === 200) {\
-        regionData = new Uint8Array(xhr.response);\
-      } else {\
-        self.postMessage({\
-          loaded: 0,\
-          x: x,\
-          y: y,\
-          error: xhr.statusText\
-        });\
-        self.close();\
-        return;\
-      }\
+  // TODO: potentially turn these thread code objects into multiple steps and add error handling (such as setting assigning a file url instead)
+  this.threadCodeBlobUrlForServerFile = window.URL.createObjectURL(new Blob([ "self.addEventListener('message', (function(e) {\
+    var regionData, xhr;\
+    xhr = new XMLHttpRequest;\
+    xhr.open('GET', e.data.name, false);\
+    xhr.responseType = 'arraybuffer';\
+    xhr.send();\
+    if (xhr.status === 200) {\
+      regionData = new Uint8Array(xhr.response);\
     } else {\
-      regionData = new Uint8Array(e.data.region);\
+      self.postMessage({\
+        loaded: 0,\
+        x: e.data.x,\
+        y: e.data.y,\
+        error: xhr.statusText\
+      });\
+      self.close();\
+      return;\
     }\
     self.postMessage({\
       loaded: 1,\
-      x: x,\
-      y: y,\
+      x: e.data.x,\
+      y: e.data.y,\
       data: regionData.buffer\
     }, [regionData.buffer]);\
     self.close();\
   }), false);"], { type: 'application/javascript' } ));
-  // NOTE: if a deconstructor is made for the WorldRegion object, move this blob to a global context or deallocate with the following
+  this.threadCodeBlobUrlForLocalFile = window.URL.createObjectURL(new Blob([ "self.addEventListener('message', (function(e) {\
+    var regionData = new Uint8Array(e.data.region);\
+    self.postMessage({\
+      loaded: 1,\
+      x: e.data.x,\
+      y: e.data.y,\
+      data: regionData.buffer\
+    }, [regionData.buffer]);\
+    self.close();\
+  }), false);"], { type: 'application/javascript' } ));
+  // NOTE: if a deconstructor is made for the WorldRegion object, move the blob objects to a global context or deallocate with the following
   // window.URL.revokeObjectURL(loadFileLoadingThreadCodeUrl);
 }
 

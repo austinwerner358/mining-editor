@@ -420,10 +420,10 @@ WorldRegion::save = ->
 #   d or b.init2()
 #   return
 
-WorldRegion::loadFile = (region_x, region_y) ->
+WorldRegion::loadFile = (region_x, region_y, blobUrl) ->
   alert('Web workers are undefined in this browser; can not load region files.') unless typeof(Worker)
   # Create new worker with url of shared Blob code (or file reference).
-  worker = new Worker(@loadFileLoadingThreadCodeUrl)
+  worker = new Worker(blobUrl)
   # Instead of manually assigning references to the current context and relevant region, use => to give these callbacks the current context.
   worker.onmessage = (event) =>
     @regionLoaded event
@@ -436,19 +436,18 @@ WorldRegion::loadFile = (region_x, region_y) ->
   worker
 
 WorldRegion::loadRegion = (region_x, region_y) ->
-  worker = @loadFile(region_x, region_y)
   @worldRegionData[1e3 * region_x + region_y] = {}
   @worldRegionData[1e3 * region_x + region_y].loaded = -2
   fileName = "r.#{region_x}.#{region_y}.mca"
   console.log fileName
   console.log "Using local files: #{settings.local}"
   if window.settings.local
-    @loadLocalFile fileName, worker, region_x, region_y
+    @loadRegionFromLocal fileName, region_x, region_y, @loadFile(region_x, region_y, @threadCodeBlobUrlForLocalFile)
   else
-    @loadFileFromServer fileName, worker, region_x, region_y
+    @loadRegionFromServer fileName, region_x, region_y, @loadFile(region_x, region_y, @threadCodeBlobUrlForServerFile)
   return
 
-WorldRegion::loadLocalFile = (fileName, worker, region_x, region_y) ->
+WorldRegion::loadRegionFromLocal = (fileName, region_x, region_y, worker) ->
   unless window.localFiles[fileName]
     worker.terminate()
     @regionLoadFailure(region_x, region_y, 'local file not found')
@@ -463,14 +462,13 @@ WorldRegion::loadLocalFile = (fileName, worker, region_x, region_y) ->
       worker.postMessage
         x: region_x
         y: region_y
-        local: window.settings.local
         region: result
     return
   console.log localFiles[fileName]
   reader.readAsArrayBuffer window.localFiles[fileName]
   return
 
-WorldRegion::loadFileFromServer = (fileName, worker, region_x, region_y) ->
+WorldRegion::loadRegionFromServer = (fileName, region_x, region_y, worker) ->
   path = @gameRoot + '/' + @worldName + '/region/' + fileName
   baseURL = ''
   if -1 == @gameRoot.indexOf(':')
@@ -481,7 +479,6 @@ WorldRegion::loadFileFromServer = (fileName, worker, region_x, region_y) ->
   worker.postMessage
     x: region_x
     y: region_y
-    local: window.settings.local
     name: baseURL + path
   return
 
