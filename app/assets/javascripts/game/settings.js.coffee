@@ -35,7 +35,7 @@ Settings::initSettings = ->
   #### Set World Name ####
   @worldName = ''
   unless @local
-    @worldName = $('#worldName').val()
+    @worldName = document.getElementById('worldName').value
     if !@worldName
       @worldName = jsonSettings.worldName.value
     undefined != urlParams.worldName and jsonSettings.worldName.url and (@worldName = urlParams.worldName)
@@ -74,11 +74,11 @@ Settings::initSettings = ->
     0
   ]
   if document.contains(document.getElementById('local_x')) and @local
-    @pos[0] = parseInt($('#local_x').val()) if $('#local_x').val()
-    @pos[1] = parseInt($('#local_y').val()) if $('#local_y').val()
-    @pos[2] = parseInt($('#local_z').val()) if $('#local_z').val()
+    @pos[0] = parseInt(document.getElementById('local_x').value) if document.getElementById('local_x').value
+    @pos[1] = parseInt(document.getElementById('local_y').value) if document.getElementById('local_y').value
+    @pos[2] = parseInt(document.getElementById('local_z').value) if document.getElementById('local_z').value
   else
-    dbPos = $('#dbPos').val()
+    dbPos = document.getElementById('dbPos').value
     if !!dbPos
       # NOTE: currently unused
       @pos[0] = parseInt(dbPos.split('+')[0]) or @pos[0]

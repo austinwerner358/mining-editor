@@ -1,8 +1,5 @@
-// NOTE: including jquery, turbolinks, etcetera until they can be removed
 //
-//= require jquery
-//= require jquery_ujs
-//= require turbolinks
+// # TODO: work dependencies, so order of files loaded doesn't matter
 //
 //= require ./game/gluu_util_setup.js
 //= require ./game/world_chunk.js
