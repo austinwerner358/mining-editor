@@ -11,6 +11,7 @@ KeyMap = ->
   @arrowUp = 38
   @arrowRight = 39
   @arrowDown = 40
+  @centerSelf = 89
   @modifyPlayerSpeed = 69
   @changeMovement = 81
   @saveWorld = 80

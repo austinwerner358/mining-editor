@@ -420,7 +420,7 @@ WorldRegion::save = ->
 #   d or b.init2()
 #   return
 
-WorldRegion::loadFile = (region_x, region_y, blobUrl) ->
+WorldRegion::workerFromCodeBlob = (blobUrl, region_x, region_y) ->
   alert('Web workers are undefined in this browser; can not load region files.') unless typeof(Worker)
   # Create new worker with url of shared Blob code (or file reference).
   worker = new Worker(blobUrl)
@@ -444,7 +444,7 @@ WorldRegion::loadRegion = (region_x, region_y) ->
   if window.settings.local
     @loadRegionFromLocal fileName, region_x, region_y
   else
-    @loadRegionFromServer fileName, region_x, region_y, @loadFile(region_x, region_y, @threadCodeBlobUrlForServerFile)
+    @loadRegionFromServer fileName, region_x, region_y, @workerFromCodeBlob(@threadCodeBlobUrlForServerFile, region_x, region_y)
   return
 
 WorldRegion::loadRegionFromLocal = (fileName, region_x, region_y) ->

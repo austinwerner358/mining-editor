@@ -168,6 +168,10 @@ class window.CameraGhost
         @rotRight = !0
       when keyMap.arrowDown
         @rotDown = !0
+      when keyMap.centerSelf
+        @entity.pos[2] = @entity.pos[2] | 0
+        @entity.pos[0] = @entity.pos[0] | 0
+        @entity.pos[1] = @entity.pos[1] | 0
       when keyMap.modifyPlayerSpeed
         @entity.przesx = @entity.przesz = @getFastSpeed()
 
