@@ -15,6 +15,7 @@ class window.CameraGhost
     @moveY = @moveX = 0
     @rotUp = @rotDown = @rotLeft = @rotRight = 0
     @rotSensitivity = 30
+    @squareCoordinates = false
 
   updatePos: (player) ->
     @aspect = window.gluu.gl.viewportWidth / window.gluu.gl.viewportHeight
@@ -111,6 +112,10 @@ class window.CameraGhost
     @patrzX(1 / @rotSensitivity) if @rotLeft
     @patrzY(-1 / @rotSensitivity) if @rotDown
     @moveY = @moveX = 0
+    if @squareCoordinates
+      @entity.pos[2] = @entity.pos[2] | 0
+      @entity.pos[0] = @entity.pos[0] | 0
+      @entity.pos[1] = @entity.pos[1] | 0
 
   previousPosition: ->
     @entity.pos[0] = @oldPos[0]
@@ -147,6 +152,8 @@ class window.CameraGhost
         @rotRight = !1
       when keyMap.arrowDown
         @rotDown = !1
+      when keyMap.centerSelf
+        @squareCoordinates = !1
 
   keyDown: (b, f) ->
     switch b.keyCode
@@ -169,9 +176,7 @@ class window.CameraGhost
       when keyMap.arrowDown
         @rotDown = !0
       when keyMap.centerSelf
-        @entity.pos[2] = @entity.pos[2] | 0
-        @entity.pos[0] = @entity.pos[0] | 0
-        @entity.pos[1] = @entity.pos[1] | 0
+        @squareCoordinates = !0
       when keyMap.modifyPlayerSpeed
         @entity.przesx = @entity.przesz = @getFastSpeed()
 

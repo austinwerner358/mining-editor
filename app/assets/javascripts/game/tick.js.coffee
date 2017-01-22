@@ -11,6 +11,7 @@ chronometer.tick = ->
   rot = window.camera.getRot()
   if 0 < Math.floor(newTime / 100) - Math.floor(chronometer.lastTime / 100)
     h_u_d.gameStateHtml.innerHTML = 'x: ' + pos[0].toFixed(2) + '  y: ' + pos[1].toFixed(2) + '  z: ' + pos[2].toFixed(2)
+    h_u_d.gameStateHtml.innerHTML += "<br/>File: r.#{pos[0] >> 9}.#{pos[2] >> 9}.mca"
     h_u_d.gameStateHtml.innerHTML += '<br/>FPS: ' + Math.floor(chronometer.fps)
     if settings.edit
       h_u_d.gameStateHtml.innerHTML += '<br/>Block: ' + window.useBlock.id + '-' + window.useBlock.data + '  : ' + (window.blockConfig[window.useBlock.id][window.useBlock.data].name or window.blockConfig[window.useBlock.id].name or window.blockConfig[window.useBlock.id][window.useBlock.data].defaultTexture or '')

@@ -108,11 +108,16 @@ class window.CameraPlayer extends CameraGhost
     @patrzX(1 / @rotSensitivity) if @rotLeft
     @patrzY(-1 / @rotSensitivity) if @rotDown
     @moveY = @moveX = 0
+    # Square position if key is down.
+    if @squareCoordinates
+      @entity.pos[2] = @entity.pos[2] | 0
+      @entity.pos[0] = @entity.pos[0] | 0
+      @entity.pos[1] = @entity.pos[1] | 0
     @tPos[0] = @entity.pos[0]
     @tPos[1] = @entity.pos[1]
     @tPos[2] = @entity.pos[2]
     # Move up if stuck.
-    if mcWorld.testCollisions()
+    if mcWorld.testCollisions() && !@squareCoordinates
       @entity.pos[1] += .03
 
   moveUp: (b) ->
