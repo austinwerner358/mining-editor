@@ -560,12 +560,13 @@ WorldRegion.loadChunk = (chunk_pos, regionData, compressed) ->
   chunk_data.offset = 0
   try
     if compressed
-      m = new (Zlib.Inflate)(regionData, index: chunk_pos + 5)
-      chunk_data.data = m.decompress()
+      compressed_chunk_data = new (Zlib.Inflate)(regionData, index: chunk_pos + 5)
+      chunk_data.data = compressed_chunk_data.decompress()
     else
       chunk_data.data = regionData
-  catch l
+  catch error
     console.error('Zlib failed to decompress chunk_data')
+    console.error(error)
     return -1
   i = 0
   while 2e3 > i and -1 != (key_pair = NBT.nextTag(chunk_data))

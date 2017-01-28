@@ -17,7 +17,8 @@ WebGLUtils = do ->
     while m < d.length
       try
         e = b.getContext(d[m], c)
-      catch l
+      catch error
+        console.error(error)
       if e
         break
       ++m
