@@ -3,7 +3,7 @@
 #   @worldName = undefined
 #   @worldRegionData = []
 #   @localIChunk = []
-#   @rchunk = []
+#   @chunkData = []
 #   @iChunk = 0
 #   return
 
@@ -16,8 +16,8 @@
 
 WorldRegion::getChunkBlock = (b, f, c, d, e) ->
   b = 1e4 * b + f
-  if undefined != @rchunk[b]
-    @rchunk[b].getBlock(c, d, e)
+  if undefined != @chunkData[b]
+    @chunkData[b].getBlock(c, d, e)
   else
     id: 0
     data: 0
@@ -26,55 +26,55 @@ WorldRegion::getBlock = (b, f, c) ->
   d = Math.floor(b / 16)
   e = Math.floor(c / 16)
   m = 1e4 * d + e
-  if undefined != @rchunk[m]
+  if undefined != @chunkData[m]
     b -= 16 * d
     0 > b and (b += 16)
     c -= 16 * e
     0 > c and (c += 16)
-    @rchunk[m].getBlock b, f, c
+    @chunkData[m].getBlock b, f, c
   else
     id: 0
     data: 0
 
 WorldRegion::updateChunkBlock = (b, f, c, d, e, m, l) ->
   b = 1e4 * b + f
-  if undefined != @rchunk[b]
-    @rchunk[b].updateBlock c, d, e, m, l
+  if undefined != @chunkData[b]
+    @chunkData[b].updateBlock c, d, e, m, l
   return
 
 WorldRegion::updateBlock = (b, f, c, d, e) ->
   m = Math.floor(b / 16)
   l = Math.floor(c / 16)
   p = 1e4 * m + l
-  undefined != @rchunk[p] and b -= 16 * m
+  undefined != @chunkData[p] and b -= 16 * m
   0 > b and (b += 16)
   c -= 16 * l
   0 > c and (c += 16)
-  @rchunk[p].updateBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e)
+  @chunkData[p].updateBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e)
   return
 
 WorldRegion::setBlock = (b, f, c, d, e) ->
   m = Math.floor(b / 16)
   l = Math.floor(c / 16)
   p = 1e4 * m + l
-  undefined != @rchunk[p] and b -= 16 * m
+  undefined != @chunkData[p] and b -= 16 * m
   0 > b and (b += 16)
   c -= 16 * l
   0 > c and (c += 16)
-  @rchunk[p].setBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e)
+  @chunkData[p].setBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e)
   return
 
 WorldRegion::changeChunkBlockAdd = (b, f, c, d, e) ->
   b = 1e4 * b + f
-  undefined != @rchunk[b] and @rchunk[b].changeAdd(c, d, e)
+  undefined != @chunkData[b] and @chunkData[b].changeAdd(c, d, e)
   return
 
 # WorldRegion::updateChunks = ->
 #   b = (new Date).getTime()
 #   f = 0
 #   c = undefined
-#   for c,v of @rchunk
-#     undefined != @rchunk[c] and -1 != @rchunk[c] and -2 != @rchunk[c] and !0 == @rchunk[c].needsUpdate and @rchunk[c].update()
+#   for c,v of @chunkData
+#     undefined != @chunkData[c] and -1 != @chunkData[c] and -2 != @chunkData[c] and !0 == @chunkData[c].needsUpdate and @chunkData[c].update()
 #     f++
 #   c = (new Date).getTime()
 #   console.log 'update chunk ' + c - b + ' ' + f
@@ -84,9 +84,9 @@ WorldRegion::changeChunkBlockAdd = (b, f, c, d, e) ->
 #   b = (new Date).getTime()
 #   f = 0
 #   c = undefined
-#   for c,v of @rchunk
-#     undefined != @rchunk[c] and -1 != @rchunk[c] and -2 != @rchunk[c] and !0 != @rchunk[c].changed and (1 == @rchunk[c].isInit or 1 == @rchunk[c].isInit1) and @rchunk[c].timestamp + 1e4 < b and @rchunk[c].deleteBuffers()
-#     @rchunk[c] = undefined
+#   for c,v of @chunkData
+#     undefined != @chunkData[c] and -1 != @chunkData[c] and -2 != @chunkData[c] and !0 != @chunkData[c].changed and (1 == @chunkData[c].isInit or 1 == @chunkData[c].isInit1) and @chunkData[c].timestamp + 1e4 < b and @chunkData[c].deleteBuffers()
+#     @chunkData[c] = undefined
 #     f++
 #   c = (new Date).getTime()
 #   console.log 'delete buffers ' + c - b + ' ' + f
@@ -174,8 +174,8 @@ WorldRegion::changeChunkBlockAdd = (b, f, c, d, e) ->
 #         l = t + m[0]
 #         p = a + m[1]
 #         q = 1e4 * l + p
-#         if -1 == @rchunk[q] or -2 == @rchunk[q]
-#           @rchunk[q].timestamp = window.chronometer.lastTime
+#         if -1 == @chunkData[q] or -2 == @chunkData[q]
+#           @chunkData[q].timestamp = window.chronometer.lastTime
 #         else
 #           if c = x[0] - (16 * l + 8)
 #             d = x[2] - (16 * p + 8)
@@ -203,16 +203,16 @@ WorldRegion::changeChunkBlockAdd = (b, f, c, d, e) ->
 #               if 0 < c and 16 < v
 #                 B++
 #                 continue
-#             if undefined == @rchunk[q]
+#             if undefined == @chunkData[q]
 #               1 < chronometer.iLag and (chronometer.iLag -= 1)
 #               @requestChunk l, p
 #             else
-#               @rchunk[q].timestamp = chronometer.lastTime
-#               (62 <= x[1] or 160 > f) and @rchunk[q].render(A, b, 0)
+#               @chunkData[q].timestamp = chronometer.lastTime
+#               (62 <= x[1] or 160 > f) and @chunkData[q].render(A, b, 0)
 #               if 62 > x[1] and 96 > f
-#                 @rchunk[q].render A, b, 1
+#                 @chunkData[q].render A, b, 1
 #               else
-#                 64 > f and @rchunk[q].render(A, b, 1)
+#                 64 > f and @chunkData[q].render(A, b, 1)
 #         B++
 #       A++
 #   return
@@ -266,16 +266,16 @@ WorldRegion::changeChunkBlockAdd = (b, f, c, d, e) ->
 #         d = p + c[0]
 #         e = q + c[1]
 #         m = 1e4 * d + e
-#         if -1 == @rchunk[m] or -2 == @rchunk[m]
-#           @rchunk[m].timestamp = chronometer.lastTime
+#         if -1 == @chunkData[m] or -2 == @chunkData[m]
+#           @chunkData[m].timestamp = chronometer.lastTime
 #         else
-#           if undefined == @rchunk[m]
+#           if undefined == @chunkData[m]
 #             1 < chronometer.iLag and (chronometer.iLag -= 1)
 #             @requestChunk d, e
 #           else
-#             @rchunk[m].timestamp = chronometer.lastTime
-#             @rchunk[m].render l, b, 0
-#             @rchunk[m].render l, b, 1
+#             @chunkData[m].timestamp = chronometer.lastTime
+#             @chunkData[m].render l, b, 0
+#             @chunkData[m].render l, b, 1
 #         x++
 #       l++
 #     q = new Uint8Array(4)
@@ -333,10 +333,10 @@ WorldRegion::testCollisions = ->
     while m < c + 2
       if 16 * e - 2 < b[0] and 16 * e + 18 > b[0] and 16 * m - 2 < b[2] and 16 * m + 18 > b[2]
         l = 1e4 * e + m
-        if -1 != @rchunk[l] and -2 != @rchunk[l]
-          if undefined == @rchunk[l]
+        if -1 != @chunkData[l] and -2 != @chunkData[l]
+          if undefined == @chunkData[l]
             return !0
-          l = @rchunk[l].getBuffer([
+          l = @chunkData[l].getBuffer([
             Math.floor(b[0] - (16 * e))
             Math.floor(b[1])
             Math.floor(b[2] - (16 * m))
@@ -354,18 +354,18 @@ WorldRegion::testCollisions = ->
     !1
 
 WorldRegion::save = ->
-  for b,v of @rchunk
-    if undefined != @rchunk[b] and -1 != @rchunk[b] and -2 != @rchunk[b] and @rchunk[b].changed
-      mcWorld.saveChunkToStorage(@rchunk[b].xPos, @rchunk[b].zPos)
-      @rchunk[b].changed = !1
+  for b,v of @chunkData
+    if undefined != @chunkData[b] and -1 != @chunkData[b] and -2 != @chunkData[b] and @chunkData[b].changed
+      mcWorld.saveChunkToStorage(@chunkData[b].xPos, @chunkData[b].zPos)
+      @chunkData[b].changed = !1
   return
 
 # WorldRegion::saveChunkToStorage = (b, f) ->
 #   `var c`
 #   `var d`
 #   c = 1e4 * b + f
-#   if undefined != @rchunk[c] and -1 != @rchunk[c] and -2 != @rchunk[c]
-#     d = @rchunk[c].getNBT()
+#   if undefined != @chunkData[c] and -1 != @chunkData[c] and -2 != @chunkData[c]
+#     d = @chunkData[c].getNBT()
 #     d = new (Zlib.Deflate)(d).compress()
 #     e = new Uint8Array(d.length + 5)
 #     c = d.length + 1
@@ -395,7 +395,7 @@ WorldRegion::save = ->
 #     return -1
 #   if c
 #     return d
-#   @rchunk[1e4 * b + f] = d
+#   @chunkData[1e4 * b + f] = d
 #   e = d = c = !1
 #   m = !1
 #   l = mcWorld.requestChunk(b + 1, f)
@@ -524,19 +524,17 @@ WorldRegion::regionLoaded = (event) ->
 WorldRegion::requestChunk = (player_x, player_y) ->
   # Input player coordinates (as opposed to region or chunk coordinates).
   chunk_index = 1e4 * player_x + player_y
-  if undefined != @rchunk[chunk_index]
-    return @rchunk[chunk_index]
-  if 1 != @localIChunk[chunk_index]
-    # TODO: refactor this section
-    chunk_state = -1
-    @localIChunk[chunk_index] = 1
-    if -1 != (chunk_state = @loadChunkFromStorage(player_x, player_y, !0))
-      return @rchunk[chunk_index] = chunk_state
+  if undefined != @chunkData[chunk_index]
+    return @chunkData[chunk_index]
+  if 1 != @localChunksIndex[chunk_index]
+    @localChunksIndex[chunk_index] = 1
+    if -1 != (local_chunk = @loadChunkFromStorage(player_x, player_y, !0))
+      return @chunkData[chunk_index] = local_chunk
   region_x = Math.floor(player_x / 32)
   region_y = Math.floor(player_y / 32)
   undefined == @worldRegionData[1e3 * region_x + region_y] and @loadRegion(region_x, region_y)
   if -1 == @worldRegionData[1e3 * region_x + region_y].loaded
-    return @rchunk[chunk_index] = -1
+    return @chunkData[chunk_index] = -1
   if -2 == @worldRegionData[1e3 * region_x + region_y].loaded
     return -2
   if 0 == @worldRegionData[1e3 * region_x + region_y].loaded
@@ -548,10 +546,10 @@ WorldRegion::requestChunk = (player_x, player_y) ->
     chunk_offset = chunk_x + 32 * chunk_y
     if 0 < @worldRegionData[1e3 * region_x + region_y].chunkPos[chunk_offset]
       # console.log('chunk #: ' + chunk_index + ' : ' + this.worldRegionData[1e3 * region_x + region_y].chunkPos[chunk_offset] + ' ' + this.worldRegionData[1e3 * region_x + region_y].chunkLen[chunk_offset]);
-      @iChunk++
-      @rchunk[chunk_index] = WorldRegion.loadChunk(4096 * @worldRegionData[1e3 * region_x + region_y].chunkPos[chunk_offset], @worldRegionData[1e3 * region_x + region_y].regionData, !0)
-      return @rchunk[chunk_index]
-    @rchunk[chunk_index] = -1
+      @chunkCount++
+      @chunkData[chunk_index] = WorldRegion.loadChunk(4096 * @worldRegionData[1e3 * region_x + region_y].chunkPos[chunk_offset], @worldRegionData[1e3 * region_x + region_y].regionData, !0)
+      return @chunkData[chunk_index]
+    @chunkData[chunk_index] = -1
   return
 
 WorldRegion.loadChunk = (chunk_pos, regionData, compressed) ->

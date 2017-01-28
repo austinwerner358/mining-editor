@@ -2,9 +2,9 @@ function WorldRegion(gameRoot, worldName) {
   this.gameRoot = gameRoot;
   this.worldName = worldName;
   this.worldRegionData = [];
-  this.localIChunk = [];
-  this.rchunk = [];
-  this.iChunk = 0;
+  this.localChunksIndex = [];
+  this.chunkData = [];
+  this.chunkCount = 0;
   // TODO: potentially turn the thread code object into multiple steps and add error handling (such as setting assigning a file url instead)
   this.threadCodeBlobUrlForServerFile = window.URL.createObjectURL(new Blob([ "self.addEventListener('message', (function(e) {\
     var regionData, xhr;\
@@ -40,7 +40,7 @@ WorldRegion.prototype.updateChunks = function() {
   var b = (new Date).getTime(),
     f = 0,
     c;
-  for (c in this.rchunk) void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c] && !0 === this.rchunk[c].needsUpdate && (this.rchunk[c].update(), f++);
+  for (c in this.chunkData) void 0 !== this.chunkData[c] && -1 !== this.chunkData[c] && -2 !== this.chunkData[c] && !0 === this.chunkData[c].needsUpdate && (this.chunkData[c].update(), f++);
   c = (new Date).getTime();
   console.log("update chunk " + (c - b) + " " + f)
 };
@@ -48,7 +48,7 @@ WorldRegion.prototype.deleteBuffers = function() {
   var b = (new Date).getTime(),
     f = 0,
     c;
-  for (c in this.rchunk) void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c] && !0 !== this.rchunk[c].changed && (1 === this.rchunk[c].isInit || 1 === this.rchunk[c].isInit1) && this.rchunk[c].timestamp + 1e4 < b && (this.rchunk[c].deleteBuffers(), this.rchunk[c] = void 0, f++);
+  for (c in this.chunkData) void 0 !== this.chunkData[c] && -1 !== this.chunkData[c] && -2 !== this.chunkData[c] && !0 !== this.chunkData[c].changed && (1 === this.chunkData[c].isInit || 1 === this.chunkData[c].isInit1) && this.chunkData[c].timestamp + 1e4 < b && (this.chunkData[c].deleteBuffers(), this.chunkData[c] = void 0, f++);
   c = (new Date).getTime();
   console.log("delete buffers ");// + (c - b) + " " + f)
 };
@@ -108,8 +108,8 @@ WorldRegion.prototype.render = function() {
         l = t + m[0];
         p = a + m[1];
         q = 1e4 * l + p;
-        if (-1 === this.rchunk[q] || -2 === this.rchunk[q]) {
-          this.rchunk[q].timestamp = window.chronometer.lastTime;
+        if (-1 === this.chunkData[q] || -2 === this.chunkData[q]) {
+          this.chunkData[q].timestamp = window.chronometer.lastTime;
         } else {
           if (c = x[0] - (16 * l + 8)) {
             d = x[2] - (16 * p + 8);
@@ -134,16 +134,16 @@ WorldRegion.prototype.render = function() {
                 continue;
               }
             }
-            if (void 0 === this.rchunk[q]) {
+            if (void 0 === this.chunkData[q]) {
               1 < chronometer.iLag && (chronometer.iLag -= 1);
               this.requestChunk(l, p);
             } else {
-              this.rchunk[q].timestamp = chronometer.lastTime;
-              (62 <= x[1] || 160 > f) && this.rchunk[q].render(A, b, 0);
+              this.chunkData[q].timestamp = chronometer.lastTime;
+              (62 <= x[1] || 160 > f) && this.chunkData[q].render(A, b, 0);
               if (62 > x[1] && 96 > f) {
-                this.rchunk[q].render(A, b, 1);
+                this.chunkData[q].render(A, b, 1);
               } else {
-                64 > f && this.rchunk[q].render(A, b, 1);
+                64 > f && this.chunkData[q].render(A, b, 1);
               }
             }
           }
@@ -193,16 +193,16 @@ WorldRegion.prototype.renderSelection = function() {
         d = p + c[0];
         e = q + c[1];
         m = 1e4 * d + e;
-        if (-1 === this.rchunk[m] || -2 === this.rchunk[m]) {
-          this.rchunk[m].timestamp = chronometer.lastTime;
+        if (-1 === this.chunkData[m] || -2 === this.chunkData[m]) {
+          this.chunkData[m].timestamp = chronometer.lastTime;
         } else {
-          if (void 0 === this.rchunk[m]) {
+          if (void 0 === this.chunkData[m]) {
             1 < chronometer.iLag && (chronometer.iLag -= 1);
             this.requestChunk(d, e);
           } else {
-            this.rchunk[m].timestamp = chronometer.lastTime;
-            this.rchunk[m].render(l, b, 0);
-            this.rchunk[m].render(l, b, 1);
+            this.chunkData[m].timestamp = chronometer.lastTime;
+            this.chunkData[m].render(l, b, 0);
+            this.chunkData[m].render(l, b, 1);
           }
         }
         x++;
@@ -238,8 +238,8 @@ WorldRegion.prototype.renderSelection = function() {
 };
 WorldRegion.prototype.saveChunkToStorage = function(b, f) {
   var c = 1e4 * b + f;
-  if (void 0 !== this.rchunk[c] && -1 !== this.rchunk[c] && -2 !== this.rchunk[c]) {
-    var d = this.rchunk[c].getNBT(),
+  if (void 0 !== this.chunkData[c] && -1 !== this.chunkData[c] && -2 !== this.chunkData[c]) {
+    var d = this.chunkData[c].getNBT(),
       d = (new Zlib.Deflate(d)).compress(),
       e = new Uint8Array(d.length + 5),
       c = d.length + 1;
@@ -263,7 +263,7 @@ WorldRegion.prototype.loadChunkFromStorage = function(b, f, c) {
   var d = mcWorld.getChunkFromStorage(b, f);
   if (-1 === d) return -1;
   if (c) return d;
-  this.rchunk[1e4 * b + f] = d;
+  this.chunkData[1e4 * b + f] = d;
   var e = d = c = !1,
     m = !1,
     l = mcWorld.requestChunk(b + 1, f);
