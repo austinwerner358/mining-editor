@@ -253,31 +253,31 @@ WorldRegion.prototype.saveChunkToStorage = function(b, f) {
     window.localStorage.setItem(this.gameRoot + " " + this.worldName + " " + b + " " + f, d)
   }
 };
-WorldRegion.prototype.getChunkFromStorage = function(b, f) {
-  var c = window.localStorage.getItem(this.gameRoot + " " + this.worldName + " " + b + " " + f);
-  if (void 0 === c || null === c || "" === c) return -1;
-  c = new Uint8Array(str2ab(c));
-  return WorldRegion.loadChunk(0, c, !0)
+WorldRegion.prototype.getChunkFromStorage = function(chunk_x, chunk_y) {
+  var raw_data = window.localStorage.getItem(this.gameRoot + " " + this.worldName + " " + chunk_x + " " + chunk_y);
+  if (void 0 === raw_data || null === raw_data || "" === raw_data) return -1;
+  data = new Uint8Array(str2ab(raw_data));
+  return WorldRegion.loadChunk(0, data, !0)
 };
-WorldRegion.prototype.loadChunkFromStorage = function(b, f, c) {
-  var d = mcWorld.getChunkFromStorage(b, f);
+WorldRegion.prototype.loadChunkFromStorage = function(chunk_x, chunk_y, c) {
+  var d = mcWorld.getChunkFromStorage(chunk_x, chunk_y);
   if (-1 === d) return -1;
   if (c) return d;
-  this.chunkData[1e4 * b + f] = d;
+  this.chunkData[1e4 * chunk_x + chunk_y] = d;
   var e = d = c = !1,
     m = !1,
-    l = mcWorld.requestChunk(b + 1, f);
+    l = mcWorld.requestChunk(chunk_x + 1, chunk_y);
   void 0 === l && (m = !0); - 1 === l && (m = !0); - 2 === l && (m = !0);
-  var p = mcWorld.requestChunk(b - 1, f);
+  var p = mcWorld.requestChunk(chunk_x - 1, chunk_y);
   void 0 === p && (e = !0); - 1 === p && (e = !0); - 2 === p && (e = !0);
-  var q = mcWorld.requestChunk(b, f + 1);
+  var q = mcWorld.requestChunk(chunk_x, chunk_y + 1);
   void 0 === q && (c = !0); - 1 === q && (c = !0); - 2 === q && (c = !0);
-  b = mcWorld.requestChunk(b, f - 1);
-  void 0 === b && (d = !0); - 1 === b && (d = !0); - 2 === b && (d = !0);
+  requestedChunk = mcWorld.requestChunk(chunk_x, chunk_y - 1);
+  void 0 === requestedChunk && (d = !0); - 1 === requestedChunk && (d = !0); - 2 === requestedChunk && (d = !0);
   m || l.init2();
   e || p.init2();
   c || q.init2();
-  d || b.init2()
+  d || requestedChunk.init2()
 };
 // WorldRegion.prototype.loadRegionFile = function(b, f) { # NOTE: apparently not used
 //   try {

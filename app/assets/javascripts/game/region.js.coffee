@@ -521,29 +521,33 @@ WorldRegion::regionLoaded = (event) ->
         chunk_offset++
   return
 
-WorldRegion::requestChunk = (player_x, player_y) ->
-  # Input player coordinates (as opposed to region or chunk coordinates).
-  chunk_index = 1e4 * player_x + player_y
+WorldRegion::requestChunk = (chunk_x, chunk_y) ->
+  # Input chunk coordinates (as opposed to region or player coordinates).
+  chunk_index = 1e4 * chunk_x + chunk_y
   if undefined != @chunkData[chunk_index]
     return @chunkData[chunk_index]
+  # If chunk has not been established as loaded from browser storage, check if it is in local storage, and potentially load it.
   if 1 != @localChunksIndex[chunk_index]
     @localChunksIndex[chunk_index] = 1
-    if -1 != (local_chunk = @loadChunkFromStorage(player_x, player_y, !0))
+    if -1 != (local_chunk = @loadChunkFromStorage(chunk_x, chunk_y, !0))
       return @chunkData[chunk_index] = local_chunk
-  region_x = Math.floor(player_x / 32)
-  region_y = Math.floor(player_y / 32)
+  region_x = Math.floor(chunk_x / 32)
+  region_y = Math.floor(chunk_y / 32)
+  # Check if region is undefined and if so, load region file (and set region state).
   undefined == @worldRegionData[1e3 * region_x + region_y] and @loadRegion(region_x, region_y)
+  # Region load failed, so chunk load failed.
   if -1 == @worldRegionData[1e3 * region_x + region_y].loaded
     return @chunkData[chunk_index] = -1
+  # Region loading and therefore chunk loading in process.
   if -2 == @worldRegionData[1e3 * region_x + region_y].loaded
     return -2
   if 0 == @worldRegionData[1e3 * region_x + region_y].loaded
-    chunk_x = player_x % 32
-    0 > chunk_x and (chunk_x += 32)
-    chunk_y = player_y % 32
-    0 > chunk_y and (chunk_y += 32)
+    chunk_offset_x = chunk_x % 32
+    0 > chunk_offset_x and (chunk_offset_x += 32)
+    chunk_offset_y = chunk_y % 32
+    0 > chunk_offset_y and (chunk_offset_y += 32)
     # The chunk_offset is the position (out of 4096) of the chunk in the region file.
-    chunk_offset = chunk_x + 32 * chunk_y
+    chunk_offset = chunk_offset_x + 32 * chunk_offset_y
     if 0 < @worldRegionData[1e3 * region_x + region_y].chunkPos[chunk_offset]
       # console.log('chunk #: ' + chunk_index + ' : ' + this.worldRegionData[1e3 * region_x + region_y].chunkPos[chunk_offset] + ' ' + this.worldRegionData[1e3 * region_x + region_y].chunkLen[chunk_offset]);
       @chunkCount++
@@ -552,16 +556,17 @@ WorldRegion::requestChunk = (player_x, player_y) ->
     @chunkData[chunk_index] = -1
   return
 
-WorldRegion.loadChunk = (chunk_pos, regionData, compressed) ->
+WorldRegion.loadChunk = (chunk_pos, data, compressed) ->
+  # The data parameter can be raw region data or a chunk from storage.
   chunk_data = {}
   new_chunk = new Chunk
   chunk_data.offset = 0
   try
     if compressed
-      compressed_chunk_data = new (Zlib.Inflate)(regionData, index: chunk_pos + 5)
+      compressed_chunk_data = new (Zlib.Inflate)(data, index: chunk_pos + 5)
       chunk_data.data = compressed_chunk_data.decompress()
     else
-      chunk_data.data = regionData
+      chunk_data.data = data
   catch error
     console.error('Zlib failed to decompress chunk_data')
     console.error(error)
