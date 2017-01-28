@@ -586,7 +586,7 @@ WorldRegion.loadChunk = (chunk_pos, regionData, compressed) ->
         continue
     NBT.read9(key_pair, new_chunk, chunk_data) if 9 == key_pair.type
     i++
-    new_chunk.initHeightMap() if new_chunk.heightMap
+  new_chunk.initHeightMap() if new_chunk.heightMap == undefined
   new_chunk
 
 # WorldRegion::readSections = (b, f, c) ->
