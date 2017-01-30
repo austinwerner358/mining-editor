@@ -43,14 +43,16 @@ WorldRegion::updateChunkBlock = (b, f, c, d, e, m, l) ->
   return
 
 WorldRegion::updateBlock = (b, f, c, d, e) ->
-  m = Math.floor(b / 16)
-  l = Math.floor(c / 16)
-  p = 1e4 * m + l
-  undefined != @chunkData[p] and b -= 16 * m
-  0 > b and (b += 16)
-  c -= 16 * l
-  0 > c and (c += 16)
-  @chunkData[p].updateBlock(Math.floor(b), Math.floor(f), Math.floor(c), d, e)
+  # NOTE: identical to WorldRegion::setBlock, but calls a different Chunk method
+  chunk_x = Math.floor(player_x / 16)
+  chunk_y = Math.floor(player_z / 16)
+  chunk_offset = 1e4 * chunk_x + chunk_y
+  if undefined != @chunkData[chunk_offset]
+    player_x -= 16 * chunk_x
+    0 > player_x and (player_x += 16)
+    player_z -= 16 * chunk_y
+    0 > player_z and (player_z += 16)
+    @chunkData[chunk_offset].updateBlock(Math.floor(player_x), Math.floor(player_y), Math.floor(player_z), block_id, block_data)
   return
 
 WorldRegion::setBlock = (player_x, player_y, player_z, block_id, block_data) ->
