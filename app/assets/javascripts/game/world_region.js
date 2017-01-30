@@ -236,21 +236,22 @@ WorldRegion.prototype.renderSelection = function() {
     return b;
   }
 };
-WorldRegion.prototype.saveChunkToStorage = function(b, f) {
-  var c = 1e4 * b + f;
-  if (void 0 !== this.chunkData[c] && -1 !== this.chunkData[c] && -2 !== this.chunkData[c]) {
-    var d = this.chunkData[c].getNBT(),
-      d = (new Zlib.Deflate(d)).compress(),
-      e = new Uint8Array(d.length + 5),
-      c = d.length + 1;
-    e[0] = c >> 24 & 255;
-    e[1] = c >> 16 & 255;
-    e[2] = c >> 8 & 255;
-    e[3] = c & 255;
-    e[4] = 2;
-    for (c = 0; c < d.length; c++) e[c + 5] = d[c];
-    d = ab2str(e);
-    window.localStorage.setItem(this.gameRoot + " " + this.worldName + " " + b + " " + f, d)
+WorldRegion.prototype.saveChunkToStorage = function(chunk_x, chunk_y) {
+  var chunk_index = 1e4 * chunk_x + chunk_y;
+  if (void 0 !== this.chunkData[chunk_index] && -1 !== this.chunkData[chunk_index] && -2 !== this.chunkData[chunk_index]) {
+    var chunk_NBT = this.chunkData[chunk_index].getNBT(),
+      chunk_NBT_compressed = (new Zlib.Deflate(chunk_NBT)).compress(),
+      new_array = new Uint8Array(chunk_NBT_compressed.length + 5),
+      compressed_length = chunk_NBT_compressed.length + 1;
+    new_array[0] = compressed_length >> 24 & 255;
+    new_array[1] = compressed_length >> 16 & 255;
+    new_array[2] = compressed_length >> 8 & 255;
+    new_array[3] = compressed_length & 255;
+    new_array[4] = 2;
+    var i;
+    for (i = 0; i < chunk_NBT_compressed.length; i++) new_array[i + 5] = chunk_NBT_compressed[i];
+    var converted_array = ab2str(new_array);
+    window.localStorage.setItem(this.gameRoot + " " + this.worldName + " " + chunk_x + " " + chunk_y, converted_array)
   }
 };
 WorldRegion.prototype.getChunkFromStorage = function(chunk_x, chunk_y) {
