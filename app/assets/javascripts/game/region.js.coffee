@@ -593,28 +593,28 @@ WorldRegion.loadChunk = (chunk_pos, data, compressed) ->
   new_chunk.initHeightMap() if new_chunk.heightMap == undefined
   new_chunk
 
-# WorldRegion::readSections = (b, f, c) ->
-#   d = undefined
-#   e = undefined
-#   m = undefined
-#   d = {}
-#   m = 0
-#   while m < b.length and -1 != (e = window.NBT.nextTag(c))
-#     0 == e.type and undefined == d.add and (d.add = new Uint8Array(2048))
-#     f.section[d.y] = d
-#     d = {}
-#     m++
-#     switch e.name
-#       when 'Y'
-#         d.y = e.value
-#       when 'Blocks'
-#         d.blocks = e.data
-#       when 'SkyLight'
-#         d.skyLight = e.data
-#       when 'BlockLight'
-#         d.blockLight = e.data
-#       when 'Add'
-#         d.add = e.data
-#       when 'Data'
-#         d.data = e.data
-#   return
+WorldRegion.readSections = (key_pair_length, new_chunk, chunk_data) ->
+  new_section = undefined
+  key_pair = undefined
+  i = undefined
+  new_section = {}
+  i = 0
+  while i < key_pair_length and -1 != (key_pair = NBT.nextTag(chunk_data))
+    0 == key_pair.type and undefined == new_section.add and (new_section.add = new Uint8Array(2048))
+    new_chunk.section[new_section.y] = new_section
+    new_section = {}
+    i++
+    switch key_pair.name
+      when 'Y'
+        new_section.y = key_pair.value
+      when 'Blocks'
+        new_section.blocks = key_pair.data
+      when 'SkyLight'
+        new_section.skyLight = key_pair.data
+      when 'BlockLight'
+        new_section.blockLight = key_pair.data
+      when 'Add'
+        new_section.add = key_pair.data
+      when 'Data'
+        new_section.data = key_pair.data
+  return

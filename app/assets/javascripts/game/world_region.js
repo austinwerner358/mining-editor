@@ -293,29 +293,3 @@ WorldRegion.prototype.loadChunkFromStorage = function(chunk_x, chunk_y, return_f
 //   var e, m;
 //   for (e = 0, m = 0; 4096 > e; e += 4, m++) b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2], b.chunkLen[m] = c[e + 3]
 // };
-WorldRegion.readSections = function(key_pair_length, new_chunk, chunk_data) {
-  var new_section, key_pair, m;
-  for (new_section = {}, m = 0; m < key_pair_length.length && -1 !== (key_pair = NBT.nextTag(chunk_data));) {
-    0 === key_pair.type && (void 0 === new_section.add && (new_section.add = new Uint8Array(2048)), new_chunk.section[new_section.y] = new_section, new_section = {}, m++)
-    switch (key_pair.name) {
-      case "Y":
-        new_section.y = key_pair.value;
-        break;
-      case "Blocks":
-        new_section.blocks = key_pair.data;
-        break;
-      case "SkyLight":
-        new_section.skyLight = key_pair.data;
-        break;
-      case "BlockLight":
-        new_section.blockLight = key_pair.data;
-        break;
-      case "Add":
-        new_section.add = key_pair.data;
-        break;
-      case "Data":
-        new_section.data = key_pair.data
-        break;
-    }
-  }
-};
