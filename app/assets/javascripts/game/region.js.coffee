@@ -36,10 +36,10 @@ WorldRegion::getBlock = (b, f, c) ->
     id: 0
     data: 0
 
-WorldRegion::updateChunkBlock = (b, f, c, d, e, m, l) ->
-  b = 1e4 * b + f
-  if undefined != @chunkData[b]
-    @chunkData[b].updateBlock c, d, e, m, l
+WorldRegion::updateChunkBlock = (chunk_x, chunk_y, chunk_block_x, chunk_block_y, chunk_block_z, block_id, block_data) ->
+  chunk_offset = 1e4 * chunk_x + chunk_y
+  if undefined != @chunkData[chunk_offset]
+    @chunkData[chunk_offset].updateBlock chunk_block_x, chunk_block_y, chunk_block_z, block_id, block_data
   return
 
 WorldRegion::updateBlock = (player_x, player_y, player_z, block_id, block_data) ->
