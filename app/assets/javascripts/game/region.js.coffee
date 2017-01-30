@@ -42,7 +42,7 @@ WorldRegion::updateChunkBlock = (b, f, c, d, e, m, l) ->
     @chunkData[b].updateBlock c, d, e, m, l
   return
 
-WorldRegion::updateBlock = (b, f, c, d, e) ->
+WorldRegion::updateBlock = (player_x, player_y, player_z, block_id, block_data) ->
   # NOTE: identical to WorldRegion::setBlock, but calls a different Chunk method
   chunk_x = Math.floor(player_x / 16)
   chunk_y = Math.floor(player_z / 16)
