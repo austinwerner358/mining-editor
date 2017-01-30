@@ -585,7 +585,7 @@ WorldRegion.loadChunk = (chunk_pos, data, compressed) ->
       when 'LightPopulated'
         new_chunk.lightPopulated = key_pair.value
       when 'Sections'
-        WorldRegion.readSections key_pair, new_chunk, chunk_data
+        WorldRegion.readSections key_pair.length, new_chunk, chunk_data
         i++
         continue
     NBT.read9(key_pair, new_chunk, chunk_data) if 9 == key_pair.type

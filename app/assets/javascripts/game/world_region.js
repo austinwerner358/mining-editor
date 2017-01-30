@@ -259,11 +259,11 @@ WorldRegion.prototype.getChunkFromStorage = function(chunk_x, chunk_y) {
   data = new Uint8Array(str2ab(raw_data));
   return WorldRegion.loadChunk(0, data, !0)
 };
-WorldRegion.prototype.loadChunkFromStorage = function(chunk_x, chunk_y, c) {
-  var d = mcWorld.getChunkFromStorage(chunk_x, chunk_y);
-  if (-1 === d) return -1;
-  if (c) return d;
-  this.chunkData[1e4 * chunk_x + chunk_y] = d;
+WorldRegion.prototype.loadChunkFromStorage = function(chunk_x, chunk_y, return_flag) {
+  var chunk_from_storage = mcWorld.getChunkFromStorage(chunk_x, chunk_y);
+  if (-1 === chunk_from_storage) return -1;
+  if (return_flag) return chunk_from_storage;
+  this.chunkData[1e4 * chunk_x + chunk_y] = chunk_from_storage;
   var e = d = c = !1,
     m = !1,
     l = mcWorld.requestChunk(chunk_x + 1, chunk_y);
@@ -293,28 +293,28 @@ WorldRegion.prototype.loadChunkFromStorage = function(chunk_x, chunk_y, c) {
 //   var e, m;
 //   for (e = 0, m = 0; 4096 > e; e += 4, m++) b.chunkPos[m] = 65536 * c[e] + 256 * c[e + 1] + c[e + 2], b.chunkLen[m] = c[e + 3]
 // };
-WorldRegion.readSections = function(b, f, c) {
-  var d, e, m;
-  for (d = {}, m = 0; m < b.length && -1 !== (e = NBT.nextTag(c));) {
-    0 === e.type && (void 0 === d.add && (d.add = new Uint8Array(2048)), f.section[d.y] = d, d = {}, m++)
-    switch (e.name) {
+WorldRegion.readSections = function(key_pair_length, new_chunk, chunk_data) {
+  var new_section, key_pair, m;
+  for (new_section = {}, m = 0; m < key_pair_length.length && -1 !== (key_pair = NBT.nextTag(chunk_data));) {
+    0 === key_pair.type && (void 0 === new_section.add && (new_section.add = new Uint8Array(2048)), new_chunk.section[new_section.y] = new_section, new_section = {}, m++)
+    switch (key_pair.name) {
       case "Y":
-        d.y = e.value;
+        new_section.y = key_pair.value;
         break;
       case "Blocks":
-        d.blocks = e.data;
+        new_section.blocks = key_pair.data;
         break;
       case "SkyLight":
-        d.skyLight = e.data;
+        new_section.skyLight = key_pair.data;
         break;
       case "BlockLight":
-        d.blockLight = e.data;
+        new_section.blockLight = key_pair.data;
         break;
       case "Add":
-        d.add = e.data;
+        new_section.add = key_pair.data;
         break;
       case "Data":
-        d.data = e.data
+        new_section.data = key_pair.data
         break;
     }
   }
