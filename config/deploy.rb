@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock "3.7.1"
+lock "3.7.2"
 
 set :application, "mining-editor"
 set :repo_url, "git@github.com:austinwerner358/mining-editor.git"
@@ -13,7 +13,7 @@ set :deploy_to, "/var/www/mining-editor"
 # NOTE: added these lines
 set :use_sudo, true
 set :branch, 'master'
-set :bundle_without, %w{development test production_heroku firebase}.join(' ') 
+set :bundle_without, %w{development test production_heroku firebase}.join(' ')
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
