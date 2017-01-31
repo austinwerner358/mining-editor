@@ -603,10 +603,11 @@ WorldRegion.readSections = (key_pair_length, new_chunk, chunk_data) ->
   new_section = {}
   i = 0
   while i < key_pair_length and -1 != (key_pair = NBT.nextTag(chunk_data))
-    0 == key_pair.type and undefined == new_section.add and (new_section.add = new Uint8Array(2048))
-    new_chunk.section[new_section.y] = new_section
-    new_section = {}
-    i++
+    if 0 == key_pair.type
+      undefined == new_section.add and (new_section.add = new Uint8Array(2048))
+      new_chunk.section[new_section.y] = new_section
+      new_section = {}
+      i++
     switch key_pair.name
       when 'Y'
         new_section.y = key_pair.value
