@@ -254,12 +254,6 @@ WorldRegion.prototype.saveChunkToStorage = function(chunk_x, chunk_y) {
     window.localStorage.setItem(this.gameRoot + " " + this.worldName + " " + chunk_x + " " + chunk_y, converted_array)
   }
 };
-WorldRegion.prototype.getChunkFromStorage = function(chunk_x, chunk_y) {
-  var raw_data = window.localStorage.getItem(this.gameRoot + " " + this.worldName + " " + chunk_x + " " + chunk_y);
-  if (void 0 === raw_data || null === raw_data || "" === raw_data) return -1;
-  data = new Uint8Array(str2ab(raw_data));
-  return WorldRegion.loadChunk(0, data, !0)
-};
 WorldRegion.prototype.loadChunkFromStorage = function(chunk_x, chunk_y, return_flag) {
   var chunk_from_storage = mcWorld.getChunkFromStorage(chunk_x, chunk_y);
   if (-1 === chunk_from_storage) return -1;

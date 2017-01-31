@@ -385,12 +385,12 @@ WorldRegion::save = ->
 #     window.localStorage.setItem @gameRoot + ' ' + @worldName + ' ' + b + ' ' + f, d
 #   return
 
-# WorldRegion::getChunkFromStorage = (b, f) ->
-#   c = window.localStorage.getItem(@gameRoot + ' ' + @worldName + ' ' + b + ' ' + f)
-#   if undefined == c or null == c or '' == c
-#     return -1
-#   c = new Uint8Array(str2ab(c))
-#   @loadChunk 0, c, !0
+WorldRegion::getChunkFromStorage = (chunk_x, chunk_y) ->
+  raw_data = window.localStorage.getItem(@gameRoot + ' ' + @worldName + ' ' + chunk_x + ' ' + chunk_y)
+  if undefined == raw_data or null == raw_data or '' == raw_data
+    return -1
+  data = new Uint8Array(str2ab(raw_data))
+  WorldRegion.loadChunk 0, data, !0
 
 # WorldRegion::loadChunkFromStorage = (b, f, c) ->
 #   d = mcWorld.getChunkFromStorage(b, f)
