@@ -93,5 +93,9 @@
 "lightInit": {
     "value": true,
     "url": true
+},
+"waterlevel": {
+    "value": "49",
+    "url": true
 }
 }
