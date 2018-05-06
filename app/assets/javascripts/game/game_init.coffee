@@ -48,7 +48,9 @@ window.webGLStart = ->
   document.getElementById('setSun_val').innerHTML = settings.sun
   document.getElementById('setBrightness').value = settings.brightness
   document.getElementById('setBrightness_val').innerHTML = settings.brightness
-  settings.setSkyColor document.getElementById('setSkyColor').color.rgb
+  skyColor = document.getElementById('setSkyColor').color
+  if (skyColor?)
+    settings.setSkyColor skyColor.rgb
   #### Assign Globals ####
   window.camera = camera
   window.firstTime = (new Date).getTime()
