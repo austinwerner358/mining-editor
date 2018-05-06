@@ -4,7 +4,10 @@ window.requestAnimFrame = do ->
     return
 
 chronometer.tick = ->
-  window.requestAnimFrame chronometer.tick
+  setTimeout (->
+    window.requestAnimFrame chronometer.tick
+    return
+  ), 20
   newTime = (new Date).getTime()
   chronometer.fps = 1e3 / (newTime - chronometer.lastTime)
   pos = window.camera.getPos()
