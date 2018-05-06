@@ -15,7 +15,7 @@ Settings::initSettings = ->
     return
   if urlParams.local and !@local
     # Bring up overlay, set states and return.
-    console.log('Local World Setup')
+    @setLocalMode(true)
     @local = true
     @ready = false
     document.getElementById('worldSelectOverlay').style.visibility = 'visible';
@@ -263,30 +263,8 @@ Settings::readTxt = (path) ->
     return xhr.response
   return
 
-# NOTE: getFiles is not referenced anywhere yet
-window.onload =
-getFiles = ->
-  fileSelectors = document.querySelectorAll('input.localWorldSelector')
-  if fileSelectors
-    [].forEach.call fileSelectors, (fileSelector) ->
-      fileSelector.onchange = ->
-        window.localFiles = {}
-        window.settings.local = true
-        console.log(settings.local)
-        if window.File and window.FileReader and window.FileList and window.Blob
-          # File APIs supported.
-        else
-          alert 'Local file API not supported in this browser.'
-          return
-        ul = document.getElementById("selectedFiles")
-        [].slice.call(@files).forEach (file) ->
-          console.log(file)
-          window.localFiles[file.name] = file
-          li = document.createElement("li")
-          li.appendChild(document.createTextNode(file.name))
-          ul.appendChild(li)
-          return
-        return
-      return
+Settings::setLocalMode = (enabled) ->
+  @local = enabled
+  console.log "Local mode set to: #{enabled}"
 
 window.settings = new Settings

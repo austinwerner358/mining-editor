@@ -226,9 +226,6 @@ var codeEditor = null,
   pointer = new Pointer,
   selectBox = new SelectionBox;
 
-console.log('Settings object:')
-console.log(window.settings);
-
 function useNextBlock(b) {
   b.id === blockConfig.length - 1 && (b.id = 0);
   for (; 0 === blockConfig[++b.id].type;) b.id === blockConfig.length - 1 && (b.id = 0);

@@ -23,6 +23,7 @@
 //= require ./game/settings.js.coffee
 //= require ./game/tick.js.coffee
 //= require ./game/web_gl_util.js.coffee
+//= require ./game/upload_data_utils.js.coffee
 //
 // For reference; is redundant if files in the directory are already specified.
 // require_directory ./game
