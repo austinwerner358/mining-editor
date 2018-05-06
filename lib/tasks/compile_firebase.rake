@@ -14,7 +14,7 @@ namespace :firebase do
     # Compile assets.
     puts 'Compiling assets for the Firebase environment...'
     print `RAILS_ENV=firebase bundle exec rake assets:precompile`
-    puts 'DONE: ready to move to be moved...'
+    puts 'DONE: ready to be moved...'
 
     # Create relevant directories for the Firebase app.
     paths = %w(javascripts stylesheets config jscolor shaders)

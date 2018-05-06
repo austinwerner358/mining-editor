@@ -42,7 +42,7 @@ group :firebase do
 end
 
 group :production_heroku do
-  gem 'pg'
+  gem 'pg', '~> 0.21'
   gem 'rails_12factor'
 end
 
